@@ -35,7 +35,7 @@
     "lotse": "node packages/cli/dist/bin.js"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.6",
+    "@biomejs/biome": "2.6.7",
     "@types/node": "^22.19.0",
     "playwright": "^1.65.1",
     "typescript": "^7.0.2",
