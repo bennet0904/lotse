@@ -14,7 +14,7 @@ Sign off every commit:
 git commit -s -m "Add rollback to the Fly.io adapter"
 ```
 
-This adds a line `Signed-off-by: Your Name <you@example.com>` with the name and e-mail of your Git configuration. A check on every pull request verifies that all commits are signed off. To fix a missing sign-off on the last commit, run `git commit --amend -s`; for several commits, `git rebase --signoff main`.
+This adds a line `Signed-off-by: Your Name <you@example.com>` with the name and e-mail of your Git configuration. A check on every pull request verifies that all commits are signed off; dependency updates opened by Dependabot are exempt. To fix a missing sign-off on the last commit, run `git commit --amend -s`; for several commits, `git rebase --signoff main`.
 
 ## Getting started
 

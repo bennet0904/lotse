@@ -16,7 +16,8 @@ concurrency:
 jobs:
   dco:
     name: Developer Certificate of Origin
-    if: github.event_name == 'pull_request'
+    # Dependency updates by Dependabot are not contributions under the DCO.
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
