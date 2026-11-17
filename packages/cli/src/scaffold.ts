@@ -1,7 +1,7 @@
 import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ADAPTER_API_VERSION, LotseError } from "@lotse/core";
+import { ADAPTER_API_VERSION, LotseError } from "@lotseai/core";
 
 const TEMPLATES = fileURLToPath(new URL("../templates/adapter/", import.meta.url));
 

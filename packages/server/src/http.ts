@@ -1,6 +1,6 @@
 /** The builder's HTTP API. The web UI and the desktop app are two front ends for it. */
-import { ADAPTER_API_VERSION, errorMessage, isLotseError, LotseError, type LotseErrorCode, redact } from "@lotse/core";
-import { detectRuntimes } from "@lotse/sandbox";
+import { ADAPTER_API_VERSION, errorMessage, isLotseError, LotseError, type LotseErrorCode, redact } from "@lotseai/core";
+import { detectRuntimes } from "@lotseai/sandbox";
 import { type Context, Hono } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { ZodError } from "zod";

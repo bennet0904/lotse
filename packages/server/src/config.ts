@@ -1,6 +1,6 @@
 import { join, resolve } from "node:path";
-import { LotseError } from "@lotse/core";
-import { envKeyProvider, fileKeyProvider, firstAvailableKeyProvider, type MasterKeyProvider, vaultKeyProviderFromEnv } from "@lotse/secrets";
+import { LotseError } from "@lotseai/core";
+import { envKeyProvider, fileKeyProvider, firstAvailableKeyProvider, type MasterKeyProvider, vaultKeyProviderFromEnv } from "@lotseai/secrets";
 import type { SqliteDriver } from "./db/index.js";
 
 export interface OidcConfig {

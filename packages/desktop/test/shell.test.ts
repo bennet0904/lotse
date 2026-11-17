@@ -2,7 +2,7 @@ import { mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { decrypt, encrypt } from "@lotse/secrets";
+import { decrypt, encrypt } from "@lotseai/secrets";
 import { chooseMasterKey, choosePort, desktopServerConfig, keychainUsable, navigation, type SafeStorageLike, safeStorageKeyProvider } from "../src/shell.js";
 
 /** Stands in for Electron's safeStorage: a reversible transformation that is visibly not the plain text. */

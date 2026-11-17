@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/core",
+  "name": "@lotseai/core",
   "version": "0.1.0",
   "description": "Lotse hosting core: adapter interface, deployment engine, manifest schema and events",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

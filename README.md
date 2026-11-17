@@ -26,7 +26,7 @@ Lotse is open source under the [Apache License 2.0](LICENSE). It collects no tel
 ### Deploy an existing project with the CLI
 
 ```sh
-npm install -g @lotse/cli
+npm install -g @lotseai/cli
 cd my-app
 lotse init                 # writes lotse.yaml after looking at the project
 lotse connect vercel       # or ssh, netlify, cloudflare, …; guides you through the token setup
@@ -69,20 +69,20 @@ Download the installer for your platform from the releases page. The desktop app
 
 ## Repository layout
 
-| Package                  | Purpose                                                                                    |
-| ------------------------ | ------------------------------------------------------------------------------------------ |
-| `@lotse/core`            | Manifest, adapter interfaces, deployment engine, sign-in, Git and CI helpers               |
-| `@lotse/secrets`         | AES-256-GCM credential store; master key from environment, Vault/OpenBao, keychain or file |
-| `@lotse/build`           | Detects the project type and builds static artifacts or container images                   |
-| `@lotse/adapter-*`       | One package per provider; `@lotse/adapters` lists the built-in ones                        |
-| `@lotse/adapter-testkit` | Contract test suite, replay of recorded API responses, live-test helpers                   |
-| `@lotse/cli`             | The `lotse` command                                                                        |
-| `@lotse/stacks`          | Templates for the app stacks                                                               |
-| `@lotse/agent`           | Plan, scaffold, implement and self-correct, through the Vercel AI SDK                      |
-| `@lotse/sandbox`         | One container per project, with an egress allow-list and a preview gateway                 |
-| `@lotse/server`          | HTTP and WebSocket API, job queue, users, SQLite or PostgreSQL                             |
-| `@lotse/ui`              | The builder's user interface (React), in English and German                                |
-| `@lotse/desktop`         | Electron shell that runs the builder locally                                               |
+| Package                    | Purpose                                                                                    |
+| -------------------------- | ------------------------------------------------------------------------------------------ |
+| `@lotseai/core`            | Manifest, adapter interfaces, deployment engine, sign-in, Git and CI helpers               |
+| `@lotseai/secrets`         | AES-256-GCM credential store; master key from environment, Vault/OpenBao, keychain or file |
+| `@lotseai/build`           | Detects the project type and builds static artifacts or container images                   |
+| `@lotseai/adapter-*`       | One package per provider; `@lotseai/adapters` lists the built-in ones                      |
+| `@lotseai/adapter-testkit` | Contract test suite, replay of recorded API responses, live-test helpers                   |
+| `@lotseai/cli`             | The `lotse` command                                                                        |
+| `@lotseai/stacks`          | Templates for the app stacks                                                               |
+| `@lotseai/agent`           | Plan, scaffold, implement and self-correct, through the Vercel AI SDK                      |
+| `@lotseai/sandbox`         | One container per project, with an egress allow-list and a preview gateway                 |
+| `@lotseai/server`          | HTTP and WebSocket API, job queue, users, SQLite or PostgreSQL                             |
+| `@lotseai/ui`              | The builder's user interface (React), in English and German                                |
+| `@lotseai/desktop`         | Electron shell that runs the builder locally                                               |
 
 ## Development
 

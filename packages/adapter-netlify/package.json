@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/adapter-netlify",
+  "name": "@lotseai/adapter-netlify",
   "version": "0.1.0",
   "description": "Lotse adapter for Netlify",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/adapter-netlify"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,7 +32,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotse/core": "workspace:*",
+    "@lotseai/core": "workspace:*",
     "fflate": "^0.8.3"
   },
   "keywords": [
@@ -31,6 +40,6 @@
     "lotse-adapter"
   ],
   "devDependencies": {
-    "@lotse/adapter-testkit": "workspace:*"
+    "@lotseai/adapter-testkit": "workspace:*"
   }
 }

@@ -1,6 +1,6 @@
 import { Readable } from "node:stream";
-import type { Scenario } from "@lotse/adapter-testkit";
-import { LotseError } from "@lotse/core";
+import type { Scenario } from "@lotseai/adapter-testkit";
+import { LotseError } from "@lotseai/core";
 import { type ExecOptions, type ExecResult, generateSshKeyPair, type RemoteState, type SshConnector } from "../src/index.js";
 
 /**

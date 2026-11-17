@@ -14,7 +14,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
-import { decrypt, parseMasterKey } from "@lotse/secrets";
+import { decrypt, parseMasterKey } from "@lotseai/secrets";
 
 type Playwright = typeof import("playwright");
 const root = fileURLToPath(new URL("../..", import.meta.url));

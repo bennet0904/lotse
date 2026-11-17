@@ -1,5 +1,5 @@
-import { loadCassette, ReplayTransport, runHostingContract, type Scenario, scenarioOf } from "@lotse/adapter-testkit";
-import { collectEvents } from "@lotse/core";
+import { loadCassette, ReplayTransport, runHostingContract, type Scenario, scenarioOf } from "@lotseai/adapter-testkit";
+import { collectEvents } from "@lotseai/core";
 import { key, READ_ONLY, scriptedServer, servers } from "../../adapter-ssh/test/scripted-server.js";
 import { createHetznerAdapter, deleteHetznerServer } from "../src/index.js";
 

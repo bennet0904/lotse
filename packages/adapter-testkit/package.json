@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/adapter-testkit",
+  "name": "@lotseai/adapter-testkit",
   "version": "0.1.0",
   "description": "Shared contract test suite and HTTP replay tools for Lotse adapters",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/adapter-testkit"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,8 +32,8 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotse/build": "workspace:*",
-    "@lotse/core": "workspace:*",
+    "@lotseai/build": "workspace:*",
+    "@lotseai/core": "workspace:*",
     "pg": "^8.23.1"
   },
   "peerDependencies": {

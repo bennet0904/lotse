@@ -1,6 +1,6 @@
 import { chmod, mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import { type Connection, connectionExpiresSoon, ensureFreshConnection, LotseError, type OAuthProviderConfig, type SecretVault } from "@lotse/core";
+import { type Connection, connectionExpiresSoon, ensureFreshConnection, LotseError, type OAuthProviderConfig, type SecretVault } from "@lotseai/core";
 import { decrypt, encrypt } from "./crypto.js";
 import type { MasterKeyProvider } from "./keys.js";
 

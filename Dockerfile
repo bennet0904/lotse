@@ -26,7 +26,7 @@ RUN mkdir /app \
     done \
  && cp -r packages/core/schema /app/packages/core/ \
  && cd /app \
- && pnpm install --prod --frozen-lockfile --filter "@lotse/server..." \
+ && pnpm install --prod --frozen-lockfile --filter "@lotseai/server..." \
  && find /app/packages -name "*.tsbuildinfo" -delete
 
 FROM base

@@ -3,7 +3,7 @@
  * stack, data model and page structure. The user can adjust the plan before
  * implementation starts (specification section 12.1).
  */
-import { LotseError } from "@lotse/core";
+import { LotseError } from "@lotseai/core";
 import { generateText } from "ai";
 import { z } from "zod";
 import type { ResolvedModel, UsageTracker } from "./models.js";

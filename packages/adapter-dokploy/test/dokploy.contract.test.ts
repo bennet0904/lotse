@@ -1,4 +1,4 @@
-import { loadCassette, runHostingContract } from "@lotse/adapter-testkit";
+import { loadCassette, runHostingContract } from "@lotseai/adapter-testkit";
 import { createDokployAdapter } from "../src/index.js";
 
 const cassette = await loadCassette(new URL("./cassette.json", import.meta.url));

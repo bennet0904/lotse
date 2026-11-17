@@ -6,7 +6,7 @@
 import { execFile } from "node:child_process";
 import { chmod, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import { LotseError } from "@lotse/core";
+import { LotseError } from "@lotseai/core";
 import { generateMasterKey, parseMasterKey } from "./crypto.js";
 
 export interface MasterKeyProvider {

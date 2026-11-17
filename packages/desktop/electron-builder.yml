@@ -1,4 +1,4 @@
-# Packaging of the desktop app. `pnpm --filter @lotse/desktop dist` bundles the
+# Packaging of the desktop app. `pnpm --filter @lotseai/desktop dist` bundles the
 # main process (scripts/bundle.mjs) and builds installers for the current
 # platform. Signing uses the usual electron-builder variables (CSC_LINK,
 # CSC_KEY_PASSWORD; APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID for

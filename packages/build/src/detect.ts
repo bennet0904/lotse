@@ -1,6 +1,6 @@
 import { access, readFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { ManifestInput, RuntimeKind } from "@lotse/core";
+import type { ManifestInput, RuntimeKind } from "@lotseai/core";
 
 export type Language = "static" | "node" | "python" | "go" | "php" | "unknown";
 

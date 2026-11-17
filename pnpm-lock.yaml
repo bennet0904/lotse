@@ -193,139 +193,139 @@ importers:
 
   packages/adapter-cloudflare:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-coolify:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-dokploy:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
       fflate:
         specifier: ^0.8.3
         version: 0.8.3
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-fly:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-forgejo:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-github:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
       libsodium-wrappers:
         specifier: ^0.8.4
         version: 0.8.4
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-gitlab:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-hetzner:
     dependencies:
-      '@lotse/adapter-ssh':
+      '@lotseai/adapter-ssh':
         specifier: workspace:*
         version: link:../adapter-ssh
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-neon:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-netlify:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
       fflate:
         specifier: ^0.8.3
         version: 0.8.3
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-railway:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-ssh:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
       ssh2:
         specifier: ^1.17.0
         version: 1.17.0
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
-      '@lotse/build':
+      '@lotseai/build':
         specifier: workspace:*
         version: link:../build
       '@types/ssh2':
@@ -334,20 +334,20 @@ importers:
 
   packages/adapter-supabase:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapter-testkit:
     dependencies:
-      '@lotse/build':
+      '@lotseai/build':
         specifier: workspace:*
         version: link:../build
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
       pg:
@@ -363,59 +363,59 @@ importers:
 
   packages/adapter-vercel:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
   packages/adapters:
     dependencies:
-      '@lotse/adapter-cloudflare':
+      '@lotseai/adapter-cloudflare':
         specifier: workspace:*
         version: link:../adapter-cloudflare
-      '@lotse/adapter-coolify':
+      '@lotseai/adapter-coolify':
         specifier: workspace:*
         version: link:../adapter-coolify
-      '@lotse/adapter-dokploy':
+      '@lotseai/adapter-dokploy':
         specifier: workspace:*
         version: link:../adapter-dokploy
-      '@lotse/adapter-fly':
+      '@lotseai/adapter-fly':
         specifier: workspace:*
         version: link:../adapter-fly
-      '@lotse/adapter-forgejo':
+      '@lotseai/adapter-forgejo':
         specifier: workspace:*
         version: link:../adapter-forgejo
-      '@lotse/adapter-github':
+      '@lotseai/adapter-github':
         specifier: workspace:*
         version: link:../adapter-github
-      '@lotse/adapter-gitlab':
+      '@lotseai/adapter-gitlab':
         specifier: workspace:*
         version: link:../adapter-gitlab
-      '@lotse/adapter-hetzner':
+      '@lotseai/adapter-hetzner':
         specifier: workspace:*
         version: link:../adapter-hetzner
-      '@lotse/adapter-neon':
+      '@lotseai/adapter-neon':
         specifier: workspace:*
         version: link:../adapter-neon
-      '@lotse/adapter-netlify':
+      '@lotseai/adapter-netlify':
         specifier: workspace:*
         version: link:../adapter-netlify
-      '@lotse/adapter-railway':
+      '@lotseai/adapter-railway':
         specifier: workspace:*
         version: link:../adapter-railway
-      '@lotse/adapter-ssh':
+      '@lotseai/adapter-ssh':
         specifier: workspace:*
         version: link:../adapter-ssh
-      '@lotse/adapter-supabase':
+      '@lotseai/adapter-supabase':
         specifier: workspace:*
         version: link:../adapter-supabase
-      '@lotse/adapter-vercel':
+      '@lotseai/adapter-vercel':
         specifier: workspace:*
         version: link:../adapter-vercel
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
 
@@ -433,7 +433,7 @@ importers:
       '@ai-sdk/provider':
         specifier: ^4.0.38
         version: 4.0.38
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
       ai:
@@ -445,32 +445,32 @@ importers:
 
   packages/build:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
 
   packages/cli:
     dependencies:
-      '@lotse/adapter-ssh':
+      '@lotseai/adapter-ssh':
         specifier: workspace:*
         version: link:../adapter-ssh
-      '@lotse/adapters':
+      '@lotseai/adapters':
         specifier: workspace:*
         version: link:../adapters
-      '@lotse/build':
+      '@lotseai/build':
         specifier: workspace:*
         version: link:../build
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
-      '@lotse/secrets':
+      '@lotseai/secrets':
         specifier: workspace:*
         version: link:../secrets
       commander:
         specifier: ^15.1.0
         version: 15.1.0
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
 
@@ -485,13 +485,13 @@ importers:
 
   packages/desktop:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
-      '@lotse/secrets':
+      '@lotseai/secrets':
         specifier: workspace:*
         version: link:../secrets
-      '@lotse/server':
+      '@lotseai/server':
         specifier: workspace:*
         version: link:../server
     devDependencies:
@@ -507,13 +507,13 @@ importers:
 
   packages/sandbox:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
 
   packages/secrets:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
 
@@ -522,31 +522,31 @@ importers:
       '@hono/node-server':
         specifier: ^2.1.8
         version: 2.1.8(hono@4.13.18)
-      '@lotse/adapter-github':
+      '@lotseai/adapter-github':
         specifier: workspace:*
         version: link:../adapter-github
-      '@lotse/adapter-ssh':
+      '@lotseai/adapter-ssh':
         specifier: workspace:*
         version: link:../adapter-ssh
-      '@lotse/adapters':
+      '@lotseai/adapters':
         specifier: workspace:*
         version: link:../adapters
-      '@lotse/agent':
+      '@lotseai/agent':
         specifier: workspace:*
         version: link:../agent
-      '@lotse/build':
+      '@lotseai/build':
         specifier: workspace:*
         version: link:../build
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
-      '@lotse/sandbox':
+      '@lotseai/sandbox':
         specifier: workspace:*
         version: link:../sandbox
-      '@lotse/secrets':
+      '@lotseai/secrets':
         specifier: workspace:*
         version: link:../secrets
-      '@lotse/stacks':
+      '@lotseai/stacks':
         specifier: workspace:*
         version: link:../stacks
       better-sqlite3:
@@ -568,7 +568,7 @@ importers:
         specifier: ^4.6.7
         version: 4.6.7
     devDependencies:
-      '@lotse/adapter-testkit':
+      '@lotseai/adapter-testkit':
         specifier: workspace:*
         version: link:../adapter-testkit
       '@types/better-sqlite3':
@@ -583,7 +583,7 @@ importers:
 
   packages/stacks:
     dependencies:
-      '@lotse/core':
+      '@lotseai/core':
         specifier: workspace:*
         version: link:../core
 

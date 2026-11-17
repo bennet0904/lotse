@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/ui",
+  "name": "@lotseai/ui",
   "version": "0.1.0",
   "description": "Lotse builder user interface (React)",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/ui"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "private": true,
   "scripts": {

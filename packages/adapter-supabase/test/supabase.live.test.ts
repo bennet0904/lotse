@@ -1,4 +1,4 @@
-import { envOptions, liveTransport, runLiveResource } from "@lotse/adapter-testkit";
+import { envOptions, liveTransport, runLiveResource } from "@lotseai/adapter-testkit";
 import { createSupabaseAdapter } from "../src/index.js";
 
 const transport = liveTransport("supabase");

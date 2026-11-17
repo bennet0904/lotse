@@ -8,7 +8,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type Connection, collectEvents, GitWorkspace, type HostingAdapter, type LotseError, parseManifest, type RepoRef } from "@lotse/core";
+import { type Connection, collectEvents, GitWorkspace, type HostingAdapter, type LotseError, parseManifest, type RepoRef } from "@lotseai/core";
 import { createForgejoProvider } from "../src/index.js";
 
 const IMAGE = "codeberg.org/forgejo/forgejo:13";
@@ -184,11 +184,11 @@ describe.skipIf(!docker)("forgejo adapter against a real instance", () => {
     await provider.writeWorkflow?.(repo, target);
     const read = async () =>
       Buffer.from((await api<{ content: string }>("/repos/ada/customer-portal/contents/.forgejo/workflows/lotse-deploy.yml")).content, "base64").toString();
-    expect(await read()).toContain("npx --yes @lotse/cli@0.1.0 deploy --target ssh --yes");
+    expect(await read()).toContain("npx --yes @lotseai/cli@0.1.0 deploy --target ssh --yes");
     expect(await read()).toContain("LOTSE_CONNECTION_SSH: ${{ secrets.LOTSE_CONNECTION_SSH }}");
     // Writing it again updates the file instead of failing.
     await provider.writeWorkflow?.(repo, { ...target, cliVersion: "0.2.0" });
-    expect(await read()).toContain("@lotse/cli@0.2.0");
+    expect(await read()).toContain("@lotseai/cli@0.2.0");
   });
 
   it("comments on a request", async () => {

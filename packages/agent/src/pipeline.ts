@@ -3,7 +3,7 @@
  * tools inside the sandbox, feed build and runtime errors back to the model
  * for a configurable number of attempts, and save the result as a commit.
  */
-import { LotseError, Redactor } from "@lotse/core";
+import { LotseError, Redactor } from "@lotseai/core";
 import { generateText, type ModelMessage, stepCountIs } from "ai";
 import type { ResolvedModel, Usage, UsageTracker } from "./models.js";
 import { type AppPlan, describePlan } from "./plan.js";

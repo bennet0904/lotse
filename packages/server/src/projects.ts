@@ -6,10 +6,10 @@
 import { createHash } from "node:crypto";
 import { chown, mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { type AppPlan, type CheckResult, createPlan, describePlan, HostWorkspace, planSchema, runGeneration, UsageTracker } from "@lotse/agent";
-import { errorMessage, GitWorkspace, isLotseError, LotseError, type RepoRecord } from "@lotse/core";
-import { chownTree, type Sandbox } from "@lotse/sandbox";
-import { type StackTemplate, scaffoldFiles } from "@lotse/stacks";
+import { type AppPlan, type CheckResult, createPlan, describePlan, HostWorkspace, planSchema, runGeneration, UsageTracker } from "@lotseai/agent";
+import { errorMessage, GitWorkspace, isLotseError, LotseError, type RepoRecord } from "@lotseai/core";
+import { chownTree, type Sandbox } from "@lotseai/sandbox";
+import { type StackTemplate, scaffoldFiles } from "@lotseai/stacks";
 import { newId, type User } from "./auth.js";
 import { asc, eq } from "./db/index.js";
 import type { JobContext } from "./jobs.js";

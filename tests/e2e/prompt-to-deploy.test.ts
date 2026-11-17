@@ -11,10 +11,10 @@
 
 import { rm } from "node:fs/promises";
 import { request } from "node:http";
-import ssh from "@lotse/adapter-ssh";
-import { scriptedModel } from "@lotse/agent";
-import { AdapterRegistry } from "@lotse/core";
-import { DockerClient } from "@lotse/sandbox";
+import ssh from "@lotseai/adapter-ssh";
+import { scriptedModel } from "@lotseai/agent";
+import { AdapterRegistry } from "@lotseai/core";
+import { DockerClient } from "@lotseai/sandbox";
 import { startTestServer, type TestServer } from "../../packages/server/test/helpers.js";
 
 const host = process.env.LOTSE_TEST_SSH_HOST;

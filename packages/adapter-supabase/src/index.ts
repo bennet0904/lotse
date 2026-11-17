@@ -23,7 +23,7 @@ import {
   type ResourceStatus,
   resourceEnvName,
   type VerifyResult,
-} from "@lotse/core";
+} from "@lotseai/core";
 
 type ProjectStatus =
   | "INACTIVE"

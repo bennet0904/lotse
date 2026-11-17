@@ -49,8 +49,7 @@ Read this before relying on an adapter.
 
 ## Placeholders to replace before the first release
 
-- Maintainer handles in `.github/CODEOWNERS` (`@lotse-dev/...` teams).
-- The organization `lotse-dev` in the image name `ghcr.io/lotse-dev/lotse` and repository addresses in the documentation.
-- The `@lotse` npm scope must be registered; publishing needs an `NPM_TOKEN` secret.
+- Further maintainers in `.github/CODEOWNERS`; every adapter is maintained by @bennet0904 for now.
+- The npm organization `lotseai` must exist and own the `@lotseai` scope; publishing needs an `NPM_TOKEN` secret.
 - Signing secrets for the desktop app (`DESKTOP_CSC_LINK`, `DESKTOP_CSC_KEY_PASSWORD`, `APPLE_*`) and test-account secrets for the nightly live tests.
 - An application icon for the desktop app (electron-builder currently uses Electron's default).

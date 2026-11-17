@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/stacks",
+  "name": "@lotseai/stacks",
   "version": "0.1.0",
   "description": "Stack templates the Lotse app builder scaffolds projects from",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/stacks"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,6 +32,6 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotse/core": "workspace:*"
+    "@lotseai/core": "workspace:*"
   }
 }

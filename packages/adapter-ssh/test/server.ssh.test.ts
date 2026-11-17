@@ -11,8 +11,8 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { request } from "node:http";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { REFERENCE_MARKER, writeReferenceServer, writeReferenceStaticSite } from "@lotse/adapter-testkit";
-import { LocalBuilder } from "@lotse/build";
+import { REFERENCE_MARKER, writeReferenceServer, writeReferenceStaticSite } from "@lotseai/adapter-testkit";
+import { LocalBuilder } from "@lotseai/build";
 import {
   AdapterRegistry,
   type Connection,
@@ -25,7 +25,7 @@ import {
   MemoryStateStore,
   MemoryVault,
   type SetupPlan,
-} from "@lotse/core";
+} from "@lotseai/core";
 import { createSshAdapter } from "../src/index.js";
 
 const host = process.env.LOTSE_TEST_SSH_HOST;

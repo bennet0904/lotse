@@ -37,7 +37,7 @@ import {
   sleep,
   throwIfAborted,
   type VerifyResult,
-} from "@lotse/core";
+} from "@lotseai/core";
 
 interface CoolifyApp {
   uuid: string;

@@ -12,8 +12,8 @@ import {
   githubAppManifest,
   githubAppRegistrationUrl,
   githubOAuthClient,
-} from "@lotse/adapter-github";
-import { LotseError, type OAuthClientSource } from "@lotse/core";
+} from "@lotseai/adapter-github";
+import { LotseError, type OAuthClientSource } from "@lotseai/core";
 import { requireRole, type User } from "./auth.js";
 import type { Services } from "./services.js";
 

@@ -133,14 +133,14 @@ export function adapterPackageCandidates(name: string): string[] {
   if (name.startsWith(".") || name.startsWith("/") || name.startsWith("@") || name.startsWith("file:") || name.startsWith("lotse-adapter-")) {
     return [name];
   }
-  return [`@lotse/adapter-${name}`, `lotse-adapter-${name}`];
+  return [`@lotseai/adapter-${name}`, `lotse-adapter-${name}`];
 }
 
 export type ImportFn = (specifier: string) => Promise<unknown>;
 
 /**
  * Loads adapter packages by name. Adapters are regular npm packages named
- * `lotse-adapter-<name>` or published in the `@lotse/` scope
+ * `lotse-adapter-<name>` or published in the `@lotseai/` scope
  * (specification section 14.1).
  */
 export async function loadAdapters(

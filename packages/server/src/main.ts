@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { errorMessage, isLotseError } from "@lotse/core";
+import { errorMessage, isLotseError } from "@lotseai/core";
 import { configFromEnv } from "./config.js";
 import { createLotseServer } from "./server.js";
 

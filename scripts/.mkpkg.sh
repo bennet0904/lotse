@@ -4,7 +4,7 @@ mkpkg ()
     mkdir -p "$dir/src" "$dir/test";
     cat > "$dir/package.json" <<EOF
 {
-  "name": "@lotse/$1",
+  "name": "@lotseai/$1",
   "version": "0.1.0",
   "description": "$2",
   "license": "Apache-2.0",

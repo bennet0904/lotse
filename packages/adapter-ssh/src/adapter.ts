@@ -40,7 +40,7 @@ import {
   throwIfAborted,
   type VerifyResult,
   walkFiles,
-} from "@lotse/core";
+} from "@lotseai/core";
 import { connectWithSsh2, generateSshKeyPair, must, paramsOf, publicKeyOf, type SshConnector, type SshExecutor, sh } from "./executor.js";
 import {
   appDir,

@@ -506,7 +506,7 @@ export interface HostingTarget {
   branch: string;
   /** Names of the CI secrets the workflow passes to the CLI. */
   secrets: string[];
-  /** Version of `@lotse/cli` the workflow installs. */
+  /** Version of `@lotseai/cli` the workflow installs. */
   cliVersion?: string;
   /** Whether to deploy previews for pull or merge requests. */
   previews?: boolean;
@@ -546,7 +546,7 @@ export interface AdapterOptions {
 }
 
 /**
- * Default export of an adapter package (`@lotse/adapter-*` or `lotse-adapter-*`).
+ * Default export of an adapter package (`@lotseai/adapter-*` or `lotse-adapter-*`).
  */
 export interface AdapterPackage {
   apiVersion: string;

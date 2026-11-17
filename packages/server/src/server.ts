@@ -9,7 +9,7 @@ import { type AddressInfo, connect as netConnect } from "node:net";
 import { extname, join, normalize, resolve, sep } from "node:path";
 import type { Duplex } from "node:stream";
 import { getRequestListener } from "@hono/node-server";
-import { contentType } from "@lotse/core";
+import { contentType } from "@lotseai/core";
 import { type WebSocket, WebSocketServer } from "ws";
 import type { ServerConfig } from "./config.js";
 import { HostingService } from "./hosting.js";

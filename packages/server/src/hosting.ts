@@ -3,8 +3,8 @@
  * public API as the CLI and has no privileged access to it
  * (specification section 12). Critical actions need the user's approval.
  */
-import { generateSshKeyPair } from "@lotse/adapter-ssh";
-import { LocalBuilder } from "@lotse/build";
+import { generateSshKeyPair } from "@lotseai/adapter-ssh";
+import { LocalBuilder } from "@lotseai/build";
 import {
   type AuthMethod,
   availableAuthMethods,
@@ -26,7 +26,7 @@ import {
   serializeEvent,
   type TokenSetupGuide,
   toRepoRecord,
-} from "@lotse/core";
+} from "@lotseai/core";
 import { hasRole, newId, type User } from "./auth.js";
 import { eq } from "./db/index.js";
 import type { JobContext } from "./jobs.js";

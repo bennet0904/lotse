@@ -17,7 +17,7 @@ npm test
 2. Set `capabilities` to what the provider can actually do. The builder and
    the engine hide or replace everything an adapter does not report.
 3. Record real API responses into `test/cassette.json`
-   (run the live test with `LOTSE_RECORD=<folder>`, see `liveTransport` in `@lotse/adapter-testkit`) and keep
+   (run the live test with `LOTSE_RECORD=<folder>`, see `liveTransport` in `@lotseai/adapter-testkit`) and keep
    the contract tests green. Every adapter MUST pass them.
 4. Add a live test that deploys the reference app with a test account.
 

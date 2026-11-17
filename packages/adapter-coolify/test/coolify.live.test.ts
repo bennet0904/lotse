@@ -1,4 +1,4 @@
-import { liveTransport, runLiveDeployment } from "@lotse/adapter-testkit";
+import { liveTransport, runLiveDeployment } from "@lotseai/adapter-testkit";
 import { createCoolifyAdapter } from "../src/index.js";
 
 const transport = liveTransport("coolify");

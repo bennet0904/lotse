@@ -5,7 +5,7 @@ Every app that Lotse deploys is described by a `lotse.yaml` in its root folder. 
 The authoritative definition is the JSON schema in [`packages/core/schema/lotse.schema.json`](../packages/core/schema/lotse.schema.json), generated from the code. Editors that understand JSON schemas can use it for completion:
 
 ```yaml
-# yaml-language-server: $schema=https://unpkg.com/@lotse/core/schema/lotse.schema.json
+# yaml-language-server: $schema=https://unpkg.com/@lotseai/core/schema/lotse.schema.json
 ```
 
 ## Example

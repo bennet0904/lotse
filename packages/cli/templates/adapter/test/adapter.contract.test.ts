@@ -1,4 +1,4 @@
-import { loadCassette, runHostingContract } from "@lotse/adapter-testkit";
+import { loadCassette, runHostingContract } from "@lotseai/adapter-testkit";
 import { create__CLASS__Adapter } from "../src/index.js";
 
 // The shared contract every Lotse adapter must pass, run against recorded API responses.

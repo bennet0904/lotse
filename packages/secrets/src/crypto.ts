@@ -1,5 +1,5 @@
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
-import { LotseError } from "@lotse/core";
+import { LotseError } from "@lotseai/core";
 
 const VERSION = "v1";
 const KEY_BYTES = 32;

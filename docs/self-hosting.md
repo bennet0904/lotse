@@ -13,7 +13,7 @@ The web app is the builder for teams: several people, roles (Owner, Admin, Membe
 ## Install
 
 ```sh
-git clone https://github.com/lotse-dev/lotse && cd lotse/deploy
+git clone https://github.com/bennet0904/lotse && cd lotse/deploy
 cp .env.example .env
 # fill in LOTSE_PUBLIC_URL, LOTSE_PREVIEW_DOMAIN, LOTSE_MASTER_KEY, POSTGRES_PASSWORD,
 # the LOTSE_OIDC_* values and a model key
@@ -21,7 +21,7 @@ sudo install -d -o 1000 -g 1000 /srv/lotse
 docker compose up -d
 ```
 
-Create the master key with `npx @lotse/cli secrets generate-key` and keep a copy outside the server: without it, stored credentials cannot be read. Alternatively keep it in HashiCorp Vault or OpenBao (`LOTSE_VAULT_*`, see [configuration.md](configuration.md)).
+Create the master key with `npx @lotseai/cli secrets generate-key` and keep a copy outside the server: without it, stored credentials cannot be read. Alternatively keep it in HashiCorp Vault or OpenBao (`LOTSE_VAULT_*`, see [configuration.md](configuration.md)).
 
 The first person who signs in becomes the owner. Owners and admins manage roles and see the audit log under **Settings**; members only see their own projects and personal accounts, and can deploy with team accounts without seeing their credentials.
 
@@ -64,4 +64,4 @@ Without further setup, users connect providers with the guided token setup. To o
 
 - Update with `docker compose pull && docker compose up -d`. Database migrations run when the builder starts.
 - Back up the PostgreSQL database, the data directory (`/srv/lotse`: project workspaces and their Git history) and the master key.
-- Releases are signed. Verify an image before deploying it: `cosign verify ghcr.io/lotse-dev/lotse:<version> --certificate-identity-regexp 'https://github.com/lotse-dev/lotse/' --certificate-oidc-issuer https://token.actions.githubusercontent.com`.
+- Releases are signed. Verify an image before deploying it: `cosign verify ghcr.io/bennet0904/lotse:<version> --certificate-identity-regexp 'https://github.com/bennet0904/lotse/' --certificate-oidc-issuer https://token.actions.githubusercontent.com`.

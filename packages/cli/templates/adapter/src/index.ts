@@ -31,7 +31,7 @@ import {
   throwIfAborted,
   type VerifyResult,
   walkFiles,
-} from "@lotse/core";
+} from "@lotseai/core";
 
 const API = "https://api.example.com/v1";
 

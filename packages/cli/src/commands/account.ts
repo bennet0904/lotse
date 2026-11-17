@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { generateSshKeyPair } from "@lotse/adapter-ssh";
+import { generateSshKeyPair } from "@lotseai/adapter-ssh";
 import {
   type AuthMethod,
   availableAuthMethods,
@@ -16,8 +16,8 @@ import {
   redactConnection,
   resolveOAuthClient,
   type TokenSetupGuide,
-} from "@lotse/core";
-import { generateMasterKey } from "@lotse/secrets";
+} from "@lotseai/core";
+import { generateMasterKey } from "@lotseai/secrets";
 import type { Command } from "commander";
 import type { Context } from "../context.js";
 import { confirm, paint, table } from "../io.js";

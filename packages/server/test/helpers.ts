@@ -3,7 +3,7 @@ import { request } from "node:http";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { generateMasterKey, staticKeyProvider } from "@lotse/secrets";
+import { generateMasterKey, staticKeyProvider } from "@lotseai/secrets";
 import { configFromEnv, createLotseServer, type LotseServer, type ServerConfig, type ServiceOverrides } from "../src/index.js";
 
 export function freePort(): Promise<number> {

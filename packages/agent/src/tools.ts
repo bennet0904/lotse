@@ -3,7 +3,7 @@
  * no way to reach credentials, other projects or the hosting core. Critical
  * actions can only be proposed (specification section 13.2).
  */
-import { errorMessage, type Redactor } from "@lotse/core";
+import { errorMessage, type Redactor } from "@lotseai/core";
 import { type ToolSet, tool } from "ai";
 import { z } from "zod";
 import type { Workspace } from "./workspace.js";

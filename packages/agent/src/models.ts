@@ -9,7 +9,7 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
-import { LotseError } from "@lotse/core";
+import { LotseError } from "@lotseai/core";
 import type { LanguageModel } from "ai";
 
 export const DEFAULT_MODEL = "anthropic:claude-opus-5-5";

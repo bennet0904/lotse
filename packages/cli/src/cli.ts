@@ -1,4 +1,4 @@
-import { errorMessage, isLotseError, type LotseError, redact } from "@lotse/core";
+import { errorMessage, isLotseError, type LotseError, redact } from "@lotseai/core";
 import { Command, CommanderError } from "commander";
 import { registerAccountCommands } from "./commands/account.js";
 import { registerProjectCommands } from "./commands/project.js";

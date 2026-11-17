@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/desktop",
+  "name": "@lotseai/desktop",
   "version": "0.1.0",
   "description": "Lotse desktop app: the builder with local data, for Windows, macOS and Linux",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/desktop"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "private": true,
   "main": "./dist/main.js",
@@ -16,9 +25,9 @@
     "dist": "node scripts/bundle.mjs && electron-builder --config electron-builder.yml"
   },
   "dependencies": {
-    "@lotse/core": "workspace:*",
-    "@lotse/secrets": "workspace:*",
-    "@lotse/server": "workspace:*"
+    "@lotseai/core": "workspace:*",
+    "@lotseai/secrets": "workspace:*",
+    "@lotseai/server": "workspace:*"
   },
   "devDependencies": {
     "electron": "45.3.1",

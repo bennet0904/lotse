@@ -10,8 +10,8 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { request } from "node:http";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { loadManifest } from "@lotse/core";
-import { DEFAULT_ALLOWED_HOSTS, DockerClient, type Sandbox, SandboxManager } from "@lotse/sandbox";
+import { loadManifest } from "@lotseai/core";
+import { DEFAULT_ALLOWED_HOSTS, DockerClient, type Sandbox, SandboxManager } from "@lotseai/sandbox";
 import { StackRegistry, scaffoldFiles } from "../src/index.js";
 
 const available = await new DockerClient().ping().then(

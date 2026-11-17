@@ -1,5 +1,5 @@
-import { loadCassette, runGitContract, runHostingContract, scenarioOf } from "@lotse/adapter-testkit";
-import type { HostingAdapter } from "@lotse/core";
+import { loadCassette, runGitContract, runHostingContract, scenarioOf } from "@lotseai/adapter-testkit";
+import type { HostingAdapter } from "@lotseai/core";
 import sodium from "libsodium-wrappers";
 import { completeGithubAppRegistration, createGithubProvider, githubAppManifest, githubAppRegistrationUrl, sealSecret } from "../src/index.js";
 
@@ -90,7 +90,7 @@ describe("github specifics", () => {
     const body = scenario.transport.requests.at(-1)?.body as { content: string };
     const workflow = Buffer.from(body.content, "base64").toString("utf8");
     expect(workflow).toContain("branches: [main]");
-    expect(workflow).toContain("npx --yes @lotse/cli@0.1.0 deploy --target ssh --yes");
+    expect(workflow).toContain("npx --yes @lotseai/cli@0.1.0 deploy --target ssh --yes");
     expect(workflow).toContain("LOTSE_CONNECTION_SSH: ${{ secrets.LOTSE_CONNECTION_SSH }}");
     expect(workflow).toContain("--preview pr-${{ github.event.pull_request.number }}");
   });

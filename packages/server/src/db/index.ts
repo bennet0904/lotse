@@ -1,7 +1,7 @@
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
-import { type AppRecord, type DeploymentRecord, LotseError, type StateStore } from "@lotse/core";
-import type { SecretBackend } from "@lotse/secrets";
+import { type AppRecord, type DeploymentRecord, LotseError, type StateStore } from "@lotseai/core";
+import type { SecretBackend } from "@lotseai/secrets";
 import { and, asc, desc, eq, like } from "drizzle-orm";
 import type { BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
 import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";

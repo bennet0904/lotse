@@ -6,7 +6,7 @@ import { execFileSync } from "node:child_process";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { generateMasterKey, SecretStore, staticKeyProvider } from "@lotse/secrets";
+import { generateMasterKey, SecretStore, staticKeyProvider } from "@lotseai/secrets";
 import { getTableColumns } from "drizzle-orm";
 import { type Database, DbSecretBackend, DbStateStore, eq, type OpenOptions, openDatabase } from "../src/db/index.js";
 

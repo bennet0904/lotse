@@ -1,7 +1,7 @@
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { parseManifest, stringifyManifest, validateManifest } from "@lotse/core";
+import { parseManifest, stringifyManifest, validateManifest } from "@lotseai/core";
 import { detectProject, generateDockerfile, slugify, staticSiteDockerfile, suggestManifest } from "../src/index.js";
 
 let dir: string;

@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
-import { ADAPTER_API_VERSION, type AdapterPackage, type DeployContext, type DeploymentRef, event, type HostingAdapter, LotseError } from "@lotse/core";
+import { ADAPTER_API_VERSION, type AdapterPackage, type DeployContext, type DeploymentRef, event, type HostingAdapter, LotseError } from "@lotseai/core";
 
 // A real local endpoint, so that the engine's health check has something to call.
 const server = createServer((_req, res) => res.writeHead(200).end("ok"));

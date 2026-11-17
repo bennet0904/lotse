@@ -7,9 +7,9 @@ import { randomBytes } from "node:crypto";
 import { chmod, mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { dirname, join } from "node:path";
-import { LotseError } from "@lotse/core";
-import { fileKeyProvider, firstAvailableKeyProvider, generateMasterKey, keychainKeyProvider, type MasterKeyProvider, parseMasterKey } from "@lotse/secrets";
-import { configFromEnv, type ServerConfig } from "@lotse/server";
+import { LotseError } from "@lotseai/core";
+import { fileKeyProvider, firstAvailableKeyProvider, generateMasterKey, keychainKeyProvider, type MasterKeyProvider, parseMasterKey } from "@lotseai/secrets";
+import { configFromEnv, type ServerConfig } from "@lotseai/server";
 
 /** The part of Electron's `safeStorage` the desktop app uses. */
 export interface SafeStorageLike {

@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import type { Readable } from "node:stream";
-import { createChannel, type DeployEvent, event, LotseError, lineSplitter } from "@lotse/core";
+import { createChannel, type DeployEvent, event, LotseError, lineSplitter } from "@lotseai/core";
 
 export type OutputHandler = (line: string, stream: "stdout" | "stderr") => void;
 

@@ -1,4 +1,4 @@
-import { loadCassette, runHostingContract, scenarioOf } from "@lotse/adapter-testkit";
+import { loadCassette, runHostingContract, scenarioOf } from "@lotseai/adapter-testkit";
 import { assetHash, createCloudflareAdapter } from "../src/index.js";
 
 const cassette = await loadCassette(new URL("./cassette.json", import.meta.url));
@@ -30,7 +30,7 @@ describe("cloudflare specifics", () => {
     const { mkdtemp, writeFile, rm } = await import("node:fs/promises");
     const { tmpdir } = await import("node:os");
     const { join } = await import("node:path");
-    const { parseManifest } = await import("@lotse/core");
+    const { parseManifest } = await import("@lotseai/core");
     const dir = await mkdtemp(join(tmpdir(), "lotse-cf-"));
     try {
       await writeFile(join(dir, "index.html"), "<!doctype html><title>Reference</title><h1>Lotse reference app</h1>\n");

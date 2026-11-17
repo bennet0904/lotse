@@ -22,7 +22,7 @@ import {
   type ResourceStatus,
   resourceEnvName,
   type VerifyResult,
-} from "@lotse/core";
+} from "@lotseai/core";
 
 interface NeonProject {
   id: string;

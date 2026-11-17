@@ -37,7 +37,7 @@ See [docs/testing.md](docs/testing.md) for the other test levels and what they n
 
 ## Adapters
 
-Adapters are regular npm packages named `lotse-adapter-<name>` or published in the `@lotse/` scope. `lotse create adapter <name>` generates a package with the contract tests already wired up. [docs/adapters.md](docs/adapters.md) explains the interface, recorded responses and live tests.
+Adapters are regular npm packages named `lotse-adapter-<name>` or published in the `@lotseai/` scope. `lotse create adapter <name>` generates a package with the contract tests already wired up. [docs/adapters.md](docs/adapters.md) explains the interface, recorded responses and live tests.
 
 Every adapter in this repository has at least one named maintainer, listed in [.github/CODEOWNERS](.github/CODEOWNERS). Maintainers review changes to their adapter and receive the automatic issue when its live tests fail two nights in a row. To add an adapter here, you commit to maintaining it.
 

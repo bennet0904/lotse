@@ -1,4 +1,4 @@
-import { envOptions, liveTransport, runLiveGit } from "@lotse/adapter-testkit";
+import { envOptions, liveTransport, runLiveGit } from "@lotseai/adapter-testkit";
 import { createForgejoProvider } from "../src/index.js";
 
 const transport = liveTransport("forgejo");

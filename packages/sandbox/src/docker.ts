@@ -6,7 +6,7 @@ import { existsSync } from "node:fs";
 import { type IncomingMessage, request } from "node:http";
 import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
-import { LotseError } from "@lotse/core";
+import { LotseError } from "@lotseai/core";
 
 export interface DockerEndpoint {
   socketPath?: string;

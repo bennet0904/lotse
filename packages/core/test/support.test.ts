@@ -229,7 +229,7 @@ describe("oauth", () => {
 
 describe("adapter registry", () => {
   it("resolves short names to package names", () => {
-    expect(adapterPackageCandidates("vercel")).toEqual(["@lotse/adapter-vercel", "lotse-adapter-vercel"]);
+    expect(adapterPackageCandidates("vercel")).toEqual(["@lotseai/adapter-vercel", "lotse-adapter-vercel"]);
     expect(adapterPackageCandidates("lotse-adapter-acme")).toEqual(["lotse-adapter-acme"]);
     expect(adapterPackageCandidates("@acme/lotse-adapter")).toEqual(["@acme/lotse-adapter"]);
   });
@@ -238,7 +238,7 @@ describe("adapter registry", () => {
     const notFound = Object.assign(new Error("not found"), { code: "ERR_MODULE_NOT_FOUND" });
     const importFn = async (specifier: string) => {
       if (specifier === "lotse-adapter-acme") return { default: { apiVersion: "0.1.3", hosting: () => fakeAdapter({}, "acme") } };
-      if (specifier === "@lotse/adapter-old") return { default: { apiVersion: "0.0.1", hosting: () => fakeAdapter({}, "old") } };
+      if (specifier === "@lotseai/adapter-old") return { default: { apiVersion: "0.0.1", hosting: () => fakeAdapter({}, "old") } };
       throw notFound;
     };
     const registry = await loadAdapters(["acme"], { importFn });

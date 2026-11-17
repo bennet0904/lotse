@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/cli",
+  "name": "@lotseai/cli",
   "version": "0.1.0",
   "description": "Command line for deploying with Lotse, with or without the builder",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -24,17 +33,17 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotse/adapter-ssh": "workspace:*",
-    "@lotse/adapters": "workspace:*",
-    "@lotse/build": "workspace:*",
-    "@lotse/core": "workspace:*",
-    "@lotse/secrets": "workspace:*",
+    "@lotseai/adapter-ssh": "workspace:*",
+    "@lotseai/adapters": "workspace:*",
+    "@lotseai/build": "workspace:*",
+    "@lotseai/core": "workspace:*",
+    "@lotseai/secrets": "workspace:*",
     "commander": "^15.1.0"
   },
   "bin": {
     "lotse": "./dist/bin.js"
   },
   "devDependencies": {
-    "@lotse/adapter-testkit": "workspace:*"
+    "@lotseai/adapter-testkit": "workspace:*"
   }
 }

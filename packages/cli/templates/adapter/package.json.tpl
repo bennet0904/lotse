@@ -22,10 +22,10 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@lotse/core": "^__CORE_VERSION__"
+    "@lotseai/core": "^__CORE_VERSION__"
   },
   "devDependencies": {
-    "@lotse/adapter-testkit": "^__CORE_VERSION__",
+    "@lotseai/adapter-testkit": "^__CORE_VERSION__",
     "@types/node": "^22.19.0",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"

@@ -1,6 +1,6 @@
 import { mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { dirname, join, posix, resolve, sep } from "node:path";
-import { LotseError } from "@lotse/core";
+import { LotseError } from "@lotseai/core";
 
 export interface CommandResult {
   code: number;

@@ -28,7 +28,7 @@ import {
   type RepoRef,
   type RepoSpec,
   WORKFLOW_NAME,
-} from "@lotse/core";
+} from "@lotseai/core";
 import sodium from "libsodium-wrappers";
 
 interface GhRepo {

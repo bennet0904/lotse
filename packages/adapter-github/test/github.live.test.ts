@@ -1,4 +1,4 @@
-import { liveTransport, runLiveGit } from "@lotse/adapter-testkit";
+import { liveTransport, runLiveGit } from "@lotseai/adapter-testkit";
 import { createGithubProvider } from "../src/index.js";
 
 const transport = liveTransport("github");

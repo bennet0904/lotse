@@ -19,7 +19,7 @@ import {
   STATIC_SITE_IGNORE,
   tarStream,
   walkFiles,
-} from "@lotse/core";
+} from "@lotseai/core";
 import { detectProject, type ProjectInfo } from "./detect.js";
 import { generateDockerfile, STATIC_IMAGE_PORT, staticSiteDockerfile } from "./dockerfile.js";
 import { asEvents, type CommandRunner, capture, exec, hostRunner } from "./process.js";

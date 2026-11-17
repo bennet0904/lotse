@@ -32,7 +32,7 @@ import {
   type Manifest,
   throwIfAborted,
   type VerifyResult,
-} from "@lotse/core";
+} from "@lotseai/core";
 
 interface Machine {
   id: string;

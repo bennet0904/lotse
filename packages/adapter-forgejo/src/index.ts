@@ -23,7 +23,7 @@ import {
   type RepoRef,
   type RepoSpec,
   WORKFLOW_NAME,
-} from "@lotse/core";
+} from "@lotseai/core";
 
 interface FjRepo {
   id: number;

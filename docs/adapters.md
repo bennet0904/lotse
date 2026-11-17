@@ -6,10 +6,10 @@ An adapter connects Lotse to one provider. There are three kinds, all defined in
 - **`GitProvider`** stores code: `connect`, `listRepos`, `createRepo`, `remoteUrl`, optionally `setCiSecret`, `writeWorkflow`, `comment` and `pages` (a hosting adapter for its Pages service).
 - **`ResourceAdapter`** provides a resource from elsewhere, e.g. a Postgres database: `connect`, `verify`, `provision`, `destroy`, `status`.
 
-Adapters are regular npm packages named `lotse-adapter-<name>` or published in the `@lotse/` scope. The default export is an `AdapterPackage`:
+Adapters are regular npm packages named `lotse-adapter-<name>` or published in the `@lotseai/` scope. The default export is an `AdapterPackage`:
 
 ```ts
-import { ADAPTER_API_VERSION, type AdapterPackage } from "@lotse/core";
+import { ADAPTER_API_VERSION, type AdapterPackage } from "@lotseai/core";
 
 const pkg: AdapterPackage = { apiVersion: ADAPTER_API_VERSION, hosting: createAcmeAdapter };
 export default pkg;
@@ -37,10 +37,10 @@ The generated package contains a small working adapter for an example API, a cas
 
 ## Testing
 
-Every adapter must pass the shared contract suite from `@lotse/adapter-testkit`, on every pull request:
+Every adapter must pass the shared contract suite from `@lotseai/adapter-testkit`, on every pull request:
 
 ```ts
-import { loadCassette, runHostingContract } from "@lotse/adapter-testkit";
+import { loadCassette, runHostingContract } from "@lotseai/adapter-testkit";
 
 const cassette = await loadCassette(new URL("./cassette.json", import.meta.url));
 
@@ -63,7 +63,7 @@ A cassette lists request and response pairs per scenario. URLs may use `*` for o
 Cassettes are best recorded from the real API. Add a live test that deploys the reference app with a test account:
 
 ```ts
-import { liveTransport, runLiveDeployment } from "@lotse/adapter-testkit";
+import { liveTransport, runLiveDeployment } from "@lotseai/adapter-testkit";
 
 const transport = liveTransport("acme");
 

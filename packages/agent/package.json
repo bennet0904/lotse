@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/agent",
+  "name": "@lotseai/agent",
   "version": "0.1.0",
   "description": "LLM integration, prompt pipeline and model tools for the Lotse app builder",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/agent"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -27,7 +36,7 @@
     "@ai-sdk/openai": "^4.0.118",
     "@ai-sdk/openai-compatible": "^3.0.92",
     "@ai-sdk/provider": "^4.0.38",
-    "@lotse/core": "workspace:*",
+    "@lotseai/core": "workspace:*",
     "ai": "^7.0.173",
     "zod": "^4.6.7"
   }

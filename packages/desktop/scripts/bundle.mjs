@@ -14,7 +14,7 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const out = join(root, "bundle");
 const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
 const ui = join(root, "../ui/dist");
-if (!existsSync(join(ui, "index.html"))) throw new Error("Build the user interface first: pnpm --filter @lotse/ui build");
+if (!existsSync(join(ui, "index.html"))) throw new Error("Build the user interface first: pnpm --filter @lotseai/ui build");
 
 await rm(out, { recursive: true, force: true });
 await mkdir(out, { recursive: true });

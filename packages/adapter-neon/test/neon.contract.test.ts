@@ -1,5 +1,5 @@
-import { loadCassette, runResourceContract, scenarioOf } from "@lotse/adapter-testkit";
-import type { AppRef, Connection, ResourceRef } from "@lotse/core";
+import { loadCassette, runResourceContract, scenarioOf } from "@lotseai/adapter-testkit";
+import type { AppRef, Connection, ResourceRef } from "@lotseai/core";
 import { createNeonAdapter } from "../src/index.js";
 
 const cassette = await loadCassette(new URL("./cassette.json", import.meta.url));

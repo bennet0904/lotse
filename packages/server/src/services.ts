@@ -1,11 +1,11 @@
 import { createHmac } from "node:crypto";
 import { join } from "node:path";
-import { BUILT_IN_ADAPTERS } from "@lotse/adapters";
-import { type ResolvedModel, resolveModel } from "@lotse/agent";
-import { AdapterRegistry, dynamicRegistrationSource, envClientSource, LotseError, loadAdapters, type OAuthClientSource, type SecretVault } from "@lotse/core";
-import { DEFAULT_ALLOWED_HOSTS, DockerClient, SandboxManager } from "@lotse/sandbox";
-import { ConnectionStore, SecretStore } from "@lotse/secrets";
-import { StackRegistry } from "@lotse/stacks";
+import { BUILT_IN_ADAPTERS } from "@lotseai/adapters";
+import { type ResolvedModel, resolveModel } from "@lotseai/agent";
+import { AdapterRegistry, dynamicRegistrationSource, envClientSource, LotseError, loadAdapters, type OAuthClientSource, type SecretVault } from "@lotseai/core";
+import { DEFAULT_ALLOWED_HOSTS, DockerClient, SandboxManager } from "@lotseai/sandbox";
+import { ConnectionStore, SecretStore } from "@lotseai/secrets";
+import { StackRegistry } from "@lotseai/stacks";
 import { AuthService, type User } from "./auth.js";
 import type { ServerConfig } from "./config.js";
 import { type Database, DbSecretBackend, eq, openDatabase } from "./db/index.js";

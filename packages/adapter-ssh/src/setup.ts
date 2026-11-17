@@ -2,7 +2,7 @@
  * Setting up a new server (specification section 10.2). Every step is
  * idempotent: running the setup again leads to the same result.
  */
-import { type Connection, type DeployEvent, event, LotseError, type SetupPlan, type SetupStep } from "@lotse/core";
+import { type Connection, type DeployEvent, event, LotseError, type SetupPlan, type SetupStep } from "@lotseai/core";
 import { must, paramsOf, publicKeyOf, type SshConnector, type SshExecutor, sh } from "./executor.js";
 import { DEPLOY_USER, mainCaddyfile, NETWORK, PROXY, PROXY_IMAGE, ROOT } from "./layout.js";
 

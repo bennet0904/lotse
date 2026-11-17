@@ -13,7 +13,7 @@ export function connectionSecretName(adapter: string): string {
 }
 
 function cliCommand(target: HostingTarget, extra = ""): string {
-  const pkg = target.cliVersion ? `@lotse/cli@${target.cliVersion}` : "@lotse/cli";
+  const pkg = target.cliVersion ? `@lotseai/cli@${target.cliVersion}` : "@lotseai/cli";
   return `npx --yes ${pkg} deploy --target ${target.adapter} --yes${extra}`;
 }
 

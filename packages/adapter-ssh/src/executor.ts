@@ -1,6 +1,6 @@
 import { createHash, generateKeyPairSync, randomBytes } from "node:crypto";
 import type { Readable } from "node:stream";
-import { type Connection, LotseError } from "@lotse/core";
+import { type Connection, LotseError } from "@lotseai/core";
 import ssh2 from "ssh2";
 
 export interface ExecResult {

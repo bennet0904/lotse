@@ -28,7 +28,7 @@ import {
   type RepoRef,
   type ResourceAdapter,
   type ResourceRef,
-} from "@lotse/core";
+} from "@lotseai/core";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { type Cassette, type Interaction, ReplayTransport } from "./replay.js";
 

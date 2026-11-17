@@ -1,5 +1,5 @@
-import { liveTransport, runLiveDeployment } from "@lotse/adapter-testkit";
-import type { HostingAdapter } from "@lotse/core";
+import { liveTransport, runLiveDeployment } from "@lotseai/adapter-testkit";
+import type { HostingAdapter } from "@lotseai/core";
 import { createHetznerAdapter, deleteHetznerServer } from "../src/index.js";
 
 const transport = liveTransport("hetzner");

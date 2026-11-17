@@ -1,7 +1,7 @@
 import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Connection } from "@lotse/core";
+import type { Connection } from "@lotseai/core";
 import {
   ConnectionStore,
   decrypt,

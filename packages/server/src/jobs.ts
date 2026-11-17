@@ -3,7 +3,7 @@
  * queue. Progress and logs are stored and streamed to the UI over WebSocket
  * (specification section 6, persistence).
  */
-import { errorMessage, isLotseError, LotseError, redact } from "@lotse/core";
+import { errorMessage, isLotseError, LotseError, redact } from "@lotseai/core";
 import { newId } from "./auth.js";
 import { asc, type Database, eq } from "./db/index.js";
 

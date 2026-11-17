@@ -7,7 +7,7 @@ import { randomBytes } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { LocalBuilder } from "@lotse/build";
+import { LocalBuilder } from "@lotseai/build";
 import {
   AdapterRegistry,
   type AppRef,
@@ -24,7 +24,7 @@ import {
   MemoryVault,
   type ResourceAdapter,
   type ResourceRef,
-} from "@lotse/core";
+} from "@lotseai/core";
 import pg from "pg";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { REFERENCE_MARKER, writeReferenceServer, writeReferenceStaticSite } from "./reference.js";

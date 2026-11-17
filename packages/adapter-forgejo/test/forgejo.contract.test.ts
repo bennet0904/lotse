@@ -1,5 +1,5 @@
-import { loadCassette, runGitContract, runHostingContract } from "@lotse/adapter-testkit";
-import type { HostingAdapter } from "@lotse/core";
+import { loadCassette, runGitContract, runHostingContract } from "@lotseai/adapter-testkit";
+import type { HostingAdapter } from "@lotseai/core";
 import { createForgejoProvider } from "../src/index.js";
 
 const cassette = await loadCassette(new URL("./cassette.json", import.meta.url));

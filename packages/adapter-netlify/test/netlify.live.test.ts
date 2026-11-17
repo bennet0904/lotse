@@ -1,4 +1,4 @@
-import { liveTransport, runLiveDeployment } from "@lotse/adapter-testkit";
+import { liveTransport, runLiveDeployment } from "@lotseai/adapter-testkit";
 import { createNetlifyAdapter } from "../src/index.js";
 
 const transport = liveTransport("netlify");

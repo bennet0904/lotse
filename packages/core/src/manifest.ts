@@ -221,7 +221,7 @@ export function stringifyManifest(manifest: ManifestInput | Manifest): string {
   if (m.env?.secrets && m.env.secrets.length > 0) env.secrets = m.env.secrets;
   if (Object.keys(env).length > 0) out.env = env;
   if (m.domains && m.domains.length > 0) out.domains = m.domains;
-  const header = "# yaml-language-server: $schema=https://unpkg.com/@lotse/core/schema/lotse.schema.json\n";
+  const header = "# yaml-language-server: $schema=https://unpkg.com/@lotseai/core/schema/lotse.schema.json\n";
   return header + stringify(out, { lineWidth: 0 });
 }
 
@@ -236,7 +236,7 @@ export function manifestJsonSchema(): Record<string, unknown> {
   const schema = z.toJSONSchema(manifestSchema, { target: "draft-2020-12", io: "input", unrepresentable: "any" }) as Record<string, unknown>;
   return {
     $schema: "https://json-schema.org/draft/2020-12/schema",
-    $id: "https://unpkg.com/@lotse/core/schema/lotse.schema.json",
+    $id: "https://unpkg.com/@lotseai/core/schema/lotse.schema.json",
     title: "Lotse deployment manifest",
     description: "Provider-neutral description of what an app needs to run (lotse.yaml).",
     ...Object.fromEntries(Object.entries(schema).filter(([k]) => k !== "$schema")),

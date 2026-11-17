@@ -9,7 +9,7 @@
 
 services:
   lotse:
-    image: ${LOTSE_IMAGE:-ghcr.io/lotse-dev/lotse:latest}
+    image: ${LOTSE_IMAGE:-ghcr.io/bennet0904/lotse:latest}
     build: ..
     restart: unless-stopped
     # Host networking: the sandbox gateway publishes previews on the host's loopback address only,

@@ -1,7 +1,7 @@
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { collectEvents, parseManifest } from "@lotse/core";
+import { collectEvents, parseManifest } from "@lotseai/core";
 import { type CommandRunner, LocalBuilder } from "../src/index.js";
 
 let dir: string;

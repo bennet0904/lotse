@@ -1,5 +1,5 @@
-import { loadCassette, runHostingContract, scenarioOf } from "@lotse/adapter-testkit";
-import { parseManifest } from "@lotse/core";
+import { loadCassette, runHostingContract, scenarioOf } from "@lotseai/adapter-testkit";
+import { parseManifest } from "@lotseai/core";
 import { createFlyAdapter } from "../src/index.js";
 
 const cassette = await loadCassette(new URL("./cassette.json", import.meta.url));

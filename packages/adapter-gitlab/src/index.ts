@@ -23,7 +23,7 @@ import {
   type publishDirectory,
   type RepoRef,
   type RepoSpec,
-} from "@lotse/core";
+} from "@lotseai/core";
 
 interface GlProject {
   id: number;

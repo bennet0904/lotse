@@ -52,7 +52,7 @@ export interface BuildRequest {
   signal?: AbortSignal;
 }
 
-/** Implemented by `@lotse/build`. */
+/** Implemented by `@lotseai/build`. */
 export interface Builder {
   build(request: BuildRequest): AsyncGenerator<DeployEvent, BuildArtifact, void>;
 }

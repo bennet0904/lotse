@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/adapter-railway",
+  "name": "@lotseai/adapter-railway",
   "version": "0.1.0",
   "description": "Lotse adapter for Railway",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/adapter-railway"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,13 +32,13 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotse/core": "workspace:*"
+    "@lotseai/core": "workspace:*"
   },
   "keywords": [
     "lotse",
     "lotse-adapter"
   ],
   "devDependencies": {
-    "@lotse/adapter-testkit": "workspace:*"
+    "@lotseai/adapter-testkit": "workspace:*"
   }
 }

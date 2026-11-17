@@ -47,7 +47,7 @@ export interface StateStore {
   saveDeployment(deployment: DeploymentRecord): Promise<void>;
 }
 
-/** Key-value store for secret values. Implemented by `@lotse/secrets`. */
+/** Key-value store for secret values. Implemented by `@lotseai/secrets`. */
 export interface SecretVault {
   get(key: string): Promise<string | undefined>;
   set(key: string, value: string): Promise<void>;

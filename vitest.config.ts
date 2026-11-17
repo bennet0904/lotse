@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 const root = fileURLToPath(new URL(".", import.meta.url));
 
 // Tests run against the TypeScript sources, so no build is needed first.
-const alias = [{ find: /^@lotse\/(?!ui$)([a-z0-9-]+)$/, replacement: `${root}packages/$1/src/index.ts` }];
+const alias = [{ find: /^@lotseai\/(?!ui$)([a-z0-9-]+)$/, replacement: `${root}packages/$1/src/index.ts` }];
 
 const shared = { resolve: { alias }, test: { globals: true, environment: "node" as const } };
 

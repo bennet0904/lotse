@@ -1,5 +1,5 @@
-import { type Cassette, runHostingContract, type Scenario } from "@lotse/adapter-testkit";
-import type { LotseError } from "@lotse/core";
+import { type Cassette, runHostingContract, type Scenario } from "@lotseai/adapter-testkit";
+import type { LotseError } from "@lotseai/core";
 import { buildSetupPlan, createSshAdapter, defaultHostFor, generateSshKeyPair, isSupportedOs, siteConfig } from "../src/index.js";
 import { key, otherKey, READ_ONLY, scriptedServer, servers } from "./scripted-server.js";
 
@@ -44,8 +44,8 @@ describe("ssh specifics", () => {
 
   it("deploys containers by starting the new version next to the old one", async () => {
     const scenario = { name: "deploy-image" } as Scenario;
-    const { fakeImageTools } = await import("@lotse/adapter-testkit");
-    const { parseManifest } = await import("@lotse/core");
+    const { fakeImageTools } = await import("@lotseai/adapter-testkit");
+    const { parseManifest } = await import("@lotseai/core");
     const images = fakeImageTools();
     const adapter = createSshAdapter({ connector: scriptedServer(scenario), images, drainSeconds: 0 });
     const conn = await adapter.connect({ method: "ssh", host: "203.0.113.10", privateKey: key.privateKey });
@@ -74,8 +74,8 @@ describe("ssh specifics", () => {
 
   it("orders the steps of a container release so that a failure cannot take the app down", async () => {
     const scenario = { name: "plan" } as Scenario; // a server without the app
-    const { fakeImageTools } = await import("@lotse/adapter-testkit");
-    const { parseManifest } = await import("@lotse/core");
+    const { fakeImageTools } = await import("@lotseai/adapter-testkit");
+    const { parseManifest } = await import("@lotseai/core");
     const images = fakeImageTools();
     const adapter = createSshAdapter({ connector: scriptedServer(scenario), images, drainSeconds: 0 });
     const conn = await adapter.connect({ method: "ssh", host: "203.0.113.10", privateKey: key.privateKey });

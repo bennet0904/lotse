@@ -6,7 +6,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { chown, mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
-import { LotseError } from "@lotse/core";
+import { LotseError } from "@lotseai/core";
 import { DockerClient, type ExecResult } from "./docker.js";
 import { DEFAULT_ALLOWED_HOSTS, GATEWAY_EGRESS_PORT, GATEWAY_INGRESS_PORT, GATEWAY_SCRIPT } from "./gateway.js";
 

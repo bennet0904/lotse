@@ -5,10 +5,10 @@
  */
 import { readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
-import github from "@lotse/adapter-github";
-import { scriptedModel } from "@lotse/agent";
-import { AdapterRegistry } from "@lotse/core";
-import { DockerClient } from "@lotse/sandbox";
+import github from "@lotseai/adapter-github";
+import { scriptedModel } from "@lotseai/agent";
+import { AdapterRegistry } from "@lotseai/core";
+import { DockerClient } from "@lotseai/sandbox";
 import { WebSocket } from "ws";
 import fake, { baseUrl, provider } from "../../cli/test/fixtures/fake-adapter.js";
 import { getWithHost, startTestServer, type TestServer } from "./helpers.js";

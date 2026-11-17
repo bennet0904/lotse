@@ -2,7 +2,7 @@ import { execFile } from "node:child_process";
 import { access } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { promisify } from "node:util";
-import { detectProject, suggestManifest } from "@lotse/build";
+import { detectProject, suggestManifest } from "@lotseai/build";
 import {
   connectionSecretName,
   type DeployEvent,
@@ -16,7 +16,7 @@ import {
   toRepoRecord,
   validateManifest,
   writeManifest,
-} from "@lotse/core";
+} from "@lotseai/core";
 import type { Command } from "commander";
 import type { Context } from "../context.js";
 import { confirm, type Io, paint, table } from "../io.js";
@@ -435,7 +435,7 @@ function registerGitCommands(program: Command, getContext: () => Context): void 
     .description("Set up push-to-deploy: write the workflow and store the credentials as CI secrets")
     .option("-t, --target <adapter>", "hosting adapter to deploy to")
     .option("--previews", "also deploy previews for pull or merge requests")
-    .option("--cli-version <version>", "version of @lotse/cli the workflow installs")
+    .option("--cli-version <version>", "version of @lotseai/cli the workflow installs")
     .action(async (flags) => {
       const ctx = getContext();
       const repo = await linkedRepo(ctx);

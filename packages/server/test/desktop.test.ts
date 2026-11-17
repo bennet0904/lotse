@@ -5,7 +5,7 @@
 import { rm } from "node:fs/promises";
 import { createServer, request, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
-import { AdapterRegistry, apiConnection, type ResourceAdapter } from "@lotse/core";
+import { AdapterRegistry, apiConnection, type ResourceAdapter } from "@lotseai/core";
 import { startTestServer, type TestServer } from "./helpers.js";
 
 /** A provider with an OAuth 2.0 token endpoint that insists on PKCE. */

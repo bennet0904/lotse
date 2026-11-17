@@ -1,8 +1,8 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
-import { BUILT_IN_ADAPTERS } from "@lotse/adapters";
-import { LocalBuilder } from "@lotse/build";
+import { BUILT_IN_ADAPTERS } from "@lotseai/adapters";
+import { LocalBuilder } from "@lotseai/build";
 import {
   type AdapterPackage,
   AdapterRegistry,
@@ -19,7 +19,7 @@ import {
   type OAuthClientSource,
   type RepoRecord,
   type SecretVault,
-} from "@lotse/core";
+} from "@lotseai/core";
 import {
   ConnectionStore,
   envKeyProvider,
@@ -29,7 +29,7 @@ import {
   type MasterKeyProvider,
   SecretStore,
   vaultKeyProviderFromEnv,
-} from "@lotse/secrets";
+} from "@lotseai/secrets";
 import type { Io } from "./io.js";
 
 /** Adapters that ship with the CLI. More are loaded from the configuration. */

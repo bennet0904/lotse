@@ -8,7 +8,7 @@ Prompt-to-app builders come and go. The part that is hard to get right, and usef
 
 ## Decision
 
-The hosting core (`@lotse/core`, the adapters, `@lotse/build`, `@lotse/secrets`, `@lotse/cli`) is a standalone set of packages with no dependency on the builder. The builder (`@lotse/agent`, `@lotse/sandbox`, `@lotse/server`, `@lotse/ui`, `@lotse/desktop`) is built on top and uses the core like any other program would.
+The hosting core (`@lotseai/core`, the adapters, `@lotseai/build`, `@lotseai/secrets`, `@lotseai/cli`) is a standalone set of packages with no dependency on the builder. The builder (`@lotseai/agent`, `@lotseai/sandbox`, `@lotseai/server`, `@lotseai/ui`, `@lotseai/desktop`) is built on top and uses the core like any other program would.
 
 ## Consequences
 

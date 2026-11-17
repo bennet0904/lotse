@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/adapter-ssh",
+  "name": "@lotseai/adapter-ssh",
   "version": "0.1.0",
   "description": "Lotse adapter for own servers over SSH",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/adapter-ssh"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,7 +32,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotse/core": "workspace:*",
+    "@lotseai/core": "workspace:*",
     "ssh2": "^1.17.0"
   },
   "keywords": [
@@ -31,8 +40,8 @@
     "lotse-adapter"
   ],
   "devDependencies": {
-    "@lotse/adapter-testkit": "workspace:*",
-    "@lotse/build": "workspace:*",
+    "@lotseai/adapter-testkit": "workspace:*",
+    "@lotseai/build": "workspace:*",
     "@types/ssh2": "^1.15.5"
   }
 }

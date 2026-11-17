@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/server",
+  "name": "@lotseai/server",
   "version": "0.1.0",
   "description": "Lotse builder server: HTTP and WebSocket API, job queue, persistence, users",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/server"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -24,15 +33,15 @@
   },
   "dependencies": {
     "@hono/node-server": "^2.1.8",
-    "@lotse/adapter-github": "workspace:*",
-    "@lotse/adapter-ssh": "workspace:*",
-    "@lotse/adapters": "workspace:*",
-    "@lotse/agent": "workspace:*",
-    "@lotse/build": "workspace:*",
-    "@lotse/core": "workspace:*",
-    "@lotse/sandbox": "workspace:*",
-    "@lotse/secrets": "workspace:*",
-    "@lotse/stacks": "workspace:*",
+    "@lotseai/adapter-github": "workspace:*",
+    "@lotseai/adapter-ssh": "workspace:*",
+    "@lotseai/adapters": "workspace:*",
+    "@lotseai/agent": "workspace:*",
+    "@lotseai/build": "workspace:*",
+    "@lotseai/core": "workspace:*",
+    "@lotseai/sandbox": "workspace:*",
+    "@lotseai/secrets": "workspace:*",
+    "@lotseai/stacks": "workspace:*",
     "better-sqlite3": "^13.2.0",
     "drizzle-orm": "^0.45.4",
     "hono": "^4.13.18",
@@ -44,7 +53,7 @@
     "lotse-server": "./dist/main.js"
   },
   "devDependencies": {
-    "@lotse/adapter-testkit": "workspace:*",
+    "@lotseai/adapter-testkit": "workspace:*",
     "@types/better-sqlite3": "^9.6.0",
     "@types/pg": "^8.23.1",
     "@types/ws": "^8.18.2"

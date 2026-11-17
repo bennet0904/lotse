@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { LotseError } from "@lotse/core";
+import { LotseError } from "@lotseai/core";
 import { djangoStack, fastapiStack, goStack, laravelStack } from "./backend.js";
 import { staticStack } from "./static.js";
 import type { ScaffoldContext, StackTemplate } from "./types.js";

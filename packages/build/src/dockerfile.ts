@@ -3,7 +3,7 @@
  * Buildpacks are installed. They are deliberately plain so that every app can
  * also be built without the framework (specification section 13.1, portability).
  */
-import { LotseError, type Manifest } from "@lotse/core";
+import { LotseError, type Manifest } from "@lotseai/core";
 import type { ProjectInfo } from "./detect.js";
 
 function shellForm(command: string): string {

@@ -33,8 +33,8 @@ The app starts the builder on `127.0.0.1` and opens it in its own window. Only t
 
 ```sh
 pnpm install && pnpm build
-pnpm --filter @lotse/desktop start    # run from the workspace
-pnpm --filter @lotse/desktop dist     # installers for the current platform, in packages/desktop/release
+pnpm --filter @lotseai/desktop start    # run from the workspace
+pnpm --filter @lotseai/desktop dist     # installers for the current platform, in packages/desktop/release
 ```
 
 `dist` bundles the main process with all packages into one file without native modules (the app uses the SQLite built into Electron's Node.js) and writes the licenses of the bundled packages to `THIRD_PARTY_LICENSES.txt`.

@@ -1,9 +1,9 @@
 import { mkdtemp, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type Cassette, runHostingContract } from "@lotse/adapter-testkit";
-import type { AdapterOptions, HostingAdapter } from "@lotse/core";
-import { assertAdapterPackage } from "@lotse/core";
+import { type Cassette, runHostingContract } from "@lotseai/adapter-testkit";
+import type { AdapterOptions, HostingAdapter } from "@lotseai/core";
+import { assertAdapterPackage } from "@lotseai/core";
 import { scaffoldAdapter } from "../src/index.js";
 
 // `lotse create adapter` must produce a package whose contract tests pass as generated.

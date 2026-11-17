@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://unpkg.com/@lotse/core/schema/lotse.schema.json",
+  "$id": "https://unpkg.com/@lotseai/core/schema/lotse.schema.json",
   "title": "Lotse deployment manifest",
   "description": "Provider-neutral description of what an app needs to run (lotse.yaml).",
   "type": "object",

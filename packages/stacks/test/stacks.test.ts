@@ -1,7 +1,7 @@
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { parseManifest } from "@lotse/core";
+import { parseManifest } from "@lotseai/core";
 import { builtInStacks, StackRegistry, scaffoldFiles } from "../src/index.js";
 
 describe("stack templates", () => {
@@ -36,7 +36,7 @@ describe("stack templates", () => {
       expect(typeof content).toBe("string");
     }
     // Nothing in a generated app depends on the framework at runtime.
-    expect(JSON.stringify(files)).not.toMatch(/@lotse\//);
+    expect(JSON.stringify(files)).not.toMatch(/@lotseai\//);
   });
 
   it("writes the files of a template", async () => {

@@ -3,7 +3,7 @@
  * API, installs the SSH key and then hands over to the SSH adapter
  * (specification section 9). More VPS providers can follow the same pattern.
  */
-import { buildSetupPlan, createSshAdapter, generateSshKeyPair, publicKeyOf, type SshAdapterOptions } from "@lotse/adapter-ssh";
+import { buildSetupPlan, createSshAdapter, generateSshKeyPair, publicKeyOf, type SshAdapterOptions } from "@lotseai/adapter-ssh";
 import {
   ADAPTER_API_VERSION,
   type AdapterPackage,
@@ -22,7 +22,7 @@ import {
   type SetupPlan,
   sleep,
   type VerifyResult,
-} from "@lotse/core";
+} from "@lotseai/core";
 
 interface HetznerServer {
   id: number;

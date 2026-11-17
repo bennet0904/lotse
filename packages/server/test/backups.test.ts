@@ -4,7 +4,7 @@
  */
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { AdapterRegistry, type BackupInfo, type HostingAdapter, LotseError } from "@lotse/core";
+import { AdapterRegistry, type BackupInfo, type HostingAdapter, LotseError } from "@lotseai/core";
 import { startTestServer, type TestServer } from "./helpers.js";
 
 const stored: BackupInfo[] = [];

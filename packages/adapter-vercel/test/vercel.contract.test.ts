@@ -1,4 +1,4 @@
-import { loadCassette, runHostingContract, scenarioOf } from "@lotse/adapter-testkit";
+import { loadCassette, runHostingContract, scenarioOf } from "@lotseai/adapter-testkit";
 import { createVercelAdapter } from "../src/index.js";
 
 const cassette = await loadCassette(new URL("./cassette.json", import.meta.url));
@@ -27,7 +27,7 @@ describe("vercel specifics", () => {
     const { mkdtemp, writeFile, rm } = await import("node:fs/promises");
     const { tmpdir } = await import("node:os");
     const { join } = await import("node:path");
-    const { parseManifest } = await import("@lotse/core");
+    const { parseManifest } = await import("@lotseai/core");
     const dir = await mkdtemp(join(tmpdir(), "lotse-vercel-"));
     try {
       await writeFile(join(dir, "index.html"), "<!doctype html><title>Reference</title><h1>Lotse reference app</h1>\n");
@@ -62,7 +62,7 @@ describe("vercel specifics", () => {
   it("asks Vercel to build server apps from source", async () => {
     const scenario = scenarioOf(cassette, "plan");
     const adapter = createVercelAdapter({ fetch: scenario.fetch });
-    const { parseManifest } = await import("@lotse/core");
+    const { parseManifest } = await import("@lotseai/core");
     const plan = await adapter.plan(parseManifest("version: 1\nname: lotse-reference\nruntime:\n  kind: server\n  language: node\n"), {
       ...connection,
       settings: {},

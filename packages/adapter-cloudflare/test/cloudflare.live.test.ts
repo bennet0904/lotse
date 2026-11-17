@@ -1,4 +1,4 @@
-import { envOptions, liveTransport, runLiveDeployment } from "@lotse/adapter-testkit";
+import { envOptions, liveTransport, runLiveDeployment } from "@lotseai/adapter-testkit";
 import { createCloudflareAdapter } from "../src/index.js";
 
 const transport = liveTransport("cloudflare");

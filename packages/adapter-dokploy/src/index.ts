@@ -39,7 +39,7 @@ import {
   throwIfAborted,
   type VerifyResult,
   walkFiles,
-} from "@lotse/core";
+} from "@lotseai/core";
 import { zipSync } from "fflate";
 
 interface DokployApp {

@@ -6,7 +6,7 @@
  */
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import { Redactor } from "@lotse/core";
+import { Redactor } from "@lotseai/core";
 
 export interface RecordedRequest {
   method: string;

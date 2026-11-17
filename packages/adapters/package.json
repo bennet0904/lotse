@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/adapters",
+  "name": "@lotseai/adapters",
   "version": "0.1.0",
   "description": "The adapters that ship with Lotse: nine hosting providers, three Git platforms and two database providers",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/adapters"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,20 +32,20 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotse/core": "workspace:*",
-    "@lotse/adapter-vercel": "workspace:*",
-    "@lotse/adapter-ssh": "workspace:*",
-    "@lotse/adapter-coolify": "workspace:*",
-    "@lotse/adapter-netlify": "workspace:*",
-    "@lotse/adapter-cloudflare": "workspace:*",
-    "@lotse/adapter-railway": "workspace:*",
-    "@lotse/adapter-fly": "workspace:*",
-    "@lotse/adapter-hetzner": "workspace:*",
-    "@lotse/adapter-dokploy": "workspace:*",
-    "@lotse/adapter-github": "workspace:*",
-    "@lotse/adapter-gitlab": "workspace:*",
-    "@lotse/adapter-forgejo": "workspace:*",
-    "@lotse/adapter-neon": "workspace:*",
-    "@lotse/adapter-supabase": "workspace:*"
+    "@lotseai/core": "workspace:*",
+    "@lotseai/adapter-vercel": "workspace:*",
+    "@lotseai/adapter-ssh": "workspace:*",
+    "@lotseai/adapter-coolify": "workspace:*",
+    "@lotseai/adapter-netlify": "workspace:*",
+    "@lotseai/adapter-cloudflare": "workspace:*",
+    "@lotseai/adapter-railway": "workspace:*",
+    "@lotseai/adapter-fly": "workspace:*",
+    "@lotseai/adapter-hetzner": "workspace:*",
+    "@lotseai/adapter-dokploy": "workspace:*",
+    "@lotseai/adapter-github": "workspace:*",
+    "@lotseai/adapter-gitlab": "workspace:*",
+    "@lotseai/adapter-forgejo": "workspace:*",
+    "@lotseai/adapter-neon": "workspace:*",
+    "@lotseai/adapter-supabase": "workspace:*"
   }
 }

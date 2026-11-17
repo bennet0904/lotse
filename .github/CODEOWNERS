@@ -2,40 +2,39 @@
 # Maintainers review changes to their area and are assigned the issue that
 # opens when an adapter's live tests fail two nights in a row.
 #
-# The handles below are the project's maintainer teams. Replace them with the
-# GitHub handles of the people who maintain each area.
+# New adapters and areas get their own maintainers here as people join.
 
-*                                   @lotse-dev/maintainers
+*                                   @bennet0904
 
-/packages/core/                     @lotse-dev/core
-/packages/secrets/                  @lotse-dev/core @lotse-dev/security
-/packages/build/                    @lotse-dev/core
-/packages/cli/                      @lotse-dev/core
-/packages/adapter-testkit/          @lotse-dev/core
-/packages/adapters/                 @lotse-dev/core
+/packages/core/                     @bennet0904
+/packages/secrets/                  @bennet0904
+/packages/build/                    @bennet0904
+/packages/cli/                      @bennet0904
+/packages/adapter-testkit/          @bennet0904
+/packages/adapters/                 @bennet0904
 
-/packages/agent/                    @lotse-dev/builder
-/packages/sandbox/                  @lotse-dev/builder @lotse-dev/security
-/packages/server/                   @lotse-dev/builder
-/packages/stacks/                   @lotse-dev/builder
-/packages/ui/                       @lotse-dev/builder
-/packages/desktop/                  @lotse-dev/builder
+/packages/agent/                    @bennet0904
+/packages/sandbox/                  @bennet0904
+/packages/server/                   @bennet0904
+/packages/stacks/                   @bennet0904
+/packages/ui/                       @bennet0904
+/packages/desktop/                  @bennet0904
 
-/packages/adapter-vercel/           @lotse-dev/adapter-vercel
-/packages/adapter-ssh/              @lotse-dev/adapter-ssh
-/packages/adapter-coolify/          @lotse-dev/adapter-coolify
-/packages/adapter-netlify/          @lotse-dev/adapter-netlify
-/packages/adapter-cloudflare/       @lotse-dev/adapter-cloudflare
-/packages/adapter-railway/          @lotse-dev/adapter-railway
-/packages/adapter-fly/              @lotse-dev/adapter-fly
-/packages/adapter-hetzner/          @lotse-dev/adapter-hetzner
-/packages/adapter-dokploy/          @lotse-dev/adapter-dokploy
-/packages/adapter-github/           @lotse-dev/adapter-github
-/packages/adapter-gitlab/           @lotse-dev/adapter-gitlab
-/packages/adapter-forgejo/          @lotse-dev/adapter-forgejo
-/packages/adapter-neon/             @lotse-dev/adapter-neon
-/packages/adapter-supabase/         @lotse-dev/adapter-supabase
+/packages/adapter-vercel/           @bennet0904
+/packages/adapter-ssh/              @bennet0904
+/packages/adapter-coolify/          @bennet0904
+/packages/adapter-netlify/          @bennet0904
+/packages/adapter-cloudflare/       @bennet0904
+/packages/adapter-railway/          @bennet0904
+/packages/adapter-fly/              @bennet0904
+/packages/adapter-hetzner/          @bennet0904
+/packages/adapter-dokploy/          @bennet0904
+/packages/adapter-github/           @bennet0904
+/packages/adapter-gitlab/           @bennet0904
+/packages/adapter-forgejo/          @bennet0904
+/packages/adapter-neon/             @bennet0904
+/packages/adapter-supabase/         @bennet0904
 
-/SECURITY.md                        @lotse-dev/security
-/.github/                           @lotse-dev/maintainers
-/docs/adr/                          @lotse-dev/maintainers
+/SECURITY.md                        @bennet0904
+/.github/                           @bennet0904
+/docs/adr/                          @bennet0904

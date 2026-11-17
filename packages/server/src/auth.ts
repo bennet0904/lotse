@@ -4,7 +4,7 @@
  *   oidc  multi-user with SSO via OpenID Connect; roles Owner, Admin, Member
  */
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
-import { createPkcePair, createState, LotseError } from "@lotse/core";
+import { createPkcePair, createState, LotseError } from "@lotseai/core";
 import type { OidcConfig, ServerConfig } from "./config.js";
 import { type Database, eq } from "./db/index.js";
 

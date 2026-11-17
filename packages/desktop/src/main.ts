@@ -9,8 +9,8 @@ import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { errorMessage, isLotseError } from "@lotse/core";
-import { createLotseServer, LOCAL_COOKIE, type LotseServer } from "@lotse/server";
+import { errorMessage, isLotseError } from "@lotseai/core";
+import { createLotseServer, LOCAL_COOKIE, type LotseServer } from "@lotseai/server";
 import { app, BrowserWindow, dialog, safeStorage, session, shell, type WebContents } from "electron";
 import { chooseMasterKey, choosePort, desktopServerConfig, navigation } from "./shell.js";
 

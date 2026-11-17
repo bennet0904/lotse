@@ -1,5 +1,5 @@
-import { loadCassette, runGitContract, runHostingContract, scenarioOf } from "@lotse/adapter-testkit";
-import type { HostingAdapter } from "@lotse/core";
+import { loadCassette, runGitContract, runHostingContract, scenarioOf } from "@lotseai/adapter-testkit";
+import type { HostingAdapter } from "@lotseai/core";
 import { createGitlabProvider } from "../src/index.js";
 
 const cassette = await loadCassette(new URL("./cassette.json", import.meta.url));
@@ -62,7 +62,7 @@ describe("gitlab specifics", () => {
       { adapter: "ssh", branch: "main", secrets: ["LOTSE_CONNECTION_SSH"], cliVersion: "0.1.0" },
     );
     const commit = scenario.transport.requests.at(-1)?.body as { actions: { content: string }[] };
-    expect(commit.actions[0]?.content).toContain("npx --yes @lotse/cli@0.1.0 deploy --target ssh --yes");
+    expect(commit.actions[0]?.content).toContain("npx --yes @lotseai/cli@0.1.0 deploy --target ssh --yes");
     expect(commit.actions[0]?.content).toContain('if: $CI_COMMIT_BRANCH == "main"');
   });
 

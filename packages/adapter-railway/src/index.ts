@@ -38,7 +38,7 @@ import {
   throwIfAborted,
   type VerifyResult,
   walkFiles,
-} from "@lotse/core";
+} from "@lotseai/core";
 
 const ENDPOINT = "https://backboard.railway.com/graphql/v2";
 const UPLOAD = "https://backboard.railway.com";

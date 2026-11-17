@@ -1,4 +1,4 @@
-import type { RuntimeKind } from "@lotse/core";
+import type { RuntimeKind } from "@lotseai/core";
 
 export interface ScaffoldContext {
   /** Manifest name of the app: lowercase letters, digits and hyphens. */

@@ -6,9 +6,9 @@
 import { mkdir, rm } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { scriptedModel } from "@lotse/agent";
-import { AdapterRegistry } from "@lotse/core";
-import { DockerClient } from "@lotse/sandbox";
+import { scriptedModel } from "@lotseai/agent";
+import { AdapterRegistry } from "@lotseai/core";
+import { DockerClient } from "@lotseai/sandbox";
 import fake, { baseUrl, provider } from "../../packages/cli/test/fixtures/fake-adapter.js";
 import { startTestServer, type TestServer } from "../../packages/server/test/helpers.js";
 

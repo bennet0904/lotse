@@ -1,8 +1,17 @@
 {
-  "name": "@lotse/build",
+  "name": "@lotseai/build",
   "version": "0.1.0",
   "description": "Detects the project type and produces build artifacts or container images for Lotse",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennet0904/lotse.git",
+    "directory": "packages/build"
+  },
+  "homepage": "https://github.com/bennet0904/lotse#readme",
+  "bugs": {
+    "url": "https://github.com/bennet0904/lotse/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,6 +32,6 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotse/core": "workspace:*"
+    "@lotseai/core": "workspace:*"
   }
 }
