@@ -45,9 +45,9 @@ jobs:
       LOTSE_LIVE_NEON_TOKEN: ${{ secrets.LOTSE_LIVE_NEON_TOKEN }}
       LOTSE_LIVE_SUPABASE_TOKEN: ${{ secrets.LOTSE_LIVE_SUPABASE_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -70,12 +70,12 @@ jobs:
           mkdir -p results
           skipped=$(node -e "const r=require(process.env.RUNNER_TEMP+'/live.json'); console.log(r.numTotalTests>0 && r.numPendingTests===r.numTotalTests)" 2>/dev/null || echo false)
           echo "{\"suite\":\"${{ matrix.adapter }}\",\"ok\":$([ "$OUTCOME" = success ] && echo true || echo false),\"skipped\":$skipped,\"url\":\"$RUN_URL\"}" > "results/${{ matrix.adapter }}.json"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: result-live-${{ matrix.adapter }}
           path: results/
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: recording-${{ matrix.adapter }}
@@ -92,9 +92,9 @@ jobs:
       matrix:
         os: [ubuntu, debian]
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -118,7 +118,7 @@ jobs:
         run: |
           mkdir -p results
           echo "{\"suite\":\"ssh-${{ matrix.os }}\",\"ok\":$([ "$OUTCOME" = success ] && echo true || echo false),\"url\":\"$RUN_URL\"}" > "results/ssh-${{ matrix.os }}.json"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: result-ssh-${{ matrix.os }}
@@ -137,11 +137,11 @@ jobs:
     environment:
       name: github-pages
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           pattern: result-*
           path: results
@@ -171,8 +171,8 @@ jobs:
               gh issue create --title "$title" --body "$body" --label "nightly-failure"
             fi
           done
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
