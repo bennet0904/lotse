@@ -3,7 +3,7 @@
 #   docker build -t lotse .
 # deploy/compose.yaml runs it together with PostgreSQL.
 
-FROM node:22-bookworm-slim AS base
+FROM node:26-bookworm-slim AS base
 ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH
 RUN corepack enable
 
