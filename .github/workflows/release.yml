@@ -52,9 +52,24 @@ jobs:
       - run: pnpm build
       # Publishes every public package whose version is not on the registry yet: core, CLI and builder
       # share one version, adapters have their own.
-      - run: pnpm -r publish --access public --no-git-checks --provenance
+      - run: pnpm -r publish --access public --no-git-checks --provenance --report-summary && cat pnpm-publish-summary.json
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Every public package is on the registry
+        run: |
+          missing=0
+          for manifest in packages/*/package.json; do
+            read -r name version private < <(node -p "const p=require('./$manifest'); [p.name, p.version, Boolean(p.private)].join(' ')")
+            [ "$private" = true ] && continue
+            found=""
+            for attempt in 1 2 3 4 5 6; do
+              found="$(npm view "$name@$version" version 2>/dev/null || true)"
+              [ -n "$found" ] && break
+              sleep 10
+            done
+            if [ -z "$found" ]; then echo "::error::$name@$version is not on the npm registry"; missing=1; else echo "$name@$version published"; fi
+          done
+          exit $missing
       - uses: anchore/sbom-action@v0
         with:
           path: .
@@ -132,6 +147,12 @@ jobs:
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
+          # Secrets that are not configured arrive as empty strings; electron-builder would read an empty
+          # CSC_LINK as a path. Without a certificate, build unsigned installers instead.
+          for name in CSC_LINK CSC_KEY_PASSWORD APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID; do
+            if [ -z "${!name}" ]; then unset "$name"; fi
+          done
+          if [ -z "${CSC_LINK:-}" ]; then export CSC_IDENTITY_AUTO_DISCOVERY=false; fi
           cd packages/desktop
           node scripts/bundle.mjs
           notarize=false
