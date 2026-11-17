@@ -178,8 +178,15 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v7
+      # Only the installers and SBOMs; other jobs leave artifacts too (e.g. Docker build records).
       - uses: actions/download-artifact@v8
         with:
+          pattern: desktop-*
+          path: dist
+          merge-multiple: true
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: sbom-*
           path: dist
           merge-multiple: true
       - uses: anchore/sbom-action@v0
