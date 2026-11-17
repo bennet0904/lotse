@@ -1,0 +1,155 @@
+{
+  "adapter": "codeberg-pages",
+  "source": "documentation",
+  "notes": "Written from the Forgejo API reference. The Git push itself is replaced by a fake.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/user"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 7,
+            "login": "ada"
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/user"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "message": "token is required"
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/user/repos?limit=50"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/repos/ada/lotse-reference"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "not found"
+          }
+        }
+      }
+    ],
+    "deploy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/repos/ada/lotse-reference"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "not found"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://codeberg.org/api/v1/user/repos",
+          "body": {
+            "name": "lotse-reference",
+            "private": false
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": 2001,
+            "name": "lotse-reference",
+            "owner": {
+              "login": "ada"
+            },
+            "private": false,
+            "default_branch": "main",
+            "html_url": "https://codeberg.org/ada/lotse-reference",
+            "clone_url": "https://codeberg.org/ada/lotse-reference.git"
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/repos/ada/lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 2001,
+            "name": "lotse-reference",
+            "owner": {
+              "login": "ada"
+            },
+            "private": false,
+            "default_branch": "main",
+            "html_url": "https://codeberg.org/ada/lotse-reference",
+            "clone_url": "https://codeberg.org/ada/lotse-reference.git"
+          }
+        }
+      }
+    ],
+    "logs": [],
+    "set-env": [],
+    "destroy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/repos/ada/lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 2001,
+            "name": "lotse-reference",
+            "owner": {
+              "login": "ada"
+            },
+            "private": false,
+            "default_branch": "main",
+            "html_url": "https://codeberg.org/ada/lotse-reference",
+            "clone_url": "https://codeberg.org/ada/lotse-reference.git"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://codeberg.org/api/v1/repos/ada/lotse-reference/branches/pages"
+        },
+        "response": {
+          "status": 204
+        }
+      }
+    ]
+  }
+}

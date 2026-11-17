@@ -1,0 +1,524 @@
+{
+  "adapter": "netlify",
+  "source": "documentation",
+  "notes": "Written from the Netlify API reference (open-api.netlify.com), not recorded against a live account.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/user"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "usr_1",
+            "full_name": "Ada Lovelace",
+            "email": "ada@example.test"
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/user"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "code": 401,
+            "message": "Access Denied"
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites?per_page=1"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites?name=lotse-reference&filter=all"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ],
+    "deploy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites?name=lotse-reference&filter=all"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.netlify.com/api/v1/sites",
+          "body": {
+            "name": "lotse-reference"
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference",
+            "url": "http://lotse-reference.netlify.app",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "account_id": "acct_1",
+            "account_slug": "ada",
+            "custom_domain": null,
+            "domain_aliases": [],
+            "published_deploy": null
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites/site_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference",
+            "url": "http://lotse-reference.netlify.app",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "account_id": "acct_1",
+            "account_slug": "ada",
+            "custom_domain": null,
+            "domain_aliases": [],
+            "published_deploy": {
+              "id": "dep_1",
+              "state": "ready"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.netlify.com/api/v1/accounts/acct_1/env/*?site_id=site_1"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "code": 404,
+            "message": "Not Found"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.netlify.com/api/v1/accounts/acct_1/env?site_id=site_1"
+        },
+        "response": {
+          "status": 201,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.netlify.com/api/v1/sites/site_1/deploys",
+          "body": {
+            "files": {
+              "/index.html": "99669826553891f3b5cfae5754f4dc38e3ff851e",
+              "/health": "92a949fd41844e1bb8c6812cdea102708fde23a4"
+            },
+            "draft": false
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dep_1",
+            "state": "uploading",
+            "required": ["99669826553891f3b5cfae5754f4dc38e3ff851e", "92a949fd41844e1bb8c6812cdea102708fde23a4"]
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.netlify.com/api/v1/deploys/dep_1/files/index.html"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "f1"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.netlify.com/api/v1/deploys/dep_1/files/health"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "f2"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/deploys/dep_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dep_1",
+            "state": "processing"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/deploys/dep_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dep_1",
+            "state": "ready",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "deploy_ssl_url": "https://dep-1--lotse-reference.netlify.app"
+          }
+        }
+      }
+    ],
+    "deploy-failed": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites?name=lotse-reference&filter=all"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "site_1",
+              "name": "lotse-reference",
+              "url": "http://lotse-reference.netlify.app",
+              "ssl_url": "https://lotse-reference.netlify.app",
+              "account_id": "acct_1",
+              "account_slug": "ada",
+              "custom_domain": null,
+              "domain_aliases": [],
+              "published_deploy": {
+                "id": "dep_1",
+                "state": "ready"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites/site_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference",
+            "url": "http://lotse-reference.netlify.app",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "account_id": "acct_1",
+            "account_slug": "ada",
+            "custom_domain": null,
+            "domain_aliases": [],
+            "published_deploy": {
+              "id": "dep_1",
+              "state": "ready"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.netlify.com/api/v1/accounts/acct_1/env/*?site_id=site_1"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "code": 404,
+            "message": "Not Found"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.netlify.com/api/v1/accounts/acct_1/env?site_id=site_1"
+        },
+        "response": {
+          "status": 201,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.netlify.com/api/v1/sites/site_1/deploys"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dep_2",
+            "state": "uploading",
+            "required": []
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/deploys/dep_2"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dep_2",
+            "state": "error",
+            "error_message": "Deploy did not succeed: missing index"
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites/site_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference",
+            "url": "http://lotse-reference.netlify.app",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "account_id": "acct_1",
+            "account_slug": "ada",
+            "custom_domain": null,
+            "domain_aliases": [],
+            "published_deploy": {
+              "id": "dep_1",
+              "state": "ready"
+            }
+          }
+        }
+      }
+    ],
+    "logs": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites/site_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference",
+            "url": "http://lotse-reference.netlify.app",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "account_id": "acct_1",
+            "account_slug": "ada",
+            "custom_domain": null,
+            "domain_aliases": [],
+            "published_deploy": {
+              "id": "dep_1",
+              "state": "ready"
+            }
+          }
+        }
+      }
+    ],
+    "set-env": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites/site_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference",
+            "url": "http://lotse-reference.netlify.app",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "account_id": "acct_1",
+            "account_slug": "ada",
+            "custom_domain": null,
+            "domain_aliases": [],
+            "published_deploy": {
+              "id": "dep_1",
+              "state": "ready"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.netlify.com/api/v1/accounts/acct_1/env/APP_NAME?site_id=site_1",
+          "body": {
+            "key": "APP_NAME",
+            "is_secret": false
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "key": "APP_NAME"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.netlify.com/api/v1/accounts/acct_1/env/API_KEY?site_id=site_1",
+          "body": {
+            "key": "API_KEY",
+            "is_secret": true
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "key": "API_KEY"
+          }
+        }
+      }
+    ],
+    "add-domain": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites/site_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference",
+            "url": "http://lotse-reference.netlify.app",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "account_id": "acct_1",
+            "account_slug": "ada",
+            "custom_domain": null,
+            "domain_aliases": [],
+            "published_deploy": {
+              "id": "dep_1",
+              "state": "ready"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PATCH",
+          "url": "https://api.netlify.com/api/v1/sites/site_1",
+          "body": {
+            "custom_domain": "app.example.com"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference",
+            "url": "http://lotse-reference.netlify.app",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "account_id": "acct_1",
+            "account_slug": "ada",
+            "custom_domain": "app.example.com",
+            "domain_aliases": [],
+            "published_deploy": {
+              "id": "dep_1",
+              "state": "ready"
+            }
+          }
+        }
+      }
+    ],
+    "rollback": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.netlify.com/api/v1/sites/site_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference",
+            "url": "http://lotse-reference.netlify.app",
+            "ssl_url": "https://lotse-reference.netlify.app",
+            "account_id": "acct_1",
+            "account_slug": "ada",
+            "custom_domain": null,
+            "domain_aliases": [],
+            "published_deploy": {
+              "id": "dep_1",
+              "state": "ready"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.netlify.com/api/v1/sites/site_1/deploys/dep_0/restore"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dep_0",
+            "state": "ready"
+          }
+        }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.netlify.com/api/v1/sites/site_1"
+        },
+        "response": {
+          "status": 204
+        }
+      }
+    ]
+  }
+}

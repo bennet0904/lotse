@@ -1,0 +1,52 @@
+{
+  "name": "@lotse/server",
+  "version": "0.1.0",
+  "description": "Lotse builder server: HTTP and WebSocket API, job queue, persistence, users",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.tsbuildinfo"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.8",
+    "@lotse/adapter-github": "workspace:*",
+    "@lotse/adapter-ssh": "workspace:*",
+    "@lotse/adapters": "workspace:*",
+    "@lotse/agent": "workspace:*",
+    "@lotse/build": "workspace:*",
+    "@lotse/core": "workspace:*",
+    "@lotse/sandbox": "workspace:*",
+    "@lotse/secrets": "workspace:*",
+    "@lotse/stacks": "workspace:*",
+    "better-sqlite3": "^13.2.0",
+    "drizzle-orm": "^0.45.4",
+    "hono": "^4.13.18",
+    "pg": "^8.23.1",
+    "ws": "^8.23.0",
+    "zod": "^4.6.7"
+  },
+  "bin": {
+    "lotse-server": "./dist/main.js"
+  },
+  "devDependencies": {
+    "@lotse/adapter-testkit": "workspace:*",
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/pg": "^8.23.1",
+    "@types/ws": "^8.18.2"
+  }
+}

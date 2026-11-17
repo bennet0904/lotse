@@ -1,0 +1,785 @@
+{
+  "adapter": "neon",
+  "source": "documentation",
+  "notes": "Written from the Neon API reference (https://neon.com/api_spec/release/v2.json), not recorded against a live account.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/users/me"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "8a9f604e-d04e-4f4d-a4d9-5c6f3e1b7a10",
+            "email": "ada@example.test",
+            "login": "ada",
+            "name": "Ada",
+            "last_name": "Lovelace",
+            "image": "",
+            "projects_limit": 100,
+            "branches_limit": 10,
+            "max_autoscaling_limit": 2,
+            "plan": "free_v3",
+            "auth_accounts": [
+              {
+                "email": "ada@example.test",
+                "image": "",
+                "login": "ada",
+                "name": "Ada Lovelace",
+                "provider": "github"
+              }
+            ],
+            "active_seconds_limit": 0,
+            "billing_account": null
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/users/me/organizations"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "organizations": [
+              {
+                "id": "org-cool-darkness-12345678",
+                "name": "Ada Lovelace",
+                "handle": "ada-lovelace-org-cool-darkness-12345678",
+                "plan": "free_v3",
+                "created_at": "2026-01-10T08:00:00Z",
+                "managed_by": "console",
+                "updated_at": "2026-01-10T08:00:00Z"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/users/me"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "request_id": "c1c7a1f2-0b1b-4c9d-9c62-0d3e6f1a2b3c",
+            "code": "",
+            "message": "authentication token is not valid"
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects?limit=1&org_id=org-cool-darkness-12345678"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "projects": [],
+            "pagination": {}
+          }
+        }
+      }
+    ],
+    "provision": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects?search=lotse-reference-db&org_id=org-cool-darkness-12345678"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "projects": [],
+            "pagination": {}
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://console.neon.tech/api/v2/projects",
+          "body": {
+            "project": {
+              "name": "lotse-reference-db",
+              "org_id": "org-cool-darkness-12345678",
+              "branch": {
+                "database_name": "app",
+                "role_name": "app_owner"
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "project": {
+              "id": "shiny-wind-028834",
+              "platform_id": "aws",
+              "region_id": "aws-eu-central-1",
+              "name": "lotse-reference-db",
+              "provisioner": "k8s-neonvm",
+              "pg_version": 17,
+              "proxy_host": "eu-central-1.aws.neon.tech",
+              "store_passwords": true,
+              "creation_source": "console",
+              "history_retention_seconds": 86400,
+              "created_at": "2026-11-16T09:00:00Z",
+              "updated_at": "2026-11-16T09:00:00Z",
+              "owner_id": "org-cool-darkness-12345678",
+              "org_id": "org-cool-darkness-12345678"
+            },
+            "connection_uris": [
+              {
+                "connection_uri": "postgresql://app_owner:npg_Jq7RhT2kVxAw@ep-cool-darkness-123456.eu-central-1.aws.neon.tech/app?sslmode=require",
+                "connection_parameters": {
+                  "database": "app",
+                  "password": "npg_Jq7RhT2kVxAw",
+                  "role": "app_owner",
+                  "host": "ep-cool-darkness-123456.eu-central-1.aws.neon.tech",
+                  "pooler_host": "ep-cool-darkness-123456-pooler.eu-central-1.aws.neon.tech"
+                }
+              }
+            ],
+            "roles": [
+              {
+                "branch_id": "br-aged-salad-637688",
+                "name": "app_owner",
+                "password": "npg_Jq7RhT2kVxAw",
+                "protected": false,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z"
+              }
+            ],
+            "databases": [
+              {
+                "id": 1138408,
+                "branch_id": "br-aged-salad-637688",
+                "name": "app",
+                "owner_name": "app_owner",
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z"
+              }
+            ],
+            "operations": [
+              {
+                "id": "22acbb37-209b-4b90-a39c-8460090e1329",
+                "project_id": "shiny-wind-028834",
+                "branch_id": "br-aged-salad-637688",
+                "endpoint_id": "ep-cool-darkness-123456",
+                "action": "create_timeline",
+                "status": "running",
+                "failures_count": 0,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:01Z",
+                "total_duration_ms": 0
+              },
+              {
+                "id": "055b17e6-ffe3-47ab-b545-cfd7db6fd8b8",
+                "project_id": "shiny-wind-028834",
+                "branch_id": "br-aged-salad-637688",
+                "endpoint_id": "ep-cool-darkness-123456",
+                "action": "start_compute",
+                "status": "scheduling",
+                "failures_count": 0,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:01Z",
+                "total_duration_ms": 0
+              }
+            ],
+            "branch": {
+              "id": "br-aged-salad-637688",
+              "project_id": "shiny-wind-028834",
+              "name": "main",
+              "current_state": "init",
+              "pending_state": "ready",
+              "default": true,
+              "protected": false,
+              "created_at": "2026-11-16T09:00:00Z",
+              "updated_at": "2026-11-16T09:00:00Z"
+            },
+            "endpoints": [
+              {
+                "host": "ep-cool-darkness-123456.eu-central-1.aws.neon.tech",
+                "id": "ep-cool-darkness-123456",
+                "project_id": "shiny-wind-028834",
+                "branch_id": "br-aged-salad-637688",
+                "region_id": "aws-eu-central-1",
+                "type": "read_write",
+                "current_state": "init",
+                "pending_state": "active",
+                "pooler_enabled": false,
+                "pooler_mode": "transaction",
+                "disabled": false,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z",
+                "proxy_host": "eu-central-1.aws.neon.tech"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/operations/22acbb37-209b-4b90-a39c-8460090e1329"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "operation": {
+              "id": "22acbb37-209b-4b90-a39c-8460090e1329",
+              "project_id": "shiny-wind-028834",
+              "branch_id": "br-aged-salad-637688",
+              "endpoint_id": "ep-cool-darkness-123456",
+              "action": "create_timeline",
+              "status": "running",
+              "failures_count": 0,
+              "created_at": "2026-11-16T09:00:00Z",
+              "updated_at": "2026-11-16T09:00:01Z",
+              "total_duration_ms": 0
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/operations/22acbb37-209b-4b90-a39c-8460090e1329"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "operation": {
+              "id": "22acbb37-209b-4b90-a39c-8460090e1329",
+              "project_id": "shiny-wind-028834",
+              "branch_id": "br-aged-salad-637688",
+              "endpoint_id": "ep-cool-darkness-123456",
+              "action": "create_timeline",
+              "status": "finished",
+              "failures_count": 0,
+              "created_at": "2026-11-16T09:00:00Z",
+              "updated_at": "2026-11-16T09:00:01Z",
+              "total_duration_ms": 0
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/operations/055b17e6-ffe3-47ab-b545-cfd7db6fd8b8"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "operation": {
+              "id": "055b17e6-ffe3-47ab-b545-cfd7db6fd8b8",
+              "project_id": "shiny-wind-028834",
+              "branch_id": "br-aged-salad-637688",
+              "endpoint_id": "ep-cool-darkness-123456",
+              "action": "start_compute",
+              "status": "finished",
+              "failures_count": 0,
+              "created_at": "2026-11-16T09:00:00Z",
+              "updated_at": "2026-11-16T09:00:01Z",
+              "total_duration_ms": 0
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/connection_uri?database_name=app&role_name=app_owner&pooled=true"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "uri": "postgresql://app_owner:npg_Jq7RhT2kVxAw@ep-cool-darkness-123456-pooler.eu-central-1.aws.neon.tech/app?sslmode=require"
+          }
+        }
+      }
+    ],
+    "provision-existing": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects?search=lotse-reference-db&org_id=org-cool-darkness-12345678"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "projects": [
+              {
+                "id": "old-leaf-111111",
+                "platform_id": "aws",
+                "region_id": "aws-eu-central-1",
+                "name": "lotse-reference-db-old",
+                "provisioner": "k8s-neonvm",
+                "pg_version": 17,
+                "proxy_host": "eu-central-1.aws.neon.tech",
+                "store_passwords": true,
+                "creation_source": "console",
+                "history_retention_seconds": 86400,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z",
+                "owner_id": "org-cool-darkness-12345678",
+                "org_id": "org-cool-darkness-12345678"
+              },
+              {
+                "id": "shiny-wind-028834",
+                "platform_id": "aws",
+                "region_id": "aws-eu-central-1",
+                "name": "lotse-reference-db",
+                "provisioner": "k8s-neonvm",
+                "pg_version": 17,
+                "proxy_host": "eu-central-1.aws.neon.tech",
+                "store_passwords": true,
+                "creation_source": "console",
+                "history_retention_seconds": 86400,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z",
+                "owner_id": "org-cool-darkness-12345678",
+                "org_id": "org-cool-darkness-12345678"
+              }
+            ],
+            "pagination": {}
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/connection_uri?database_name=app&role_name=app_owner&pooled=false"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "uri": "postgresql://app_owner:npg_Jq7RhT2kVxAw@ep-cool-darkness-123456.eu-central-1.aws.neon.tech/app?sslmode=require"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/connection_uri?database_name=app&role_name=app_owner&pooled=true"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "uri": "postgresql://app_owner:npg_Jq7RhT2kVxAw@ep-cool-darkness-123456-pooler.eu-central-1.aws.neon.tech/app?sslmode=require"
+          }
+        }
+      }
+    ],
+    "provision-failed": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects?search=lotse-reference-db&org_id=org-cool-darkness-12345678"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "projects": [],
+            "pagination": {}
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://console.neon.tech/api/v2/projects"
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "project": {
+              "id": "shiny-wind-028834",
+              "platform_id": "aws",
+              "region_id": "aws-eu-central-1",
+              "name": "lotse-reference-db",
+              "provisioner": "k8s-neonvm",
+              "pg_version": 17,
+              "proxy_host": "eu-central-1.aws.neon.tech",
+              "store_passwords": true,
+              "creation_source": "console",
+              "history_retention_seconds": 86400,
+              "created_at": "2026-11-16T09:00:00Z",
+              "updated_at": "2026-11-16T09:00:00Z",
+              "owner_id": "org-cool-darkness-12345678",
+              "org_id": "org-cool-darkness-12345678"
+            },
+            "connection_uris": [
+              {
+                "connection_uri": "postgresql://app_owner:npg_Jq7RhT2kVxAw@ep-cool-darkness-123456.eu-central-1.aws.neon.tech/app?sslmode=require",
+                "connection_parameters": {
+                  "database": "app",
+                  "password": "npg_Jq7RhT2kVxAw",
+                  "role": "app_owner",
+                  "host": "ep-cool-darkness-123456.eu-central-1.aws.neon.tech",
+                  "pooler_host": "ep-cool-darkness-123456-pooler.eu-central-1.aws.neon.tech"
+                }
+              }
+            ],
+            "roles": [
+              {
+                "branch_id": "br-aged-salad-637688",
+                "name": "app_owner",
+                "password": "npg_Jq7RhT2kVxAw",
+                "protected": false,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z"
+              }
+            ],
+            "databases": [
+              {
+                "id": 1138408,
+                "branch_id": "br-aged-salad-637688",
+                "name": "app",
+                "owner_name": "app_owner",
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z"
+              }
+            ],
+            "operations": [
+              {
+                "id": "22acbb37-209b-4b90-a39c-8460090e1329",
+                "project_id": "shiny-wind-028834",
+                "branch_id": "br-aged-salad-637688",
+                "endpoint_id": "ep-cool-darkness-123456",
+                "action": "create_timeline",
+                "status": "running",
+                "failures_count": 0,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:01Z",
+                "total_duration_ms": 0
+              },
+              {
+                "id": "055b17e6-ffe3-47ab-b545-cfd7db6fd8b8",
+                "project_id": "shiny-wind-028834",
+                "branch_id": "br-aged-salad-637688",
+                "endpoint_id": "ep-cool-darkness-123456",
+                "action": "start_compute",
+                "status": "scheduling",
+                "failures_count": 0,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:01Z",
+                "total_duration_ms": 0
+              }
+            ],
+            "branch": {
+              "id": "br-aged-salad-637688",
+              "project_id": "shiny-wind-028834",
+              "name": "main",
+              "current_state": "init",
+              "pending_state": "ready",
+              "default": true,
+              "protected": false,
+              "created_at": "2026-11-16T09:00:00Z",
+              "updated_at": "2026-11-16T09:00:00Z"
+            },
+            "endpoints": [
+              {
+                "host": "ep-cool-darkness-123456.eu-central-1.aws.neon.tech",
+                "id": "ep-cool-darkness-123456",
+                "project_id": "shiny-wind-028834",
+                "branch_id": "br-aged-salad-637688",
+                "region_id": "aws-eu-central-1",
+                "type": "read_write",
+                "current_state": "init",
+                "pending_state": "active",
+                "pooler_enabled": false,
+                "pooler_mode": "transaction",
+                "disabled": false,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z",
+                "proxy_host": "eu-central-1.aws.neon.tech"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/operations/22acbb37-209b-4b90-a39c-8460090e1329"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "operation": {
+              "id": "22acbb37-209b-4b90-a39c-8460090e1329",
+              "project_id": "shiny-wind-028834",
+              "branch_id": "br-aged-salad-637688",
+              "endpoint_id": "ep-cool-darkness-123456",
+              "action": "create_timeline",
+              "status": "failed",
+              "failures_count": 0,
+              "created_at": "2026-11-16T09:00:00Z",
+              "updated_at": "2026-11-16T09:00:01Z",
+              "total_duration_ms": 0,
+              "error": "could not create the timeline"
+            }
+          }
+        }
+      }
+    ],
+    "provision-limit": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects?search=lotse-reference-db&org_id=org-cool-darkness-12345678"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "projects": [],
+            "pagination": {}
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://console.neon.tech/api/v2/projects"
+        },
+        "response": {
+          "status": 422,
+          "body": {
+            "request_id": "5f0e8a55-6a7b-4a41-9a52-0b0b6a3f7c11",
+            "code": "PROJECTS_LIMIT_EXCEEDED",
+            "message": "projects limit exceeded"
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/endpoints"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "endpoints": [
+              {
+                "host": "ep-cool-darkness-123456.eu-central-1.aws.neon.tech",
+                "id": "ep-cool-darkness-123456",
+                "project_id": "shiny-wind-028834",
+                "branch_id": "br-aged-salad-637688",
+                "region_id": "aws-eu-central-1",
+                "type": "read_write",
+                "current_state": "idle",
+                "pending_state": null,
+                "pooler_enabled": false,
+                "pooler_mode": "transaction",
+                "disabled": false,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z",
+                "proxy_host": "eu-central-1.aws.neon.tech"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "status-creating": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/endpoints"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "endpoints": [
+              {
+                "host": "ep-cool-darkness-123456.eu-central-1.aws.neon.tech",
+                "id": "ep-cool-darkness-123456",
+                "project_id": "shiny-wind-028834",
+                "branch_id": "br-aged-salad-637688",
+                "region_id": "aws-eu-central-1",
+                "type": "read_write",
+                "current_state": "init",
+                "pending_state": "active",
+                "pooler_enabled": false,
+                "pooler_mode": "transaction",
+                "disabled": false,
+                "created_at": "2026-11-16T09:00:00Z",
+                "updated_at": "2026-11-16T09:00:00Z",
+                "proxy_host": "eu-central-1.aws.neon.tech"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "status-gone": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834/endpoints"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "request_id": "0c4f0f0a-2b0f-4c50-8a4c-4f6a35f3a001",
+            "code": "",
+            "message": "project not found"
+          }
+        }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "project": {
+              "id": "shiny-wind-028834",
+              "platform_id": "aws",
+              "region_id": "aws-eu-central-1",
+              "name": "lotse-reference-db",
+              "provisioner": "k8s-neonvm",
+              "pg_version": 17,
+              "proxy_host": "eu-central-1.aws.neon.tech",
+              "store_passwords": true,
+              "creation_source": "console",
+              "history_retention_seconds": 86400,
+              "created_at": "2026-11-16T09:00:00Z",
+              "updated_at": "2026-11-16T09:00:00Z",
+              "owner_id": "org-cool-darkness-12345678",
+              "org_id": "org-cool-darkness-12345678"
+            }
+          }
+        }
+      }
+    ],
+    "destroy-gone": [
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://console.neon.tech/api/v2/projects/shiny-wind-028834"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "request_id": "0c4f0f0a-2b0f-4c50-8a4c-4f6a35f3a002",
+            "code": "",
+            "message": "project not found"
+          }
+        }
+      }
+    ],
+    "connect-two-orgs": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/users/me"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "8a9f604e-d04e-4f4d-a4d9-5c6f3e1b7a10",
+            "email": "ada@example.test",
+            "login": "ada",
+            "name": "Ada",
+            "last_name": "Lovelace",
+            "image": "",
+            "projects_limit": 100,
+            "branches_limit": 10,
+            "max_autoscaling_limit": 2,
+            "plan": "free_v3",
+            "auth_accounts": [
+              {
+                "email": "ada@example.test",
+                "image": "",
+                "login": "ada",
+                "name": "Ada Lovelace",
+                "provider": "github"
+              }
+            ],
+            "active_seconds_limit": 0,
+            "billing_account": null
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/users/me/organizations"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "organizations": [
+              {
+                "id": "org-cool-darkness-12345678",
+                "name": "Ada Lovelace",
+                "handle": "ada-lovelace-org-cool-darkness-12345678",
+                "plan": "free_v3",
+                "created_at": "2026-01-10T08:00:00Z",
+                "managed_by": "console",
+                "updated_at": "2026-01-10T08:00:00Z"
+              },
+              {
+                "id": "org-quiet-river-87654321",
+                "name": "Analytical Engines Ltd",
+                "handle": "ada-lovelace-org-cool-darkness-12345678",
+                "plan": "free_v3",
+                "created_at": "2026-01-10T08:00:00Z",
+                "managed_by": "console",
+                "updated_at": "2026-01-10T08:00:00Z"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "connect-org-key": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/users/me"
+        },
+        "response": {
+          "status": 403,
+          "body": {
+            "request_id": "0c4f0f0a-2b0f-4c50-8a4c-4f6a35f3a003",
+            "code": "",
+            "message": "this endpoint is not available for organization API keys"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://console.neon.tech/api/v2/projects?limit=1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "projects": [],
+            "pagination": {}
+          }
+        }
+      }
+    ]
+  }
+}

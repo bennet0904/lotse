@@ -1,0 +1,36 @@
+{
+  "name": "@lotse/adapter-testkit",
+  "version": "0.1.0",
+  "description": "Shared contract test suite and HTTP replay tools for Lotse adapters",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.tsbuildinfo"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@lotse/build": "workspace:*",
+    "@lotse/core": "workspace:*",
+    "pg": "^8.23.1"
+  },
+  "peerDependencies": {
+    "vitest": ">=4"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.23.1"
+  }
+}

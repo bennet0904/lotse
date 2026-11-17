@@ -1,0 +1,34 @@
+{
+  "name": "@lotse/agent",
+  "version": "0.1.0",
+  "description": "LLM integration, prompt pipeline and model tools for the Lotse app builder",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.tsbuildinfo"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.105",
+    "@ai-sdk/openai": "^4.0.118",
+    "@ai-sdk/openai-compatible": "^3.0.92",
+    "@ai-sdk/provider": "^4.0.38",
+    "@lotse/core": "workspace:*",
+    "ai": "^7.0.173",
+    "zod": "^4.6.7"
+  }
+}

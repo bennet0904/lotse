@@ -1,0 +1,247 @@
+{
+  "adapter": "coolify",
+  "source": "documentation",
+  "notes": "Written from Coolify's OpenAPI description (coollabsio/coolify, openapi.json), not recorded against a live instance.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/team" },
+        "response": { "status": 200, "body": { "id": 0, "name": "Root Team" } }
+      },
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/servers" },
+        "response": { "status": 200, "body": [{ "uuid": "srv1", "name": "localhost", "ip": "203.0.113.20" }] }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/team" },
+        "response": { "status": 401, "body": { "message": "Unauthenticated." } }
+      }
+    ],
+    "verify": [
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/team" },
+        "response": { "status": 200, "body": { "id": 0, "name": "Root Team" } }
+      },
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/projects" },
+        "response": { "status": 200, "body": [] }
+      },
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/servers" },
+        "response": { "status": 200, "body": [{ "uuid": "srv1", "name": "localhost" }] }
+      }
+    ],
+    "plan": [
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/applications" },
+        "response": { "status": 200, "body": [] }
+      }
+    ],
+    "deploy": [
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/applications" },
+        "response": { "status": 200, "body": [] }
+      },
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/projects" },
+        "response": { "status": 200, "body": [{ "uuid": "other", "name": "website" }] }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://coolify.example.test/api/v1/projects",
+          "body": { "name": "lotse" }
+        },
+        "response": { "status": 201, "body": { "uuid": "prj1" } }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://coolify.example.test/api/v1/applications/dockerimage",
+          "body": {
+            "project_uuid": "prj1",
+            "server_uuid": "srv1",
+            "environment_name": "production",
+            "name": "lotse-reference",
+            "docker_registry_image_name": "registry.example.test/acme/lotse-reference",
+            "docker_registry_image_tag": "contract",
+            "ports_exposes": "3000",
+            "health_check_enabled": true,
+            "health_check_path": "/health",
+            "instant_deploy": false
+          }
+        },
+        "response": { "status": 201, "body": { "uuid": "app1" } }
+      },
+      {
+        "request": {
+          "method": "PATCH",
+          "url": "https://coolify.example.test/api/v1/applications/app1/envs/bulk",
+          "body": {
+            "data": [
+              { "key": "APP_NAME", "value": "Reference", "is_shown_once": false },
+              { "key": "API_KEY", "is_shown_once": true }
+            ]
+          }
+        },
+        "response": { "status": 201, "body": [] }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://coolify.example.test/api/v1/deploy?uuid=app1&docker_tag=contract"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "deployments": [
+              {
+                "message": "Application lotse-reference deployment queued.",
+                "resource_uuid": "app1",
+                "deployment_uuid": "dep1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/deployments/dep1" },
+        "response": { "status": 200, "body": { "deployment_uuid": "dep1", "status": "in_progress" } }
+      },
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/deployments/dep1" },
+        "response": { "status": 200, "body": { "deployment_uuid": "dep1", "status": "finished", "commit": "HEAD" } }
+      },
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/applications/app1" },
+        "response": {
+          "status": 200,
+          "body": {
+            "uuid": "app1",
+            "name": "lotse-reference",
+            "fqdn": "http://lotse-reference.203.0.113.20.sslip.io",
+            "status": "running:healthy"
+          }
+        }
+      }
+    ],
+    "deploy-failed": [
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/applications" },
+        "response": { "status": 200, "body": [{ "uuid": "app1", "name": "lotse-reference" }] }
+      },
+      {
+        "request": {
+          "method": "PATCH",
+          "url": "https://coolify.example.test/api/v1/applications/app1",
+          "body": { "docker_registry_image_tag": "contract" }
+        },
+        "response": { "status": 200, "body": { "uuid": "app1" } }
+      },
+      {
+        "request": { "method": "PATCH", "url": "https://coolify.example.test/api/v1/applications/app1/envs/bulk" },
+        "response": { "status": 201, "body": [] }
+      },
+      {
+        "request": { "method": "POST", "url": "https://coolify.example.test/api/v1/deploy?uuid=app1" },
+        "response": {
+          "status": 200,
+          "body": { "deployments": [{ "message": "queued", "resource_uuid": "app1", "deployment_uuid": "dep2" }] }
+        }
+      },
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/deployments/dep2" },
+        "response": {
+          "status": 200,
+          "body": {
+            "deployment_uuid": "dep2",
+            "status": "failed",
+            "logs": "[{\"output\":\"Pulling image\",\"hidden\":false},{\"output\":\"manifest unknown\",\"hidden\":false}]"
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/applications/app1" },
+        "response": {
+          "status": 200,
+          "body": {
+            "uuid": "app1",
+            "name": "lotse-reference",
+            "fqdn": "http://lotse-reference.203.0.113.20.sslip.io",
+            "status": "running:healthy"
+          }
+        }
+      }
+    ],
+    "logs": [
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/applications/app1/logs?lines=50" },
+        "response": {
+          "status": 200,
+          "body": {
+            "logs": "2026-11-16T12:00:01.000Z reference app version 1 listening on 3000\n2026-11-16T12:00:05.000Z GET /health 200\n"
+          }
+        }
+      }
+    ],
+    "set-env": [
+      {
+        "request": {
+          "method": "PATCH",
+          "url": "https://coolify.example.test/api/v1/applications/app1/envs/bulk",
+          "body": { "data": [{ "key": "APP_NAME" }, { "key": "API_KEY", "is_shown_once": true }] }
+        },
+        "response": { "status": 201, "body": [] }
+      }
+    ],
+    "add-domain": [
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/applications/app1" },
+        "response": {
+          "status": 200,
+          "body": {
+            "uuid": "app1",
+            "name": "lotse-reference",
+            "fqdn": "http://lotse-reference.203.0.113.20.sslip.io",
+            "status": "running:healthy"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PATCH",
+          "url": "https://coolify.example.test/api/v1/applications/app1",
+          "body": { "domains": "http://lotse-reference.203.0.113.20.sslip.io,https://app.example.com" }
+        },
+        "response": { "status": 200, "body": { "uuid": "app1" } }
+      }
+    ],
+    "rollback": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://coolify.example.test/api/v1/applications/app1/rollback",
+          "body": { "commit": "v0" }
+        },
+        "response": { "status": 200, "body": { "message": "Rollback queued.", "deployment_uuid": "dep3" } }
+      },
+      {
+        "request": { "method": "GET", "url": "https://coolify.example.test/api/v1/deployments/dep3" },
+        "response": { "status": 200, "body": { "deployment_uuid": "dep3", "status": "finished" } }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://coolify.example.test/api/v1/applications/app1?delete_volumes=true"
+        },
+        "response": { "status": 200, "body": { "message": "Application deleted." } }
+      }
+    ]
+  }
+}

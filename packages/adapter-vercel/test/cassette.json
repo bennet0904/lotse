@@ -1,0 +1,287 @@
+{
+  "adapter": "vercel",
+  "source": "documentation",
+  "notes": "Written from the Vercel REST API reference (vercel.com/docs/rest-api), not recorded against a live account. Re-record with LOTSE_RECORD=1 and LOTSE_LIVE_VERCEL_TOKEN.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v2/user" },
+        "response": {
+          "status": 200,
+          "body": { "user": { "id": "usr_1", "username": "ada", "email": "ada@example.test", "defaultTeamId": null } }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v2/user" },
+        "response": {
+          "status": 403,
+          "body": { "error": { "code": "forbidden", "message": "Not authorized", "invalidToken": true } }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v2/user" },
+        "response": { "status": 200, "body": { "user": { "id": "usr_1", "username": "ada" } } }
+      },
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v9/projects?limit=1" },
+        "response": {
+          "status": 200,
+          "body": { "projects": [], "pagination": { "count": 0, "next": null, "prev": null } }
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v9/projects/lotse-reference" },
+        "response": { "status": 404, "body": { "error": { "code": "not_found", "message": "Project not found." } } }
+      }
+    ],
+    "deploy": [
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v9/projects/lotse-reference" },
+        "response": { "status": 404, "body": { "error": { "code": "not_found", "message": "Project not found." } } }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.vercel.com/v11/projects",
+          "body": { "name": "lotse-reference" }
+        },
+        "response": { "status": 200, "body": { "id": "prj_1", "name": "lotse-reference", "accountId": "usr_1" } }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.vercel.com/v10/projects/prj_1/env?upsert=true",
+          "body": [
+            { "key": "APP_NAME", "value": "Reference", "type": "plain", "target": ["production", "preview"] },
+            { "key": "API_KEY", "type": "sensitive" }
+          ]
+        },
+        "response": {
+          "status": 201,
+          "body": { "created": [{ "key": "APP_NAME" }, { "key": "API_KEY" }], "failed": [] }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.vercel.com/v13/deployments?skipAutoDetectionConfirmation=1",
+          "body": {
+            "name": "lotse-reference",
+            "project": "prj_1",
+            "target": "production",
+            "files": [
+              { "file": "health", "sha": "92a949fd41844e1bb8c6812cdea102708fde23a4", "size": 3 },
+              { "file": "index.html", "sha": "99669826553891f3b5cfae5754f4dc38e3ff851e", "size": 68 }
+            ]
+          }
+        },
+        "response": {
+          "status": 400,
+          "body": {
+            "error": {
+              "code": "missing_files",
+              "message": "Missing files",
+              "missing": ["92a949fd41844e1bb8c6812cdea102708fde23a4", "99669826553891f3b5cfae5754f4dc38e3ff851e"]
+            }
+          }
+        }
+      },
+      {
+        "request": { "method": "POST", "url": "https://api.vercel.com/v2/files" },
+        "response": { "status": 200, "body": { "urls": [] } }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.vercel.com/v13/deployments?skipAutoDetectionConfirmation=1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dpl_1",
+            "url": "lotse-reference-9f3k2.vercel.app",
+            "name": "lotse-reference",
+            "projectId": "prj_1",
+            "readyState": "QUEUED",
+            "aliasAssigned": false,
+            "createdAt": 1794830000000,
+            "inspectorUrl": "https://vercel.com/ada/lotse-reference/dpl_1"
+          }
+        }
+      },
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v13/deployments/dpl_1" },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dpl_1",
+            "url": "lotse-reference-9f3k2.vercel.app",
+            "readyState": "BUILDING",
+            "createdAt": 1794830000000
+          }
+        }
+      },
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v13/deployments/dpl_1" },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dpl_1",
+            "url": "lotse-reference-9f3k2.vercel.app",
+            "readyState": "READY",
+            "alias": ["lotse-reference.vercel.app"],
+            "aliasAssigned": true,
+            "createdAt": 1794830000000
+          }
+        }
+      }
+    ],
+    "deploy-failed": [
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v9/projects/lotse-reference" },
+        "response": { "status": 200, "body": { "id": "prj_1", "name": "lotse-reference" } }
+      },
+      {
+        "request": { "method": "POST", "url": "https://api.vercel.com/v10/projects/prj_1/env?upsert=true" },
+        "response": { "status": 201, "body": { "created": [], "failed": [] } }
+      },
+      {
+        "request": { "method": "POST", "url": "https://api.vercel.com/v13/deployments" },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dpl_2",
+            "url": "lotse-reference-7x1aa.vercel.app",
+            "readyState": "QUEUED",
+            "createdAt": 1794830100000
+          }
+        }
+      },
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v13/deployments/dpl_2" },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "dpl_2",
+            "url": "lotse-reference-7x1aa.vercel.app",
+            "readyState": "ERROR",
+            "errorMessage": "Command \"npm run build\" exited with 1"
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v9/projects/prj_1" },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "prj_1",
+            "name": "lotse-reference",
+            "targets": {
+              "production": {
+                "id": "dpl_1",
+                "readyState": "READY",
+                "alias": ["lotse-reference.vercel.app"],
+                "url": "lotse-reference-9f3k2.vercel.app",
+                "createdAt": 1794830000000
+              }
+            }
+          }
+        }
+      }
+    ],
+    "logs": [
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v9/projects/prj_1" },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "prj_1",
+            "name": "lotse-reference",
+            "targets": { "production": { "id": "dpl_1", "readyState": "READY" } }
+          }
+        }
+      },
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v3/deployments/dpl_1/events?builds=1&limit=50" },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "type": "stdout",
+              "created": 1794830001000,
+              "payload": { "text": "Build Completed in /vercel/output [12ms]", "date": 1794830001000 }
+            },
+            {
+              "type": "stdout",
+              "created": 1794830000500,
+              "payload": { "text": "Running build in Washington, D.C., USA (East) – iad1", "date": 1794830000500 }
+            },
+            {
+              "type": "stderr",
+              "created": 1794830001500,
+              "payload": { "text": "Warning: no framework detected", "date": 1794830001500 }
+            }
+          ]
+        }
+      }
+    ],
+    "set-env": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.vercel.com/v10/projects/prj_1/env?upsert=true",
+          "body": [{ "key": "APP_NAME", "type": "plain" }, { "key": "API_KEY", "type": "sensitive" }]
+        },
+        "response": {
+          "status": 201,
+          "body": { "created": [{ "key": "APP_NAME" }, { "key": "API_KEY" }], "failed": [] }
+        }
+      }
+    ],
+    "add-domain": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.vercel.com/v10/projects/prj_1/domains",
+          "body": { "name": "app.example.com" }
+        },
+        "response": {
+          "status": 200,
+          "body": { "name": "app.example.com", "apexName": "example.com", "projectId": "prj_1", "verified": true }
+        }
+      },
+      {
+        "request": { "method": "GET", "url": "https://api.vercel.com/v6/domains/app.example.com/config" },
+        "response": {
+          "status": 200,
+          "body": {
+            "configuredBy": null,
+            "misconfigured": true,
+            "recommendedIPv4": [{ "rank": 1, "value": ["76.76.21.21"] }],
+            "recommendedCNAME": [{ "rank": 1, "value": "cname.vercel-dns.com" }]
+          }
+        }
+      }
+    ],
+    "rollback": [
+      {
+        "request": { "method": "POST", "url": "https://api.vercel.com/v1/projects/prj_1/rollback/dpl_0" },
+        "response": { "status": 201 }
+      }
+    ],
+    "destroy": [
+      {
+        "request": { "method": "DELETE", "url": "https://api.vercel.com/v9/projects/prj_1" },
+        "response": { "status": 204 }
+      }
+    ]
+  }
+}

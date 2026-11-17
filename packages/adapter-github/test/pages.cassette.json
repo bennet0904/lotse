@@ -1,0 +1,251 @@
+{
+  "adapter": "github-pages",
+  "source": "documentation",
+  "notes": "Written from the GitHub REST API reference (Pages endpoints), not recorded against a live account. The Git push itself is replaced by a fake.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/user"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 42,
+            "login": "ada"
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/user"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "message": "Bad credentials",
+            "status": "401"
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/user/repos"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ada/lotse-reference"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "Not Found",
+            "status": "404"
+          }
+        }
+      }
+    ],
+    "deploy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ada/lotse-reference"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "Not Found",
+            "status": "404"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.github.com/user/repos",
+          "body": {
+            "name": "lotse-reference",
+            "private": false
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": 1001,
+            "name": "lotse-reference",
+            "full_name": "ada/lotse-reference",
+            "private": false,
+            "default_branch": "main",
+            "html_url": "https://github.com/ada/lotse-reference",
+            "clone_url": "https://github.com/ada/lotse-reference.git",
+            "owner": {
+              "login": "ada"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.github.com/repos/ada/lotse-reference/pages",
+          "body": {
+            "source": {
+              "branch": "gh-pages",
+              "path": "/"
+            }
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "status": null,
+            "html_url": "https://ada.github.io/lotse-reference/"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ada/lotse-reference/pages"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "url": "https://api.github.com/repos/ada/lotse-reference/pages",
+            "status": "built",
+            "html_url": "https://ada.github.io/lotse-reference/",
+            "source": {
+              "branch": "gh-pages",
+              "path": "/"
+            }
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ada/lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 1001,
+            "name": "lotse-reference",
+            "full_name": "ada/lotse-reference",
+            "private": false,
+            "default_branch": "main",
+            "html_url": "https://github.com/ada/lotse-reference",
+            "clone_url": "https://github.com/ada/lotse-reference.git",
+            "owner": {
+              "login": "ada"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ada/lotse-reference/pages"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "url": "https://api.github.com/repos/ada/lotse-reference/pages",
+            "status": "built",
+            "html_url": "https://ada.github.io/lotse-reference/",
+            "source": {
+              "branch": "gh-pages",
+              "path": "/"
+            }
+          }
+        }
+      }
+    ],
+    "logs": [],
+    "set-env": [],
+    "add-domain": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ada/lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 1001,
+            "name": "lotse-reference",
+            "full_name": "ada/lotse-reference",
+            "private": false,
+            "default_branch": "main",
+            "html_url": "https://github.com/ada/lotse-reference",
+            "clone_url": "https://github.com/ada/lotse-reference.git",
+            "owner": {
+              "login": "ada"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.github.com/repos/ada/lotse-reference/pages",
+          "body": {
+            "cname": "app.example.com"
+          }
+        },
+        "response": {
+          "status": 204
+        }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ada/lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 1001,
+            "name": "lotse-reference",
+            "full_name": "ada/lotse-reference",
+            "private": false,
+            "default_branch": "main",
+            "html_url": "https://github.com/ada/lotse-reference",
+            "clone_url": "https://github.com/ada/lotse-reference.git",
+            "owner": {
+              "login": "ada"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.github.com/repos/ada/lotse-reference/pages"
+        },
+        "response": {
+          "status": 204
+        }
+      }
+    ]
+  }
+}

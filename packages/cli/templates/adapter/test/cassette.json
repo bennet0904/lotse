@@ -1,0 +1,204 @@
+{
+  "adapter": "__ID__",
+  "source": "documentation",
+  "notes": "Example responses of the placeholder API. Replace them with recordings of the real API.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.example.com/v1/account"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "acct_1",
+            "name": "Ada"
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.example.com/v1/account"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "message": "Invalid token"
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.example.com/v1/sites"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.example.com/v1/sites?name=lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ],
+    "deploy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.example.com/v1/sites?name=lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.example.com/v1/sites",
+          "body": {
+            "name": "lotse-reference"
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "site_1",
+            "name": "lotse-reference"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.example.com/v1/sites/site_1/deploys"
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "dep_1",
+            "state": "ready",
+            "url": "https://lotse-reference.example.app"
+          }
+        }
+      }
+    ],
+    "deploy-failed": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.example.com/v1/sites?name=lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "site_1",
+              "name": "lotse-reference",
+              "url": "https://lotse-reference.example.app",
+              "state": "ready",
+              "current_deploy": "dep_1"
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.example.com/v1/sites/site_1/deploys"
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "dep_2",
+            "state": "error",
+            "url": ""
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.example.com/v1/sites?name=lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "site_1",
+              "name": "lotse-reference",
+              "url": "https://lotse-reference.example.app",
+              "state": "ready",
+              "current_deploy": "dep_1"
+            }
+          ]
+        }
+      }
+    ],
+    "logs": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.example.com/v1/sites/site_1/logs"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "lines": [
+              {
+                "at": 1794830000000,
+                "text": "GET / 200"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "set-env": [],
+    "rollback": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.example.com/v1/sites/site_1/rollback",
+          "body": {
+            "deploy_id": "dep_0"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "ok": true
+          }
+        }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.example.com/v1/sites/site_1"
+        },
+        "response": {
+          "status": 204
+        }
+      }
+    ]
+  }
+}

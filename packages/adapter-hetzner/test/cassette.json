@@ -1,0 +1,199 @@
+{
+  "adapter": "hetzner",
+  "source": "documentation",
+  "notes": "Hetzner Cloud API responses written from its API reference (docs.hetzner.cloud); the server itself is the scripted SSH server of the SSH adapter's contract test.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.hetzner.cloud/v1/servers?name=lotse"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "servers": [
+              {
+                "id": 4711,
+                "name": "lotse",
+                "status": "running",
+                "public_net": {
+                  "ipv4": {
+                    "ip": "203.0.113.10"
+                  },
+                  "ipv6": {
+                    "ip": "2001:db8::/64"
+                  }
+                },
+                "server_type": {
+                  "name": "cx22"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.hetzner.cloud/v1/servers?name=lotse"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "error": {
+              "code": "unauthorized",
+              "message": "unable to authenticate"
+            }
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.hetzner.cloud/v1/servers/4711"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "server": {
+              "id": 4711,
+              "name": "lotse",
+              "status": "running",
+              "public_net": {
+                "ipv4": {
+                  "ip": "203.0.113.10"
+                },
+                "ipv6": {
+                  "ip": "2001:db8::/64"
+                }
+              },
+              "server_type": {
+                "name": "cx22"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "plan": [],
+    "deploy": [],
+    "status": [],
+    "logs": [],
+    "set-env": [],
+    "add-domain": [],
+    "rollback": [],
+    "destroy": [],
+    "create-server": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.hetzner.cloud/v1/servers?name=lotse"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "servers": []
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.hetzner.cloud/v1/ssh_keys"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "ssh_keys": []
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.hetzner.cloud/v1/ssh_keys"
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "ssh_key": {
+              "id": 99,
+              "name": "lotse-key",
+              "fingerprint": "aa:bb"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.hetzner.cloud/v1/servers",
+          "body": {
+            "name": "lotse",
+            "server_type": "cx22",
+            "image": "ubuntu-24.04",
+            "location": "nbg1",
+            "ssh_keys": [99]
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "server": {
+              "id": 4711,
+              "name": "lotse",
+              "status": "initializing",
+              "public_net": {
+                "ipv4": {
+                  "ip": "203.0.113.10"
+                },
+                "ipv6": {
+                  "ip": "2001:db8::/64"
+                }
+              },
+              "server_type": {
+                "name": "cx22"
+              }
+            },
+            "action": {
+              "id": 1,
+              "status": "running"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.hetzner.cloud/v1/servers/4711"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "server": {
+              "id": 4711,
+              "name": "lotse",
+              "status": "running",
+              "public_net": {
+                "ipv4": {
+                  "ip": "203.0.113.10"
+                },
+                "ipv6": {
+                  "ip": "2001:db8::/64"
+                }
+              },
+              "server_type": {
+                "name": "cx22"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

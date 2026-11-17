@@ -1,0 +1,37 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../build"
+    },
+    {
+      "path": "../secrets"
+    },
+    {
+      "path": "../sandbox"
+    },
+    {
+      "path": "../stacks"
+    },
+    {
+      "path": "../agent"
+    },
+    {
+      "path": "../adapters"
+    },
+    {
+      "path": "../adapter-ssh"
+    },
+    {
+      "path": "../adapter-github"
+    }
+  ]
+}

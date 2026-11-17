@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unpkg.com/@lotse/core/schema/lotse.schema.json",
+  "title": "Lotse deployment manifest",
+  "description": "Provider-neutral description of what an app needs to run (lotse.yaml).",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "number",
+      "const": 1,
+      "description": "Manifest format version."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z]([a-z0-9-]{0,48}[a-z0-9])?$",
+      "description": "App name. Unique per provider account."
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "static",
+            "server",
+            "container"
+          ],
+          "description": "How the app runs: static files, a server process or a container."
+        },
+        "language": {
+          "description": "Language of the app, e.g. node, python, go, php.",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9+#-]*$"
+        },
+        "version": {
+          "description": "Language version, e.g. 22 or 3.13.",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "port": {
+          "description": "Port the app listens on. Also passed to the app as PORT.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "start": {
+          "description": "Command that starts a server app.",
+          "type": "string",
+          "minLength": 1
+        },
+        "healthcheck": {
+          "description": "HTTP path that returns 2xx when the app is healthy.",
+          "type": "string",
+          "pattern": "^\\/\\S*$"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "additionalProperties": false
+    },
+    "build": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "description": "auto: buildpack-style image, dockerfile: own Dockerfile, static: build command plus output folder.",
+          "type": "string",
+          "enum": [
+            "auto",
+            "dockerfile",
+            "static"
+          ]
+        },
+        "command": {
+          "description": "Build command, e.g. npm run build.",
+          "type": "string",
+          "minLength": 1
+        },
+        "output": {
+          "description": "Output folder of a static build, relative to the app root.",
+          "type": "string",
+          "minLength": 1
+        },
+        "dockerfile": {
+          "description": "Path of the Dockerfile for the dockerfile strategy.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "release": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Runs in the new version before it receives traffic, e.g. database migrations."
+        }
+      },
+      "required": [
+        "command"
+      ],
+      "additionalProperties": false
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$",
+            "description": "Resource type: postgres, redis, object-storage ..."
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z]([a-z0-9-]{0,30}[a-z0-9])?$"
+          },
+          "options": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean"
+              ]
+            }
+          }
+        },
+        "required": [
+          "type",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "env": {
+      "type": "object",
+      "properties": {
+        "public": {
+          "description": "Non-secret values stored in the manifest.",
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+          },
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          }
+        },
+        "secrets": {
+          "default": [],
+          "description": "Names of secrets. Values live in the encrypted credential store.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "domains": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(?=.{1,253}$)(\\*\\.)?([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,63}$"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "name",
+    "runtime"
+  ],
+  "additionalProperties": false
+}

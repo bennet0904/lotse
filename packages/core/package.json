@@ -1,0 +1,31 @@
+{
+  "name": "@lotse/core",
+  "version": "0.1.0",
+  "description": "Lotse hosting core: adapter interface, deployment engine, manifest schema and events",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./schema/lotse.schema.json": "./schema/lotse.schema.json"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "!dist/**/*.tsbuildinfo"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  }
+}

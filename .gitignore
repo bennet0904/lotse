@@ -1,0 +1,21 @@
+node_modules/
+dist/
+*.tsbuildinfo
+coverage/
+.env
+.env.*
+!.env.example
+
+# Local Lotse state that must never be committed
+.lotse/secrets*
+.lotse/master.key
+*.pem
+
+# Builder data directory (projects, SQLite database)
+/data/
+packages/desktop/release/
+
+.DS_Store
+.vscode/
+.idea/
+packages/desktop/bundle/

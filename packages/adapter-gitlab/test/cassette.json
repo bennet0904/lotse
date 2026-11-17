@@ -1,0 +1,181 @@
+{
+  "adapter": "gitlab",
+  "source": "documentation",
+  "notes": "Written from the GitLab REST API reference (docs.gitlab.com/api), not recorded against a live instance.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/user"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 42,
+            "username": "ada"
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/user"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "message": "401 Unauthorized"
+          }
+        }
+      }
+    ],
+    "list-repos": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/projects?membership=true"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": 1001,
+              "path": "customer-portal",
+              "path_with_namespace": "ada/customer-portal",
+              "namespace": {
+                "full_path": "ada"
+              },
+              "default_branch": "main",
+              "visibility": "private",
+              "web_url": "https://gitlab.com/ada/customer-portal",
+              "http_url_to_repo": "https://gitlab.com/ada/customer-portal.git"
+            },
+            {
+              "id": 1002,
+              "path": "docs",
+              "path_with_namespace": "ada/docs",
+              "namespace": {
+                "full_path": "ada"
+              },
+              "default_branch": "main",
+              "visibility": "public",
+              "web_url": "https://gitlab.com/ada/docs",
+              "http_url_to_repo": "https://gitlab.com/ada/docs.git"
+            }
+          ]
+        }
+      }
+    ],
+    "create-repo": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://gitlab.com/api/v4/projects",
+          "body": {
+            "name": "new-app",
+            "visibility": "private"
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": 1003,
+            "path": "new-app",
+            "path_with_namespace": "ada/new-app",
+            "namespace": {
+              "full_path": "ada"
+            },
+            "default_branch": "main",
+            "visibility": "private",
+            "web_url": "https://gitlab.com/ada/new-app",
+            "http_url_to_repo": "https://gitlab.com/ada/new-app.git"
+          }
+        }
+      }
+    ],
+    "remote-url": [],
+    "set-ci-secret": [
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://gitlab.com/api/v4/projects/1001/variables/LOTSE_SSH_KEY"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "404 Variable Not Found"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://gitlab.com/api/v4/projects/1001/variables",
+          "body": {
+            "key": "LOTSE_SSH_KEY",
+            "masked": true
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "key": "LOTSE_SSH_KEY",
+            "masked": true
+          }
+        }
+      }
+    ],
+    "write-workflow": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/projects/1001/repository/files/.gitlab-ci.yml?ref=main"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "404 File Not Found"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://gitlab.com/api/v4/projects/1001/repository/commits",
+          "body": {
+            "branch": "main",
+            "actions": [
+              {
+                "action": "create",
+                "file_path": ".gitlab-ci.yml"
+              }
+            ]
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "abc123"
+          }
+        }
+      }
+    ],
+    "comment": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://gitlab.com/api/v4/projects/1001/merge_requests/7/notes"
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": 1
+          }
+        }
+      }
+    ]
+  }
+}

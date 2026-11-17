@@ -1,0 +1,581 @@
+{
+  "adapter": "dokploy",
+  "source": "documentation",
+  "notes": "Written from Dokploy's OpenAPI description (Dokploy/dokploy, openapi.json). That description does not specify response bodies; the shapes here follow Dokploy's data model and need confirming against a live instance.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/user.get"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "userId": "usr_1",
+            "user": {
+              "email": "ada@example.test"
+            }
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/user.get"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "message": "Unauthorized"
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/project.all"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "projectId": "prj_1",
+              "name": "lotse",
+              "environments": [
+                {
+                  "environmentId": "env_1",
+                  "name": "production",
+                  "applications": [],
+                  "postgres": [],
+                  "redis": []
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/project.all"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ],
+    "deploy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/project.all"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/project.all"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/project.create",
+          "body": {
+            "name": "lotse"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/project.all"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "projectId": "prj_1",
+              "name": "lotse",
+              "environments": [
+                {
+                  "environmentId": "env_1",
+                  "name": "production",
+                  "applications": [],
+                  "postgres": [],
+                  "redis": []
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.create",
+          "body": {
+            "name": "lotse-reference",
+            "environmentId": "env_1"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/project.all"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "projectId": "prj_1",
+              "name": "lotse",
+              "environments": [
+                {
+                  "environmentId": "env_1",
+                  "name": "production",
+                  "applications": [
+                    {
+                      "applicationId": "app_1",
+                      "name": "lotse-reference",
+                      "appName": "lotse-reference-x1y2z3",
+                      "applicationStatus": "done",
+                      "env": "OLD=1",
+                      "domains": [
+                        {
+                          "host": "lotse-reference-x1y2z3-203-0-113-30.traefik.me",
+                          "https": false
+                        }
+                      ]
+                    }
+                  ],
+                  "postgres": [],
+                  "redis": []
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.saveBuildType",
+          "body": {
+            "applicationId": "app_1",
+            "buildType": "railpack"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.saveEnvironment",
+          "body": {
+            "applicationId": "app_1"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/application.one?applicationId=app_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "applicationId": "app_1",
+            "name": "lotse-reference",
+            "appName": "lotse-reference-x1y2z3",
+            "applicationStatus": "idle",
+            "env": "OLD=1",
+            "domains": []
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/domain.generateDomain",
+          "body": {
+            "appName": "lotse-reference-x1y2z3"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": "lotse-reference-x1y2z3-203-0-113-30.traefik.me"
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/domain.create",
+          "body": {
+            "applicationId": "app_1",
+            "port": 3000,
+            "https": false
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.dropDeployment",
+          "body": {
+            "applicationId": "app_1"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/application.one?applicationId=app_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "applicationId": "app_1",
+            "name": "lotse-reference",
+            "appName": "lotse-reference-x1y2z3",
+            "applicationStatus": "running",
+            "env": "OLD=1",
+            "domains": [
+              {
+                "host": "lotse-reference-x1y2z3-203-0-113-30.traefik.me",
+                "https": false
+              }
+            ]
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/application.one?applicationId=app_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "applicationId": "app_1",
+            "name": "lotse-reference",
+            "appName": "lotse-reference-x1y2z3",
+            "applicationStatus": "done",
+            "env": "OLD=1",
+            "domains": [
+              {
+                "host": "lotse-reference-x1y2z3-203-0-113-30.traefik.me",
+                "https": false
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "deploy-failed": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/project.all"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "projectId": "prj_1",
+              "name": "lotse",
+              "environments": [
+                {
+                  "environmentId": "env_1",
+                  "name": "production",
+                  "applications": [
+                    {
+                      "applicationId": "app_1",
+                      "name": "lotse-reference",
+                      "appName": "lotse-reference-x1y2z3",
+                      "applicationStatus": "done",
+                      "env": "OLD=1",
+                      "domains": [
+                        {
+                          "host": "lotse-reference-x1y2z3-203-0-113-30.traefik.me",
+                          "https": false
+                        }
+                      ]
+                    }
+                  ],
+                  "postgres": [],
+                  "redis": []
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.saveBuildType",
+          "body": {
+            "applicationId": "app_1",
+            "buildType": "railpack"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.saveEnvironment",
+          "body": {
+            "applicationId": "app_1"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/application.one?applicationId=app_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "applicationId": "app_1",
+            "name": "lotse-reference",
+            "appName": "lotse-reference-x1y2z3",
+            "applicationStatus": "done",
+            "env": "OLD=1",
+            "domains": [
+              {
+                "host": "lotse-reference-x1y2z3-203-0-113-30.traefik.me",
+                "https": false
+              }
+            ]
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.dropDeployment",
+          "body": {
+            "applicationId": "app_1"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/application.one?applicationId=app_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "applicationId": "app_1",
+            "name": "lotse-reference",
+            "appName": "lotse-reference-x1y2z3",
+            "applicationStatus": "error",
+            "env": "OLD=1",
+            "domains": [
+              {
+                "host": "lotse-reference-x1y2z3-203-0-113-30.traefik.me",
+                "https": false
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/application.one?applicationId=app_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "applicationId": "app_1",
+            "name": "lotse-reference",
+            "appName": "lotse-reference-x1y2z3",
+            "applicationStatus": "done",
+            "env": "OLD=1",
+            "domains": [
+              {
+                "host": "lotse-reference-x1y2z3-203-0-113-30.traefik.me",
+                "https": false
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "logs": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/application.readLogs?applicationId=app_1"
+        },
+        "response": {
+          "status": 200,
+          "body": "reference app version 1 listening on 3000\nGET /health 200\n"
+        }
+      }
+    ],
+    "set-env": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/application.one?applicationId=app_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "applicationId": "app_1",
+            "name": "lotse-reference",
+            "appName": "lotse-reference-x1y2z3",
+            "applicationStatus": "done",
+            "env": "OLD=1",
+            "domains": [
+              {
+                "host": "lotse-reference-x1y2z3-203-0-113-30.traefik.me",
+                "https": false
+              }
+            ]
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.saveEnvironment",
+          "body": {
+            "applicationId": "app_1",
+            "env": "OLD=1\nAPP_NAME=Reference\nAPI_KEY=contract-secret-value"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.redeploy",
+          "body": {
+            "applicationId": "app_1"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      }
+    ],
+    "add-domain": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://dokploy.example.test/api/application.one?applicationId=app_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "applicationId": "app_1",
+            "name": "lotse-reference",
+            "appName": "lotse-reference-x1y2z3",
+            "applicationStatus": "done",
+            "env": "OLD=1",
+            "domains": [
+              {
+                "host": "lotse-reference-x1y2z3-203-0-113-30.traefik.me",
+                "https": false
+              }
+            ]
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/domain.create",
+          "body": {
+            "host": "app.example.com",
+            "https": true,
+            "certificateType": "letsencrypt"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://dokploy.example.test/api/application.delete",
+          "body": {
+            "applicationId": "app_1"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": true
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+# Packaging of the desktop app. `pnpm --filter @lotse/desktop dist` bundles the
+# main process (scripts/bundle.mjs) and builds installers for the current
+# platform. Signing uses the usual electron-builder variables (CSC_LINK,
+# CSC_KEY_PASSWORD; APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID for
+# notarization); the release workflow sets them.
+appId: dev.lotse.desktop
+productName: Lotse
+copyright: Copyright © The Lotse contributors
+directories:
+  app: bundle
+  output: release
+files:
+  - "**/*"
+  - "!**/*.map"
+  # Everything the app needs is in the bundle; electron-builder would otherwise add the workspace's node_modules.
+  - "!node_modules{,/**/*}"
+asar: true
+npmRebuild: false
+electronLanguages: [en-US, de]
+mac:
+  category: public.app-category.developer-tools
+  target: [dmg, zip]
+  hardenedRuntime: true
+  notarize: false
+win:
+  target: [nsis]
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+linux:
+  target: [AppImage, deb]
+  category: Development
+  maintainer: The Lotse contributors
+  synopsis: Build apps from a prompt and publish them anywhere
+publish: null

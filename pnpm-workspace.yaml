@@ -1,0 +1,13 @@
+packages:
+  - "packages/*"
+
+# Which dependencies may run install scripts. Everything else is refused.
+allowBuilds:
+  better-sqlite3: true
+  electron: true
+  esbuild: true
+  # ssh2 works without its optional native speed-ups; nothing needs compiling.
+  cpu-features: false
+  ssh2: false
+  # Squirrel installers for Windows are not used; the desktop app ships NSIS installers.
+  electron-winstaller: false

@@ -1,0 +1,577 @@
+{
+  "adapter": "fly",
+  "source": "documentation",
+  "notes": "Written from the Fly.io Machines API reference (docs.machines.dev) and the platform GraphQL API, not recorded against a live account.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps?org_slug=personal"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "total_apps": 0,
+            "apps": []
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps?org_slug=personal"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "error": "unauthorized"
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps?org_slug=personal"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "total_apps": 0,
+            "apps": []
+          }
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "error": "App not found"
+          }
+        }
+      }
+    ],
+    "deploy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "error": "App not found"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.machines.dev/v1/apps",
+          "body": {
+            "app_name": "lotse-reference",
+            "org_slug": "personal"
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "app_1",
+            "created_at": 1794830000000
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.fly.io/graphql",
+          "body": {
+            "variables": {
+              "input": {
+                "appId": "lotse-reference",
+                "type": "shared_v4"
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "allocateIpAddress": {
+                "ipAddress": {
+                  "address": "66.241.124.1"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.fly.io/graphql",
+          "body": {
+            "variables": {
+              "input": {
+                "appId": "lotse-reference",
+                "type": "v6"
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "allocateIpAddress": {
+                "ipAddress": {
+                  "address": "2a09:8280:1::1"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines",
+          "body": {
+            "config": {
+              "image": "registry.fly.io/lotse-reference:contract",
+              "services": [
+                {
+                  "internal_port": 3000
+                }
+              ],
+              "checks": {
+                "http": {
+                  "path": "/health"
+                }
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "mach_1",
+            "state": "created",
+            "region": "fra",
+            "config": {
+              "image": "registry.fly.io/lotse-reference:contract",
+              "metadata": {
+                "lotse": "app"
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines/mach_1/wait?state=started"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "ok": true
+          }
+        }
+      }
+    ],
+    "deploy-failed": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "app_1",
+            "name": "lotse-reference",
+            "organization": {
+              "slug": "personal"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "mach_0",
+              "state": "started",
+              "region": "fra",
+              "created_at": "2026-11-15T12:00:00Z",
+              "config": {
+                "image": "registry.fly.io/lotse-reference:v1",
+                "env": {
+                  "PORT": "3000"
+                },
+                "metadata": {
+                  "lotse": "app"
+                },
+                "services": [
+                  {
+                    "internal_port": 3000
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "mach_1",
+            "state": "created",
+            "region": "fra",
+            "config": {
+              "image": "registry.fly.io/lotse-reference:contract",
+              "metadata": {
+                "lotse": "app"
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines/mach_1/wait?state=started"
+        },
+        "response": {
+          "status": 408,
+          "body": {
+            "error": "timeout reached waiting for machine's state to change"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines/mach_1?force=true"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "ok": true
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "app_1",
+            "name": "lotse-reference",
+            "organization": {
+              "slug": "personal"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "mach_0",
+              "state": "started",
+              "region": "fra",
+              "created_at": "2026-11-15T12:00:00Z",
+              "config": {
+                "image": "registry.fly.io/lotse-reference:v1",
+                "env": {
+                  "PORT": "3000"
+                },
+                "metadata": {
+                  "lotse": "app"
+                },
+                "services": [
+                  {
+                    "internal_port": 3000
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "logs": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.fly.io/api/v1/apps/lotse-reference/logs"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": [
+              {
+                "id": "1",
+                "type": "log",
+                "attributes": {
+                  "timestamp": "2026-11-16T12:00:01Z",
+                  "message": "reference app version 1 listening on 3000",
+                  "level": "info"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "set-env": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "mach_0",
+              "state": "started",
+              "region": "fra",
+              "created_at": "2026-11-15T12:00:00Z",
+              "config": {
+                "image": "registry.fly.io/lotse-reference:v1",
+                "env": {
+                  "PORT": "3000"
+                },
+                "metadata": {
+                  "lotse": "app"
+                },
+                "services": [
+                  {
+                    "internal_port": 3000
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines",
+          "body": {
+            "config": {
+              "env": {
+                "APP_NAME": "Reference",
+                "PORT": "3000"
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "mach_1",
+            "state": "created",
+            "region": "fra",
+            "config": {
+              "image": "registry.fly.io/lotse-reference:contract",
+              "metadata": {
+                "lotse": "app"
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines/mach_1/wait?state=started"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "ok": true
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines/mach_0?force=true"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "ok": true
+          }
+        }
+      }
+    ],
+    "add-domain": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.fly.io/graphql",
+          "body": {
+            "variables": {
+              "appId": "lotse-reference",
+              "hostname": "app.example.com"
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "addCertificate": {
+                "certificate": {
+                  "configured": false,
+                  "dnsValidationHostname": "_acme-challenge.app.example.com",
+                  "dnsValidationTarget": "app.example.com.abc.flydns.net"
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "rollback": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "mach_0",
+              "state": "started",
+              "region": "fra",
+              "created_at": "2026-11-15T12:00:00Z",
+              "config": {
+                "image": "registry.fly.io/lotse-reference:v1",
+                "env": {
+                  "PORT": "3000"
+                },
+                "metadata": {
+                  "lotse": "app"
+                },
+                "services": [
+                  {
+                    "internal_port": 3000
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines",
+          "body": {
+            "config": {
+              "image": "registry.fly.io/lotse-reference:v0"
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "mach_1",
+            "state": "created",
+            "region": "fra",
+            "config": {
+              "image": "registry.fly.io/lotse-reference:contract",
+              "metadata": {
+                "lotse": "app"
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines/mach_1/wait?state=started"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "ok": true
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference/machines/mach_0?force=true"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "ok": true
+          }
+        }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.machines.dev/v1/apps/lotse-reference?force=true"
+        },
+        "response": {
+          "status": 202
+        }
+      }
+    ]
+  }
+}

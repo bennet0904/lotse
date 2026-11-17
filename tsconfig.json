@@ -1,0 +1,80 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "packages/core"
+    },
+    {
+      "path": "packages/secrets"
+    },
+    {
+      "path": "packages/build"
+    },
+    {
+      "path": "packages/adapter-testkit"
+    },
+    {
+      "path": "packages/adapter-vercel"
+    },
+    {
+      "path": "packages/adapter-coolify"
+    },
+    {
+      "path": "packages/adapter-ssh"
+    },
+    {
+      "path": "packages/adapter-github"
+    },
+    {
+      "path": "packages/cli"
+    },
+    {
+      "path": "packages/sandbox"
+    },
+    {
+      "path": "packages/stacks"
+    },
+    {
+      "path": "packages/agent"
+    },
+    {
+      "path": "packages/server"
+    },
+    {
+      "path": "packages/adapter-netlify"
+    },
+    {
+      "path": "packages/adapter-cloudflare"
+    },
+    {
+      "path": "packages/adapter-railway"
+    },
+    {
+      "path": "packages/adapter-fly"
+    },
+    {
+      "path": "packages/adapter-hetzner"
+    },
+    {
+      "path": "packages/adapter-dokploy"
+    },
+    {
+      "path": "packages/adapter-gitlab"
+    },
+    {
+      "path": "packages/adapter-forgejo"
+    },
+    {
+      "path": "packages/adapter-neon"
+    },
+    {
+      "path": "packages/adapter-supabase"
+    },
+    {
+      "path": "packages/adapters"
+    },
+    {
+      "path": "packages/desktop"
+    }
+  ]
+}

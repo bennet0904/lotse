@@ -1,0 +1,660 @@
+{
+  "adapter": "supabase",
+  "source": "documentation",
+  "notes": "Written from the Supabase Management API reference (https://api.supabase.com/api/v1-json), not recorded against a live account.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/organizations"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "wlknsdfojrwezmnbvcxq",
+              "slug": "wlknsdfojrwezmnbvcxq",
+              "name": "Ada's Org"
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/profile"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "gotrue_id": "3f1c5a0e-7f0b-4b0a-9d4e-2a6a5b1c9e77",
+            "primary_email": "ada@example.test",
+            "username": "ada"
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/organizations"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "message": "Unauthorized"
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/organizations"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "wlknsdfojrwezmnbvcxq",
+              "slug": "wlknsdfojrwezmnbvcxq",
+              "name": "Ada's Org"
+            }
+          ]
+        }
+      }
+    ],
+    "provision": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "qrstuvwxyzabcdefghij",
+              "ref": "qrstuvwxyzabcdefghij",
+              "organization_id": "wlknsdfojrwezmnbvcxq",
+              "organization_slug": "wlknsdfojrwezmnbvcxq",
+              "name": "blog-db",
+              "region": "eu-central-1",
+              "created_at": "2026-11-16T09:00:00Z",
+              "status": "ACTIVE_HEALTHY",
+              "database": {
+                "host": "db.xyzcompanyabcdefghij.supabase.co",
+                "version": "17.4.1.074",
+                "postgres_engine": "17",
+                "release_channel": "ga"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.supabase.com/v1/projects",
+          "body": {
+            "name": "lotse-reference-db",
+            "organization_slug": "wlknsdfojrwezmnbvcxq"
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "COMING_UP"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "COMING_UP",
+            "database": {
+              "host": "db.xyzcompanyabcdefghij.supabase.co",
+              "version": "17.4.1.074",
+              "postgres_engine": "17",
+              "release_channel": "ga"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "ACTIVE_HEALTHY",
+            "database": {
+              "host": "db.xyzcompanyabcdefghij.supabase.co",
+              "version": "17.4.1.074",
+              "postgres_engine": "17",
+              "release_channel": "ga"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij/config/database/pooler"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "identifier": "xyzcompanyabcdefghij",
+              "database_type": "PRIMARY",
+              "is_using_scram_auth": true,
+              "db_user": "postgres.xyzcompanyabcdefghij",
+              "db_host": "aws-0-eu-central-1.pooler.supabase.com",
+              "db_port": 6543,
+              "db_name": "postgres",
+              "connection_string": "postgres://postgres.xyzcompanyabcdefghij:[YOUR-PASSWORD]@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+              "connectionString": "postgres://postgres.xyzcompanyabcdefghij:[YOUR-PASSWORD]@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+              "default_pool_size": 15,
+              "max_client_conn": 200,
+              "pool_mode": "transaction"
+            }
+          ]
+        }
+      }
+    ],
+    "provision-region": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.supabase.com/v1/projects",
+          "body": {
+            "region_selection": {
+              "type": "specific",
+              "code": "eu-central-1"
+            }
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "COMING_UP"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "ACTIVE_HEALTHY",
+            "database": {
+              "host": "db.xyzcompanyabcdefghij.supabase.co",
+              "version": "17.4.1.074",
+              "postgres_engine": "17",
+              "release_channel": "ga"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij/config/database/pooler"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "identifier": "xyzcompanyabcdefghij",
+              "database_type": "PRIMARY",
+              "is_using_scram_auth": true,
+              "db_user": "postgres.xyzcompanyabcdefghij",
+              "db_host": "aws-0-eu-central-1.pooler.supabase.com",
+              "db_port": 6543,
+              "db_name": "postgres",
+              "connection_string": "postgres://postgres.xyzcompanyabcdefghij:[YOUR-PASSWORD]@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+              "connectionString": "postgres://postgres.xyzcompanyabcdefghij:[YOUR-PASSWORD]@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+              "default_pool_size": 15,
+              "max_client_conn": 200,
+              "pool_mode": "transaction"
+            }
+          ]
+        }
+      }
+    ],
+    "provision-smart-region": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.supabase.com/v1/projects",
+          "body": {
+            "region_selection": {
+              "type": "smartGroup",
+              "code": "emea"
+            }
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "COMING_UP"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "ACTIVE_HEALTHY",
+            "database": {
+              "host": "db.xyzcompanyabcdefghij.supabase.co",
+              "version": "17.4.1.074",
+              "postgres_engine": "17",
+              "release_channel": "ga"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij/config/database/pooler"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ],
+    "provision-existing": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "qrstuvwxyzabcdefghij",
+              "ref": "qrstuvwxyzabcdefghij",
+              "organization_id": "wlknsdfojrwezmnbvcxq",
+              "organization_slug": "wlknsdfojrwezmnbvcxq",
+              "name": "blog-db",
+              "region": "eu-central-1",
+              "created_at": "2026-11-16T09:00:00Z",
+              "status": "ACTIVE_HEALTHY",
+              "database": {
+                "host": "db.xyzcompanyabcdefghij.supabase.co",
+                "version": "17.4.1.074",
+                "postgres_engine": "17",
+                "release_channel": "ga"
+              }
+            },
+            {
+              "id": "xyzcompanyabcdefghij",
+              "ref": "xyzcompanyabcdefghij",
+              "organization_id": "wlknsdfojrwezmnbvcxq",
+              "organization_slug": "wlknsdfojrwezmnbvcxq",
+              "name": "lotse-reference-db",
+              "region": "eu-central-1",
+              "created_at": "2026-11-16T09:00:00Z",
+              "status": "ACTIVE_HEALTHY",
+              "database": {
+                "host": "db.xyzcompanyabcdefghij.supabase.co",
+                "version": "17.4.1.074",
+                "postgres_engine": "17",
+                "release_channel": "ga"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "provision-failed": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.supabase.com/v1/projects",
+          "body": {
+            "name": "lotse-reference-db",
+            "organization_slug": "wlknsdfojrwezmnbvcxq"
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "COMING_UP"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "INIT_FAILED",
+            "database": {
+              "host": "db.xyzcompanyabcdefghij.supabase.co",
+              "version": "17.4.1.074",
+              "postgres_engine": "17",
+              "release_channel": "ga"
+            }
+          }
+        }
+      }
+    ],
+    "provision-limit": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.supabase.com/v1/projects"
+        },
+        "response": {
+          "status": 400,
+          "body": {
+            "message": "The following organization members have reached their maximum limits for the number of active free projects within organizations where they are an administrator or owner: ada (2 project limit)."
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "ACTIVE_HEALTHY",
+            "database": {
+              "host": "db.xyzcompanyabcdefghij.supabase.co",
+              "version": "17.4.1.074",
+              "postgres_engine": "17",
+              "release_channel": "ga"
+            }
+          }
+        }
+      }
+    ],
+    "status-creating": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "COMING_UP",
+            "database": {
+              "host": "db.xyzcompanyabcdefghij.supabase.co",
+              "version": "17.4.1.074",
+              "postgres_engine": "17",
+              "release_channel": "ga"
+            }
+          }
+        }
+      }
+    ],
+    "status-paused": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": "xyzcompanyabcdefghij",
+            "ref": "xyzcompanyabcdefghij",
+            "organization_id": "wlknsdfojrwezmnbvcxq",
+            "organization_slug": "wlknsdfojrwezmnbvcxq",
+            "name": "lotse-reference-db",
+            "region": "eu-central-1",
+            "created_at": "2026-11-16T09:00:00Z",
+            "status": "INACTIVE",
+            "database": {
+              "host": "db.xyzcompanyabcdefghij.supabase.co",
+              "version": "17.4.1.074",
+              "postgres_engine": "17",
+              "release_channel": "ga"
+            }
+          }
+        }
+      }
+    ],
+    "status-gone": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "Project not found"
+          }
+        }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 48213,
+            "ref": "xyzcompanyabcdefghij",
+            "name": "lotse-reference-db"
+          }
+        }
+      }
+    ],
+    "destroy-gone": [
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.supabase.com/v1/projects/xyzcompanyabcdefghij"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "Project not found"
+          }
+        }
+      }
+    ],
+    "connect-two-orgs": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/organizations"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": "wlknsdfojrwezmnbvcxq",
+              "slug": "wlknsdfojrwezmnbvcxq",
+              "name": "Ada's Org"
+            },
+            {
+              "id": "zzknsdfojrwezmnbvcxq",
+              "slug": "analytical-engines",
+              "name": "Analytical Engines Ltd"
+            }
+          ]
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/profile"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "gotrue_id": "3f1c5a0e-7f0b-4b0a-9d4e-2a6a5b1c9e77",
+            "primary_email": "ada@example.test",
+            "username": "ada"
+          }
+        }
+      }
+    ],
+    "connect-no-org": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.supabase.com/v1/organizations"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ]
+  }
+}

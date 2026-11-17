@@ -1,0 +1,28 @@
+{
+  "name": "@lotse/desktop",
+  "version": "0.1.0",
+  "description": "Lotse desktop app: the builder with local data, for Windows, macOS and Linux",
+  "license": "Apache-2.0",
+  "type": "module",
+  "private": true,
+  "main": "./dist/main.js",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "start": "electron .",
+    "bundle": "node scripts/bundle.mjs",
+    "dist": "node scripts/bundle.mjs && electron-builder --config electron-builder.yml"
+  },
+  "dependencies": {
+    "@lotse/core": "workspace:*",
+    "@lotse/secrets": "workspace:*",
+    "@lotse/server": "workspace:*"
+  },
+  "devDependencies": {
+    "electron": "45.3.1",
+    "electron-builder": "26.18.1",
+    "esbuild": "0.28.2"
+  }
+}

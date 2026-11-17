@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../adapter-vercel" },
+    { "path": "../adapter-ssh" },
+    { "path": "../adapter-coolify" },
+    { "path": "../adapter-netlify" },
+    { "path": "../adapter-cloudflare" },
+    { "path": "../adapter-railway" },
+    { "path": "../adapter-fly" },
+    { "path": "../adapter-hetzner" },
+    { "path": "../adapter-dokploy" },
+    { "path": "../adapter-github" },
+    { "path": "../adapter-gitlab" },
+    { "path": "../adapter-forgejo" },
+    { "path": "../adapter-neon" },
+    { "path": "../adapter-supabase" }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "@lotse/adapters",
+  "version": "0.1.0",
+  "description": "The adapters that ship with Lotse: nine hosting providers, three Git platforms and two database providers",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.tsbuildinfo"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@lotse/core": "workspace:*",
+    "@lotse/adapter-vercel": "workspace:*",
+    "@lotse/adapter-ssh": "workspace:*",
+    "@lotse/adapter-coolify": "workspace:*",
+    "@lotse/adapter-netlify": "workspace:*",
+    "@lotse/adapter-cloudflare": "workspace:*",
+    "@lotse/adapter-railway": "workspace:*",
+    "@lotse/adapter-fly": "workspace:*",
+    "@lotse/adapter-hetzner": "workspace:*",
+    "@lotse/adapter-dokploy": "workspace:*",
+    "@lotse/adapter-github": "workspace:*",
+    "@lotse/adapter-gitlab": "workspace:*",
+    "@lotse/adapter-forgejo": "workspace:*",
+    "@lotse/adapter-neon": "workspace:*",
+    "@lotse/adapter-supabase": "workspace:*"
+  }
+}

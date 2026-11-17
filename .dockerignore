@@ -1,0 +1,11 @@
+.git
+**/node_modules
+**/dist
+**/*.tsbuildinfo
+packages/desktop/bundle
+packages/desktop/release
+data
+coverage
+.lotse
+.env
+.env.*

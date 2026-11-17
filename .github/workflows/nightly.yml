@@ -1,0 +1,178 @@
+# Nightly: live tests against every provider with test accounts, SSH tests on fresh
+# Ubuntu and Debian machines. Failures two nights in a row open an issue for the
+# adapter's maintainers; the status page shows the last successful run per adapter.
+name: Nightly
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    name: Live ${{ matrix.adapter }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        adapter: [vercel, netlify, cloudflare, railway, fly, hetzner, coolify, dokploy, github, gitlab, forgejo, neon, supabase]
+    env:
+      # Test accounts, one set per adapter. Missing secrets skip the adapter's test.
+      LOTSE_LIVE_VERCEL_TOKEN: ${{ secrets.LOTSE_LIVE_VERCEL_TOKEN }}
+      LOTSE_LIVE_VERCEL_TEAM_ID: ${{ secrets.LOTSE_LIVE_VERCEL_TEAM_ID }}
+      LOTSE_LIVE_NETLIFY_TOKEN: ${{ secrets.LOTSE_LIVE_NETLIFY_TOKEN }}
+      LOTSE_LIVE_CLOUDFLARE_TOKEN: ${{ secrets.LOTSE_LIVE_CLOUDFLARE_TOKEN }}
+      LOTSE_LIVE_CLOUDFLARE_ACCOUNT: ${{ secrets.LOTSE_LIVE_CLOUDFLARE_ACCOUNT }}
+      LOTSE_LIVE_RAILWAY_TOKEN: ${{ secrets.LOTSE_LIVE_RAILWAY_TOKEN }}
+      LOTSE_LIVE_FLY_TOKEN: ${{ secrets.LOTSE_LIVE_FLY_TOKEN }}
+      LOTSE_LIVE_FLY_ORG: ${{ secrets.LOTSE_LIVE_FLY_ORG }}
+      LOTSE_LIVE_HETZNER_TOKEN: ${{ secrets.LOTSE_LIVE_HETZNER_TOKEN }}
+      LOTSE_LIVE_COOLIFY_URL: ${{ secrets.LOTSE_LIVE_COOLIFY_URL }}
+      LOTSE_LIVE_COOLIFY_TOKEN: ${{ secrets.LOTSE_LIVE_COOLIFY_TOKEN }}
+      LOTSE_LIVE_COOLIFY_REGISTRY: ${{ secrets.LOTSE_LIVE_COOLIFY_REGISTRY }}
+      LOTSE_LIVE_DOKPLOY_URL: ${{ secrets.LOTSE_LIVE_DOKPLOY_URL }}
+      LOTSE_LIVE_DOKPLOY_TOKEN: ${{ secrets.LOTSE_LIVE_DOKPLOY_TOKEN }}
+      LOTSE_LIVE_GITHUB_TOKEN: ${{ secrets.LOTSE_LIVE_GITHUB_TOKEN }}
+      LOTSE_LIVE_GITHUB_REPO: ${{ secrets.LOTSE_LIVE_GITHUB_REPO }}
+      LOTSE_LIVE_GITLAB_TOKEN: ${{ secrets.LOTSE_LIVE_GITLAB_TOKEN }}
+      LOTSE_LIVE_GITLAB_REPO: ${{ secrets.LOTSE_LIVE_GITLAB_REPO }}
+      LOTSE_LIVE_FORGEJO_TOKEN: ${{ secrets.LOTSE_LIVE_FORGEJO_TOKEN }}
+      LOTSE_LIVE_FORGEJO_REPO: ${{ secrets.LOTSE_LIVE_FORGEJO_REPO }}
+      LOTSE_LIVE_NEON_TOKEN: ${{ secrets.LOTSE_LIVE_NEON_TOKEN }}
+      LOTSE_LIVE_SUPABASE_TOKEN: ${{ secrets.LOTSE_LIVE_SUPABASE_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+      - name: Live test
+        id: test
+        continue-on-error: true
+        env:
+          # The API traffic is kept for two weeks, credentials scrubbed, to refresh the contract cassettes.
+          LOTSE_RECORD: ${{ runner.temp }}/recordings
+        run: pnpm exec vitest run --project live --reporter=json --outputFile="$RUNNER_TEMP/live.json" "packages/adapter-${{ matrix.adapter }}/"
+      - name: Result
+        if: always()
+        env:
+          OUTCOME: ${{ steps.test.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          mkdir -p results
+          skipped=$(node -e "const r=require(process.env.RUNNER_TEMP+'/live.json'); console.log(r.numTotalTests>0 && r.numPendingTests===r.numTotalTests)" 2>/dev/null || echo false)
+          echo "{\"suite\":\"${{ matrix.adapter }}\",\"ok\":$([ "$OUTCOME" = success ] && echo true || echo false),\"skipped\":$skipped,\"url\":\"$RUN_URL\"}" > "results/${{ matrix.adapter }}.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: result-live-${{ matrix.adapter }}
+          path: results/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: recording-${{ matrix.adapter }}
+          path: ${{ runner.temp }}/recordings/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  ssh:
+    name: SSH ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, debian]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+      - name: Fresh ${{ matrix.os }} machine
+        run: scripts/test-server.sh up ${{ matrix.os }}
+      - name: SSH tests
+        id: test
+        continue-on-error: true
+        run: |
+          export LOTSE_TEST_SSH_HOST="$(scripts/test-server.sh ip ${{ matrix.os }})"
+          export LOTSE_TEST_SSH_CONTAINER="lotse-testserver-${{ matrix.os }}"
+          pnpm test:ssh
+      - name: Result
+        if: always()
+        env:
+          OUTCOME: ${{ steps.test.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          mkdir -p results
+          echo "{\"suite\":\"ssh-${{ matrix.os }}\",\"ok\":$([ "$OUTCOME" = success ] && echo true || echo false),\"url\":\"$RUN_URL\"}" > "results/ssh-${{ matrix.os }}.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: result-ssh-${{ matrix.os }}
+          path: results/
+
+  report:
+    name: Status page and issues
+    needs: [live, ssh]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: result-*
+          path: results
+          merge-multiple: true
+      - name: Previous status
+        run: |
+          pages="$(gh api "repos/${{ github.repository }}/pages" --jq .html_url 2>/dev/null || true)"
+          if [ -n "$pages" ]; then curl -sf "${pages%/}/status.json" -o previous.json || echo null > previous.json; else echo null > previous.json; fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - run: node scripts/nightly-status.mjs results previous.json site
+      - name: Issues for adapters failing two nights in a row
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create nightly-failure --color B60205 --description "Nightly live or SSH tests failing" --force
+          node -e 'for (const i of require("./site/issues.json")) console.log([i.suite, i.consecutiveFailures, i.url].join("\t"))' |
+          while IFS=$'\t' read -r suite nights url; do
+            title="Nightly tests of ${suite} are failing"
+            existing="$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number')"
+            body="The nightly tests of \`${suite}\` failed ${nights} nights in a row. Latest run: ${url}
+
+          Maintainers are listed in .github/CODEOWNERS."
+            if [ -n "$existing" ]; then
+              gh issue comment "$existing" --body "Still failing (${nights} nights): ${url}"
+            else
+              gh issue create --title "$title" --body "$body" --label "nightly-failure"
+            fi
+          done
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - uses: actions/deploy-pages@v4

@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../build"
+    },
+    {
+      "path": "../secrets"
+    },
+    {
+      "path": "../adapters"
+    },
+    {
+      "path": "../adapter-ssh"
+    }
+  ]
+}

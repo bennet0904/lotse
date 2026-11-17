@@ -1,0 +1,99 @@
+# Every pull request: sign-off, lint, type checks, unit, contract and integration tests.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dco:
+    name: Developer Certificate of Origin
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Every commit is signed off
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          missing=0
+          for sha in $(git rev-list --no-merges "$BASE..$HEAD"); do
+            author="$(git show -s --format='%an <%ae>' "$sha")"
+            if ! git show -s --format=%B "$sha" | grep -qiF "Signed-off-by: $author"; then
+              echo "::error::Commit $sha is not signed off by its author ($author). See CONTRIBUTING.md."
+              missing=1
+            fi
+          done
+          exit $missing
+
+  check:
+    name: Lint, types, unit and contract tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm schema && git diff --exit-code packages/core/schema
+      - run: pnpm test:unit
+      - run: pnpm test:contract
+
+  integration:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+      - name: Pull the images the tests use
+        run: |
+          for image in node:22-alpine python:3.13-slim golang:1.27-alpine composer:2 postgres:16-alpine codeberg.org/forgejo/forgejo:13; do
+            docker pull -q "$image"
+          done
+      - run: pnpm test:integration
+
+  container:
+    name: Web app image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: lotse:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: The image starts and serves the builder
+        run: |
+          docker run -d --name lotse -p 127.0.0.1:4780:4780 -e LOTSE_PUBLIC_URL=http://localhost:4780 \
+            -e LOTSE_MASTER_KEY="$(openssl rand -base64 32)" lotse:ci
+          for i in $(seq 1 30); do curl -sf http://localhost:4780/api/v1/health && exit 0; sleep 1; done
+          docker logs lotse; exit 1

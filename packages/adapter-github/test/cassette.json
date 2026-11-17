@@ -1,0 +1,180 @@
+{
+  "adapter": "github",
+  "source": "documentation",
+  "notes": "Written from the GitHub REST API reference (docs.github.com/rest), not recorded against a live account.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/user"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 42,
+            "login": "ada"
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/user"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "message": "Bad credentials",
+            "status": "401"
+          }
+        }
+      }
+    ],
+    "list-repos": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/user/repos?per_page=100&sort=pushed"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": 1001,
+              "name": "customer-portal",
+              "full_name": "ada/customer-portal",
+              "private": true,
+              "default_branch": "main",
+              "html_url": "https://github.com/ada/customer-portal",
+              "clone_url": "https://github.com/ada/customer-portal.git",
+              "owner": {
+                "login": "ada"
+              }
+            },
+            {
+              "id": 1001,
+              "name": "docs",
+              "full_name": "ada/docs",
+              "private": false,
+              "default_branch": "main",
+              "html_url": "https://github.com/ada/docs",
+              "clone_url": "https://github.com/ada/docs.git",
+              "owner": {
+                "login": "ada"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "create-repo": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.github.com/user/repos",
+          "body": {
+            "name": "new-app",
+            "private": true,
+            "auto_init": false
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": 1001,
+            "name": "new-app",
+            "full_name": "ada/new-app",
+            "private": true,
+            "default_branch": "main",
+            "html_url": "https://github.com/ada/new-app",
+            "clone_url": "https://github.com/ada/new-app.git",
+            "owner": {
+              "login": "ada"
+            }
+          }
+        }
+      }
+    ],
+    "remote-url": [],
+    "set-ci-secret": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ada/customer-portal/actions/secrets/public-key"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "key_id": "568250167242549743",
+            "key": "hBT5WZEj8ZoOv6TYJsfWq7MxTEQopZO5/IT3ZCVQPzs="
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.github.com/repos/ada/customer-portal/actions/secrets/LOTSE_SSH_KEY",
+          "body": {
+            "key_id": "568250167242549743"
+          }
+        },
+        "response": {
+          "status": 201
+        }
+      }
+    ],
+    "write-workflow": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.github.com/repos/ada/customer-portal/contents/.github/workflows/lotse-deploy.yml?ref=main"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "Not Found"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.github.com/repos/ada/customer-portal/contents/.github/workflows/lotse-deploy.yml",
+          "body": {
+            "message": "Add Lotse deploy workflow",
+            "branch": "main"
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "content": {
+              "path": ".github/workflows/lotse-deploy.yml"
+            },
+            "commit": {
+              "sha": "7638417db6d59f3c431d3e1f261cc637155684cd"
+            }
+          }
+        }
+      }
+    ],
+    "comment": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.github.com/repos/ada/customer-portal/issues/7/comments"
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": 1,
+            "html_url": "https://github.com/ada/customer-portal/pull/7#issuecomment-1"
+          }
+        }
+      }
+    ]
+  }
+}

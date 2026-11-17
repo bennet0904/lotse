@@ -1,0 +1,652 @@
+{
+  "adapter": "railway",
+  "source": "documentation",
+  "notes": "Written from Railway's public GraphQL API documentation, not recorded against a live account. The source upload uses the endpoint of Railway's own CLI.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "query me"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "me": {
+                "id": "usr_1",
+                "name": "Ada",
+                "email": "ada@example.test"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "query me"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "errors": [
+              {
+                "message": "Not Authorized"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "query projects"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "projects": {
+                "edges": []
+              }
+            }
+          }
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "query projects"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "projects": {
+                "edges": []
+              }
+            }
+          }
+        }
+      }
+    ],
+    "deploy": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "query projects"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "projects": {
+                "edges": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation projectCreate",
+            "variables": {
+              "input": {
+                "name": "lotse-reference"
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "projectCreate": {
+                "id": "prj_1",
+                "name": "lotse-reference",
+                "environments": {
+                  "edges": [
+                    {
+                      "node": {
+                        "id": "env_1",
+                        "name": "production"
+                      }
+                    }
+                  ]
+                },
+                "services": {
+                  "edges": []
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation serviceCreate",
+            "variables": {
+              "input": {
+                "projectId": "prj_1",
+                "name": "lotse-reference"
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "serviceCreate": {
+                "id": "svc_1"
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation variableCollectionUpsert",
+            "variables": {
+              "input": {
+                "projectId": "prj_1",
+                "environmentId": "env_1",
+                "serviceId": "svc_1",
+                "variables": {
+                  "APP_NAME": "Reference"
+                }
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "variableCollectionUpsert": true
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation serviceInstanceUpdate",
+            "variables": {
+              "input": {
+                "healthcheckPath": "/health"
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "serviceInstanceUpdate": true
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/project/prj_1/environment/env_1/up?serviceId=svc_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "deploymentId": "dep_1",
+            "url": "https://railway.com/project/prj_1",
+            "logsUrl": "https://railway.com/project/prj_1/logs"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "deployment(id: $id)"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "deployment": {
+                "id": "dep",
+                "status": "BUILDING",
+                "staticUrl": "lotse-reference-production.up.railway.app"
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "deployment(id: $id)"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "deployment": {
+                "id": "dep",
+                "status": "SUCCESS",
+                "staticUrl": "lotse-reference-production.up.railway.app"
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "query domains"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "domains": {
+                "serviceDomains": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation serviceDomainCreate",
+            "variables": {
+              "input": {
+                "serviceId": "svc_1",
+                "targetPort": 3000
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "serviceDomainCreate": {
+                "domain": "lotse-reference-production.up.railway.app"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "deploy-failed": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "query projects"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "projects": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "prj_1",
+                      "name": "lotse-reference",
+                      "environments": {
+                        "edges": [
+                          {
+                            "node": {
+                              "id": "env_1",
+                              "name": "production"
+                            }
+                          }
+                        ]
+                      },
+                      "services": {
+                        "edges": [
+                          {
+                            "node": {
+                              "id": "svc_1",
+                              "name": "lotse-reference"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation variableCollectionUpsert"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "variableCollectionUpsert": true
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation serviceInstanceUpdate",
+            "variables": {
+              "input": {
+                "healthcheckPath": "/health"
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "serviceInstanceUpdate": true
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/project/prj_1/environment/env_1/up?serviceId=svc_1"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "deploymentId": "dep_2",
+            "url": "https://railway.com/project/prj_1",
+            "logsUrl": "https://railway.com/project/prj_1/logs"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "deployment(id: $id)"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "deployment": {
+                "id": "dep",
+                "status": "FAILED",
+                "staticUrl": "lotse-reference-production.up.railway.app"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "deployments(input"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "deployments": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "dep_1",
+                      "status": "SUCCESS",
+                      "staticUrl": "lotse-reference-production.up.railway.app",
+                      "createdAt": "2026-11-16T12:00:00.000Z"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    ],
+    "logs": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "deployments(input"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "deployments": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "dep_1",
+                      "status": "SUCCESS",
+                      "staticUrl": "lotse-reference-production.up.railway.app",
+                      "createdAt": "2026-11-16T12:00:00.000Z"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "deploymentLogs("
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "deploymentLogs": [
+                {
+                  "message": "reference app version 1 listening on 3000",
+                  "timestamp": "2026-11-16T12:00:01.000Z",
+                  "severity": "info"
+                },
+                {
+                  "message": "warning: something",
+                  "timestamp": "2026-11-16T12:00:02.000Z",
+                  "severity": "error"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "set-env": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation variableCollectionUpsert"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "variableCollectionUpsert": true
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation serviceInstanceRedeploy"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "serviceInstanceRedeploy": true
+            }
+          }
+        }
+      }
+    ],
+    "add-domain": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation customDomainCreate",
+            "variables": {
+              "input": {
+                "domain": "app.example.com"
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "customDomainCreate": {
+                "id": "dom_1",
+                "status": {
+                  "dnsRecords": [
+                    {
+                      "hostlabel": "app",
+                      "requiredValue": "abc123.up.railway.app",
+                      "recordType": "DNS_RECORD_TYPE_CNAME",
+                      "zone": "example.com"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "rollback": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation deploymentRollback",
+            "variables": {
+              "id": "dep_0"
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "deploymentRollback": true
+            }
+          }
+        }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://backboard.railway.com/graphql/v2",
+          "body": {
+            "query": "mutation projectDelete",
+            "variables": {
+              "id": "prj_1"
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "data": {
+              "projectDelete": true
+            }
+          }
+        }
+      }
+    ]
+  }
+}

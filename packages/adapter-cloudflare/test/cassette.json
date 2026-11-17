@@ -1,0 +1,460 @@
+{
+  "adapter": "cloudflare",
+  "source": "documentation",
+  "notes": "Written from the Cloudflare API reference and the Workers static assets direct-upload guide, not recorded against a live account.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/user/tokens/verify"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "id": "tok_1",
+              "status": "active"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/accounts"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": [
+              {
+                "id": "acc_1",
+                "name": "Ada's Account"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/user/tokens/verify"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "success": false,
+            "errors": [
+              {
+                "code": 1000,
+                "message": "Invalid API Token"
+              }
+            ],
+            "result": null
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/subdomain"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "subdomain": "ada"
+            }
+          }
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/settings"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "success": false,
+            "errors": [
+              {
+                "code": 10007,
+                "message": "This Worker does not exist on your account."
+              }
+            ],
+            "result": null
+          }
+        }
+      }
+    ],
+    "deploy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/settings"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "success": false,
+            "errors": [
+              {
+                "code": 10007,
+                "message": "This Worker does not exist on your account."
+              }
+            ],
+            "result": null
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/assets-upload-session",
+          "body": {
+            "manifest": {
+              "/index.html": {
+                "hash": "9014dc6ec3bb246ccc2ebf72dcc514fe",
+                "size": 68
+              },
+              "/health": {
+                "hash": "fe8621a1e49b6f83c9578df2a377cd0d",
+                "size": 3
+              }
+            }
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "jwt": "upload-jwt-000000000000",
+              "buckets": [["9014dc6ec3bb246ccc2ebf72dcc514fe", "fe8621a1e49b6f83c9578df2a377cd0d"]]
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/assets/upload?base64=true"
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "jwt": "completion-jwt-00000000"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "id": "lotse-reference",
+              "startup_time_ms": 1
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/subdomain",
+          "body": {
+            "enabled": true
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "enabled": true
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/deployments"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "deployments": [
+                {
+                  "id": "dep_1",
+                  "created_on": "2026-11-16T12:00:00Z",
+                  "strategy": "percentage",
+                  "versions": [
+                    {
+                      "version_id": "ver_1",
+                      "percentage": 100
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/subdomain"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "subdomain": "ada"
+            }
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/settings"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "compatibility_date": "2026-01-01"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/subdomain"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "subdomain": "ada"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/deployments"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "deployments": [
+                {
+                  "id": "dep_1",
+                  "created_on": "2026-11-16T12:00:00Z",
+                  "strategy": "percentage",
+                  "versions": [
+                    {
+                      "version_id": "ver_1",
+                      "percentage": 100
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "logs": [],
+    "set-env": [
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/secrets",
+          "body": {
+            "name": "APP_NAME"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "name": "APP_NAME",
+              "type": "secret_text"
+            }
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/secrets",
+          "body": {
+            "name": "API_KEY"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "name": "API_KEY",
+              "type": "secret_text"
+            }
+          }
+        }
+      }
+    ],
+    "add-domain": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://api.cloudflare.com/client/v4/zones?name=example.com"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": [
+              {
+                "id": "zone_1",
+                "name": "example.com"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/domains",
+          "body": {
+            "hostname": "app.example.com",
+            "service": "lotse-reference",
+            "zone_id": "zone_1"
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "id": "dom_1",
+              "hostname": "app.example.com"
+            }
+          }
+        }
+      }
+    ],
+    "rollback": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference/deployments",
+          "body": {
+            "strategy": "percentage",
+            "versions": [
+              {
+                "version_id": "ver_0",
+                "percentage": 100
+              }
+            ]
+          }
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": {
+              "id": "dep_2"
+            }
+          }
+        }
+      }
+    ],
+    "destroy": [
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://api.cloudflare.com/client/v4/accounts/acc_1/workers/scripts/lotse-reference?force=true"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "errors": [],
+            "messages": [],
+            "result": null
+          }
+        }
+      }
+    ]
+  }
+}

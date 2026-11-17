@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dig *)",
+      "Bash(fail2ban-client status)",
+      "Bash(fail2ban-client status *)",
+      "Bash(fail2ban-client get *)",
+      "Bash(ufw status)",
+      "Bash(ufw status *)",
+      "Bash(sshd -T)",
+      "Bash(npm --version)"
+    ]
+  }
+}

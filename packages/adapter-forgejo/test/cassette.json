@@ -1,0 +1,157 @@
+{
+  "adapter": "forgejo",
+  "source": "documentation",
+  "notes": "Written from the Forgejo API reference (codeberg.org/api/swagger). The adapter is additionally verified against a real Forgejo instance in forgejo.integration.test.ts.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/user"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 7,
+            "login": "ada"
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/user"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "message": "token is required"
+          }
+        }
+      }
+    ],
+    "list-repos": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/user/repos?limit=50"
+        },
+        "response": {
+          "status": 200,
+          "body": [
+            {
+              "id": 2001,
+              "name": "customer-portal",
+              "owner": {
+                "login": "ada"
+              },
+              "private": true,
+              "default_branch": "main",
+              "html_url": "https://codeberg.org/ada/customer-portal",
+              "clone_url": "https://codeberg.org/ada/customer-portal.git"
+            },
+            {
+              "id": 2002,
+              "name": "docs",
+              "owner": {
+                "login": "ada"
+              },
+              "private": false,
+              "default_branch": "main",
+              "html_url": "https://codeberg.org/ada/docs",
+              "clone_url": "https://codeberg.org/ada/docs.git"
+            }
+          ]
+        }
+      }
+    ],
+    "create-repo": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://codeberg.org/api/v1/user/repos",
+          "body": {
+            "name": "new-app",
+            "private": true
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": 2003,
+            "name": "new-app",
+            "owner": {
+              "login": "ada"
+            },
+            "private": true,
+            "default_branch": "main",
+            "html_url": "https://codeberg.org/ada/new-app",
+            "clone_url": "https://codeberg.org/ada/new-app.git"
+          }
+        }
+      }
+    ],
+    "remote-url": [],
+    "set-ci-secret": [
+      {
+        "request": {
+          "method": "PUT",
+          "url": "https://codeberg.org/api/v1/repos/ada/customer-portal/actions/secrets/LOTSE_SSH_KEY",
+          "body": {
+            "data": "contract-secret-value"
+          }
+        },
+        "response": {
+          "status": 201
+        }
+      }
+    ],
+    "write-workflow": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://codeberg.org/api/v1/repos/ada/customer-portal/contents/.forgejo/workflows/lotse-deploy.yml?ref=main"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "not found"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://codeberg.org/api/v1/repos/ada/customer-portal/contents/.forgejo/workflows/lotse-deploy.yml",
+          "body": {
+            "branch": "main"
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "content": {
+              "path": ".forgejo/workflows/lotse-deploy.yml"
+            }
+          }
+        }
+      }
+    ],
+    "comment": [
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://codeberg.org/api/v1/repos/ada/customer-portal/issues/7/comments"
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": 1
+          }
+        }
+      }
+    ]
+  }
+}

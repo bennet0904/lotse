@@ -1,0 +1,184 @@
+{
+  "adapter": "gitlab-pages",
+  "source": "documentation",
+  "notes": "Written from the GitLab REST API reference. The Git push itself is replaced by a fake.",
+  "scenarios": {
+    "connect": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/user"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 42,
+            "username": "ada"
+          }
+        }
+      }
+    ],
+    "connect-invalid": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/user"
+        },
+        "response": {
+          "status": 401,
+          "body": {
+            "message": "401 Unauthorized"
+          }
+        }
+      }
+    ],
+    "verify": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/projects?membership=true"
+        },
+        "response": {
+          "status": 200,
+          "body": []
+        }
+      }
+    ],
+    "plan": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/projects/ada%2Flotse-reference"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "404 Project Not Found"
+          }
+        }
+      }
+    ],
+    "deploy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/projects/ada%2Flotse-reference"
+        },
+        "response": {
+          "status": 404,
+          "body": {
+            "message": "404 Project Not Found"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "POST",
+          "url": "https://gitlab.com/api/v4/projects",
+          "body": {
+            "name": "lotse-reference",
+            "visibility": "public"
+          }
+        },
+        "response": {
+          "status": 201,
+          "body": {
+            "id": 1001,
+            "path": "lotse-reference",
+            "path_with_namespace": "ada/lotse-reference",
+            "namespace": {
+              "full_path": "ada"
+            },
+            "default_branch": "main",
+            "visibility": "public",
+            "web_url": "https://gitlab.com/ada/lotse-reference",
+            "http_url_to_repo": "https://gitlab.com/ada/lotse-reference.git"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/projects/1001/pages"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "url": "https://ada.gitlab.io/lotse-reference",
+            "deployments": []
+          }
+        }
+      }
+    ],
+    "status": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/projects/ada%2Flotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 1001,
+            "path": "lotse-reference",
+            "path_with_namespace": "ada/lotse-reference",
+            "namespace": {
+              "full_path": "ada"
+            },
+            "default_branch": "main",
+            "visibility": "public",
+            "web_url": "https://gitlab.com/ada/lotse-reference",
+            "http_url_to_repo": "https://gitlab.com/ada/lotse-reference.git"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/projects/1001/pages"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "url": "https://ada.gitlab.io/lotse-reference",
+            "deployments": []
+          }
+        }
+      }
+    ],
+    "logs": [],
+    "set-env": [],
+    "destroy": [
+      {
+        "request": {
+          "method": "GET",
+          "url": "https://gitlab.com/api/v4/projects/ada%2Flotse-reference"
+        },
+        "response": {
+          "status": 200,
+          "body": {
+            "id": 1001,
+            "path": "lotse-reference",
+            "path_with_namespace": "ada/lotse-reference",
+            "namespace": {
+              "full_path": "ada"
+            },
+            "default_branch": "main",
+            "visibility": "public",
+            "web_url": "https://gitlab.com/ada/lotse-reference",
+            "http_url_to_repo": "https://gitlab.com/ada/lotse-reference.git"
+          }
+        }
+      },
+      {
+        "request": {
+          "method": "DELETE",
+          "url": "https://gitlab.com/api/v4/projects/1001/pages"
+        },
+        "response": {
+          "status": 204
+        }
+      }
+    ]
+  }
+}
