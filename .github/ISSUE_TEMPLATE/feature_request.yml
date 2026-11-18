@@ -1,0 +1,20 @@
+name: Idea or feature
+description: Something Lotse should do, or do differently.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What you want to achieve
+      description: The situation and the goal, rather than a solution.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: How it could work
+  - type: textarea
+    id: done
+    attributes:
+      label: When is it done?
+      description: What someone can check to see that it works.
