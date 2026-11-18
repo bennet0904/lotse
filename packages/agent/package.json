@@ -1,6 +1,6 @@
 {
   "name": "@lotseai/agent",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "LLM integration, prompt pipeline and model tools for the Lotse app builder",
   "license": "Apache-2.0",
   "repository": {
