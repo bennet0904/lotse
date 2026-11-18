@@ -1,0 +1,51 @@
+name: Problem with a provider
+description: Connecting, publishing, rolling back or anything else fails at one provider.
+labels: [adapters]
+body:
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Provider
+      options:
+        [
+          Own server (SSH),
+          Hetzner Cloud,
+          Vercel,
+          Netlify,
+          Cloudflare,
+          Railway,
+          Fly.io,
+          Coolify,
+          Dokploy,
+          GitHub,
+          GitLab,
+          Forgejo / Codeberg,
+          GitHub Pages,
+          GitLab Pages,
+          Codeberg Pages,
+          Neon,
+          Supabase,
+        ]
+    validations:
+      required: true
+  - type: dropdown
+    id: step
+    attributes:
+      label: Step
+      options: [Connecting, Planning, Building, Deploying, Health check, Rollback, Custom domain, Database, Logs or status, Removing, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The error message as text, and what the provider's dashboard shows. Never include tokens or keys.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "0.1.0"
+    validations:
+      required: true

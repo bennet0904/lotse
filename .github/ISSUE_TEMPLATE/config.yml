@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Handbook
+    url: https://bennet0904.github.io/lotse/
+    about: How to install, build, publish and operate, and a troubleshooting page.
+  - name: Report a security vulnerability
+    url: https://github.com/bennet0904/lotse/security/policy
+    about: Please report vulnerabilities privately, not as an issue.

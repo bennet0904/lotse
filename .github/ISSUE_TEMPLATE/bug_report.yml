@@ -1,0 +1,37 @@
+name: Bug report
+description: Something does not work as described.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead. Copy error messages as text.
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options: [Desktop app, Web app, Command line, Several]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: "Settings → This installation, or `lotse --version`"
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: System
+      placeholder: "macOS 26 (Apple silicon), Podman 5.7"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or details
+      description: Never include tokens, keys or passwords.
+      render: text

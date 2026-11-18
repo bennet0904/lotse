@@ -31,6 +31,8 @@ jobs:
           missing=0
           for sha in $(git rev-list --no-merges "$BASE..$HEAD"); do
             author="$(git show -s --format='%an <%ae>' "$sha")"
+            # Commits by bots (Claude, Dependabot) are certified by the person who reviews and merges them.
+            case "$author" in *"[bot]@users.noreply.github.com>") continue ;; esac
             if ! git show -s --format=%B "$sha" | grep -qiF "Signed-off-by: $author"; then
               echo "::error::Commit $sha is not signed off by its author ($author). See CONTRIBUTING.md."
               missing=1
