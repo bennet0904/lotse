@@ -1,6 +1,11 @@
 # Claude works on issues and pull requests of this repository:
-#   - mention @claude in an issue, a comment or a review, or
-#   - add the label "claude" to an issue.
+#   - add one of the labels claude-small, claude-medium or claude-large to an issue, or
+#   - mention @claude in an issue, a comment or a review.
+# The label sets the model and effort:
+#   claude-small   Sonnet, medium effort  (small fixes)
+#   claude-medium  Opus, medium effort    (most issues; also used for @claude without a label)
+#   claude-large   Opus, high effort      (large or tricky changes)
+# A mention uses the label the issue or pull request already has.
 # Only people with write access to the repository can trigger it. Claude opens pull
 # requests; it never merges. Guidelines for its work are in CLAUDE.md.
 name: Claude
@@ -28,7 +33,7 @@ jobs:
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
-      (github.event_name == 'issues' && github.event.action == 'labeled' && github.event.label.name == 'claude') ||
+      (github.event_name == 'issues' && github.event.action == 'labeled' && contains(fromJSON('["claude-small","claude-medium","claude-large"]'), github.event.label.name)) ||
       (github.event_name == 'issues' && github.event.action != 'labeled' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -52,11 +57,39 @@ jobs:
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
       - run: pnpm build
+      - name: Model and effort from the label
+        id: tier
+        env:
+          EVENT_LABEL: ${{ github.event.label.name }}
+          ISSUE_LABELS: ${{ toJSON(github.event.issue.labels.*.name) }}
+          PR_LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          tier=medium
+          case "$EVENT_LABEL" in
+            claude-small) tier=small ;;
+            claude-medium) tier=medium ;;
+            claude-large) tier=large ;;
+            *)
+              labels="$ISSUE_LABELS $PR_LABELS"
+              if grep -q '"claude-large"' <<<"$labels"; then tier=large
+              elif grep -q '"claude-medium"' <<<"$labels"; then tier=medium
+              elif grep -q '"claude-small"' <<<"$labels"; then tier=small
+              fi ;;
+          esac
+          case "$tier" in
+            small) model=sonnet effort=medium ;;
+            medium) model=opus effort=medium ;;
+            large) model=opus effort=high ;;
+          esac
+          echo "Using $model with $effort effort (claude-$tier)."
+          { echo "label=claude-$tier"; echo "model=$model"; echo "effort=$effort"; } >> "$GITHUB_OUTPUT"
       - uses: anthropics/claude-code-action@v1
         with:
           # One of the two: an API key, or a token of a Claude subscription (`claude setup-token`).
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          label_trigger: claude
+          label_trigger: ${{ steps.tier.outputs.label }}
           claude_args: |
+            --model ${{ steps.tier.outputs.model }}
+            --effort ${{ steps.tier.outputs.effort }}
             --allowedTools "Bash(pnpm install:*),Bash(pnpm build:*),Bash(pnpm typecheck:*),Bash(pnpm lint:*),Bash(pnpm format:*),Bash(pnpm schema:*),Bash(pnpm test:*),Bash(pnpm exec vitest:*),Bash(pnpm --filter:*),Bash(node scripts/:*),Bash(git status:*),Bash(git diff:*),Bash(git log:*)"
