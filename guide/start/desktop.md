@@ -9,8 +9,11 @@ The desktop app is the builder for one person. It runs entirely on your computer
    | System                              | File                                                                             |
    | ----------------------------------- | -------------------------------------------------------------------------------- |
    | macOS (Apple silicon: M1 and later) | `Lotse-<version>-arm64.dmg`                                                      |
+   | macOS (Intel)                       | `Lotse-<version>-x64.dmg`                                                        |
    | Windows                             | `Lotse.Setup.<version>.exe`                                                      |
    | Linux                               | `Lotse-<version>.AppImage`, or `lotse_<version>_amd64.deb` for Debian and Ubuntu |
+
+   Not sure which Mac you have? Open the Apple menu → **About This Mac**: _Chip_ (Apple M1, M2, …) means Apple silicon, _Processor_ (Intel …) means Intel.
 
 2. Install it as usual for your system.
 
