@@ -93,3 +93,18 @@ jobs:
             --model ${{ steps.tier.outputs.model }}
             --effort ${{ steps.tier.outputs.effort }}
             --allowedTools "Bash(pnpm install:*),Bash(pnpm build:*),Bash(pnpm typecheck:*),Bash(pnpm lint:*),Bash(pnpm format:*),Bash(pnpm schema:*),Bash(pnpm test:*),Bash(pnpm exec vitest:*),Bash(pnpm --filter:*),Bash(node scripts/:*),Bash(git status:*),Bash(git diff:*),Bash(git log:*)"
+      # The action hides Claude's output, because it can contain secrets. When the run fails,
+      # print only Claude's final result message, so that the cause is visible.
+      - name: Why Claude stopped
+        if: failure()
+        run: |
+          file="$RUNNER_TEMP/claude-execution-output.json"
+          if [ ! -f "$file" ]; then echo "Claude did not start; see the step above."; exit 0; fi
+          node -e '
+            const raw = require("fs").readFileSync(process.argv[1], "utf8").trim();
+            let entries;
+            try { entries = [].concat(JSON.parse(raw)); } catch { entries = raw.split("\n").filter(Boolean).map((line) => { try { return JSON.parse(line); } catch { return {}; } }); }
+            const results = entries.filter((e) => e && e.type === "result");
+            if (results.length === 0) console.log("No result message found.");
+            for (const r of results) console.log([r.subtype, r.is_error ? "error" : "", String(r.result ?? (r.errors ?? []).join("; ")).slice(0, 2000)].filter(Boolean).join(": "));
+          ' "$file"
