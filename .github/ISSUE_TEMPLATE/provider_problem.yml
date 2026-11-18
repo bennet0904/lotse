@@ -6,7 +6,26 @@ body:
     id: provider
     attributes:
       label: Provider
-      options: [Own server (SSH), Hetzner Cloud, Vercel, Netlify, Cloudflare, Railway, Fly.io, Coolify, Dokploy, GitHub, GitLab, Forgejo / Codeberg, GitHub Pages, GitLab Pages, Codeberg Pages, Neon, Supabase]
+      options:
+        [
+          Own server (SSH),
+          Hetzner Cloud,
+          Vercel,
+          Netlify,
+          Cloudflare,
+          Railway,
+          Fly.io,
+          Coolify,
+          Dokploy,
+          GitHub,
+          GitLab,
+          Forgejo / Codeberg,
+          GitHub Pages,
+          GitLab Pages,
+          Codeberg Pages,
+          Neon,
+          Supabase,
+        ]
     validations:
       required: true
   - type: dropdown
