@@ -32,8 +32,10 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotseai/core": "workspace:*",
     "libsodium-wrappers": "^0.8.4"
+  },
+  "peerDependencies": {
+    "@lotseai/core": "workspace:>=0.1.0 <1.0.0"
   },
   "keywords": [
     "lotse",

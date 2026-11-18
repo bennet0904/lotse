@@ -200,7 +200,7 @@ importers:
   packages/adapter-cloudflare:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':
@@ -210,7 +210,7 @@ importers:
   packages/adapter-coolify:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':
@@ -220,7 +220,7 @@ importers:
   packages/adapter-dokploy:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
       fflate:
         specifier: ^0.8.3
@@ -233,7 +233,7 @@ importers:
   packages/adapter-fly:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':
@@ -243,7 +243,7 @@ importers:
   packages/adapter-forgejo:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':
@@ -253,7 +253,7 @@ importers:
   packages/adapter-github:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
       libsodium-wrappers:
         specifier: ^0.8.4
@@ -266,7 +266,7 @@ importers:
   packages/adapter-gitlab:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':
@@ -279,7 +279,7 @@ importers:
         specifier: workspace:*
         version: link:../adapter-ssh
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':
@@ -289,7 +289,7 @@ importers:
   packages/adapter-neon:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':
@@ -299,7 +299,7 @@ importers:
   packages/adapter-netlify:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
       fflate:
         specifier: ^0.8.3
@@ -312,7 +312,7 @@ importers:
   packages/adapter-railway:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':
@@ -322,7 +322,7 @@ importers:
   packages/adapter-ssh:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
       ssh2:
         specifier: ^1.17.0
@@ -341,7 +341,7 @@ importers:
   packages/adapter-supabase:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':
@@ -370,7 +370,7 @@ importers:
   packages/adapter-vercel:
     dependencies:
       '@lotseai/core':
-        specifier: workspace:*
+        specifier: workspace:>=0.1.0 <1.0.0
         version: link:../core
     devDependencies:
       '@lotseai/adapter-testkit':

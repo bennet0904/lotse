@@ -40,7 +40,9 @@ export async function scaffoldAdapter(parent: string, name: string, displayName?
       .replaceAll("__ID__", id)
       .replaceAll("__CLASS__", className)
       .replaceAll("__DISPLAY__", displayName ?? className)
-      .replaceAll("__CORE_VERSION__", ADAPTER_API_VERSION);
+      .replaceAll("__CORE_VERSION__", ADAPTER_API_VERSION)
+      // A peer dependency, so that the adapter uses the core of the instance that loads it instead of its own copy.
+      .replaceAll("__CORE_RANGE__", `>=${ADAPTER_API_VERSION} <${Number(ADAPTER_API_VERSION.split(".")[0]) + 1}.0.0`);
   const written: string[] = [];
   for (const source of await files(TEMPLATES)) {
     const target = join(

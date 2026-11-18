@@ -35,6 +35,8 @@ describe("lotse create adapter", () => {
     const pkg = JSON.parse(await readFile(join(result.dir, "package.json"), "utf8"));
     expect(pkg.name).toBe("lotse-adapter-acme-cloud");
     expect(pkg.keywords).toContain("lotse-adapter");
+    expect(pkg.dependencies?.["@lotseai/core"]).toBeUndefined();
+    expect(pkg.peerDependencies["@lotseai/core"]).toMatch(/^>=\d+\.\d+\.\d+ <\d+\.0\.0$/);
     expect(await readFile(join(result.dir, "test/acme-cloud.contract.test.ts"), "utf8")).toContain("createAcmeCloudAdapter");
     expect(await readFile(join(result.dir, "README.md"), "utf8")).not.toContain("__");
     expect(() => assertAdapterPackage(mod.default)).not.toThrow();

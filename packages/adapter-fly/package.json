@@ -31,8 +31,8 @@
   "scripts": {
     "build": "tsc -b"
   },
-  "dependencies": {
-    "@lotseai/core": "workspace:*"
+  "peerDependencies": {
+    "@lotseai/core": "workspace:>=0.1.0 <1.0.0"
   },
   "keywords": [
     "lotse",
