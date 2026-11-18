@@ -1,6 +1,6 @@
 {
   "name": "@lotseai/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Command line for deploying with Lotse, with or without the builder",
   "license": "Apache-2.0",
   "repository": {

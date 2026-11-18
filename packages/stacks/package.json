@@ -1,6 +1,6 @@
 {
   "name": "@lotseai/stacks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Stack templates the Lotse app builder scaffolds projects from",
   "license": "Apache-2.0",
   "repository": {
