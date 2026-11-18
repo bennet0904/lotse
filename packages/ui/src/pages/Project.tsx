@@ -4,6 +4,7 @@ import { Dialog, ErrorNote, Spinner, StatusBadge } from "../components/common";
 import { JobActivity } from "../components/JobActivity";
 import { PlanCard } from "../components/PlanCard";
 import { Publish } from "../components/Publish";
+import { Repository } from "../components/Repository";
 import { type MessageKey, useI18n } from "../i18n";
 import { PROJECT_STATUS } from "./Projects";
 
@@ -187,7 +188,9 @@ export function ProjectPage({ id }: { id: string }) {
           {tab === "files" && <Files projectId={id} reloadKey={previewKey} />}
           {tab === "versions" && (
             <Versions
+              project={p}
               projectId={id}
+              onChanged={() => project.reload()}
               onRestored={() => {
                 messages.reload();
                 setPreviewKey((n) => n + 1);
@@ -296,7 +299,7 @@ function Files({ projectId, reloadKey }: { projectId: string; reloadKey: number 
   );
 }
 
-function Versions({ projectId, onRestored }: { projectId: string; onRestored: () => void }) {
+function Versions({ project, projectId, onRestored, onChanged }: { project: ProjectData; projectId: string; onRestored: () => void; onChanged: () => void }) {
   const { t, locale } = useI18n();
   const commits = useLoad(() => get<{ commits: { sha: string; message: string; date: string }[] }>(`/projects/${projectId}/commits`), [projectId]);
   const [target, setTarget] = useState<{ sha: string; message: string }>();
@@ -314,6 +317,13 @@ function Versions({ projectId, onRestored }: { projectId: string; onRestored: ()
   };
   return (
     <div className="pane">
+      <Repository
+        project={project}
+        onChanged={() => {
+          commits.reload();
+          onChanged();
+        }}
+      />
       <h3>{t("versions.title")}</h3>
       <p className="hint">{t("versions.hint")}</p>
       <ErrorNote error={commits.error} />

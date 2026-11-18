@@ -1,6 +1,7 @@
 import { type FormEvent, useState } from "react";
 import { type ApiError, api, get, post, type User, useLoad } from "../api";
 import { ErrorNote } from "../components/common";
+import { ModelSettings } from "../components/ModelSettings";
 import { useI18n } from "../i18n";
 
 interface Config {
@@ -137,6 +138,8 @@ export function Settings({ me, config }: { me: User; config: Config }) {
           <dd>{t("settings.telemetryOff")}</dd>
         </dl>
       </section>
+
+      {isAdmin && <ModelSettings />}
 
       {isAdmin && !config.desktop && <GithubAppSection />}
 

@@ -5,6 +5,7 @@ export * from "./github-app.js";
 export * from "./hosting.js";
 export * from "./http.js";
 export * from "./jobs.js";
+export * from "./model-settings.js";
 export * from "./projects.js";
 export * from "./server.js";
 export * from "./services.js";

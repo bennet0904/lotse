@@ -1,5 +1,6 @@
 packages:
   - "packages/*"
+  - "guide"
 
 # Which dependencies may run install scripts. Everything else is refused.
 allowBuilds:

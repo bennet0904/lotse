@@ -19,3 +19,7 @@ packages/desktop/release/
 .vscode/
 .idea/
 packages/desktop/bundle/
+
+# Handbook build output
+guide/.vitepress/cache/
+guide/.vitepress/dist/

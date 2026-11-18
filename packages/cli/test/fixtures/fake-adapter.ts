@@ -28,7 +28,13 @@ const adapter: HostingAdapter = {
   tokenSetup: { url: "https://fake.example/tokens", permissions: ["deploy"], steps: ["Create a token."] },
   async connect(input) {
     if (input.method !== "token" || !input.token.startsWith("fake-")) throw new LotseError("AUTH_FAILED", "Fake Cloud did not accept the token.");
-    return { adapter: "fake", method: "token", account: { id: "u1", name: "ada" }, credentials: { token: input.token }, settings: { ...input.options } };
+    return {
+      adapter: "fake",
+      method: "token",
+      account: { id: "u1", name: "ada" },
+      credentials: { token: input.token, ...input.secrets },
+      settings: { ...input.options },
+    };
   },
   async verify() {
     return { ok: true, account: "ada", missingPermissions: [], warnings: [] };

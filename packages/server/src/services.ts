@@ -11,6 +11,7 @@ import type { ServerConfig } from "./config.js";
 import { type Database, DbSecretBackend, eq, openDatabase } from "./db/index.js";
 import { GithubAppService } from "./github-app.js";
 import { JobQueue } from "./jobs.js";
+import { ModelSettings } from "./model-settings.js";
 
 /** Adapters that ship with the builder. More are loaded through the configuration. */
 export { BUILT_IN_ADAPTERS };
@@ -47,6 +48,7 @@ export class Services {
   readonly connections: ConnectionStore;
   readonly resolveModel: (spec: string | undefined) => Promise<ResolvedModel>;
   readonly githubApp: GithubAppService;
+  readonly models: ModelSettings;
 
   private constructor(
     readonly config: ServerConfig,
@@ -60,7 +62,9 @@ export class Services {
     this.jobs = new JobQueue(database, config.concurrency);
     this.vault = new SecretStore(new DbSecretBackend(database), config.masterKey);
     this.connections = new ConnectionStore(this.vault);
-    this.resolveModel = overrides.resolveModel ?? ((spec) => resolveModel(spec, config.env));
+    this.models = new ModelSettings(this);
+    // Settings made in the user interface win over the environment.
+    this.resolveModel = overrides.resolveModel ?? (async (spec) => resolveModel(spec, await this.models.env()));
     this.githubApp = new GithubAppService(this, overrides.fetch);
   }
 

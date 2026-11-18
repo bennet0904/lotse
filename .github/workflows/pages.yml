@@ -1,0 +1,75 @@
+# The handbook (guide/) and the status page of the nightly tests, published together on
+# GitHub Pages: https://bennet0904.github.io/lotse/ and …/status/. A repository has one
+# Pages site, so both are always deployed together.
+name: Handbook
+
+on:
+  push:
+    branches: [main]
+    paths: ["guide/**", "scripts/nightly-status.mjs", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+  # The nightly workflow calls this with tonight's status page as the artifact "status-page".
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --filter @lotseai/guide
+      - run: pnpm --filter @lotseai/guide build
+      - name: Tonight's status page, when called by the nightly tests
+        id: tonight
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: status-page
+          path: status
+      - name: Otherwise the status page that is online
+        if: steps.tonight.outcome != 'success'
+        run: |
+          mkdir -p status
+          base="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/status"
+          if curl -sf "$base/status.json" -o status/status.json && curl -sf "$base/index.html" -o status/index.html; then
+            echo "Kept the published status page."
+          else
+            rm -f status/*
+            mkdir -p "$RUNNER_TEMP/no-results"
+            node scripts/nightly-status.mjs "$RUNNER_TEMP/no-results" - status
+          fi
+      - name: Add the status page to the site
+        run: |
+          rm -f status/issues.json
+          mkdir -p guide/.vitepress/dist/status
+          cp status/* guide/.vitepress/dist/status/
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: guide/.vitepress/dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

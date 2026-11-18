@@ -75,6 +75,17 @@ describe("lotse connect", () => {
     expect((await cli(["verify", "fake"])).out).toContain("OK  Fake Cloud (ada)");
   });
 
+  it("stores secret adapter settings with the credentials", async () => {
+    const result = await cli(["connect", "fake", "--secret", "s3SecretKey=bucket-secret-0001", "-o", "s3Bucket=backups"], {
+      env: { LOTSE_TOKEN: "fake-token-123456" },
+    });
+    expect(result.code).toBe(0);
+    const shown = (await cli(["connections", "show", "fake"])).out;
+    expect(shown).toContain('"s3SecretKey": "[redacted]"');
+    expect(shown).toContain('"s3Bucket": "backups"');
+    expect(await readFile(join(root, "config/credentials.json"), "utf8")).not.toContain("bucket-secret-0001");
+  });
+
   it("guides through the token setup when asked interactively", async () => {
     const result = await cli(["connect", "fake"], { interactive: true, answers: ["fake-typed-token-1"] });
     expect(result.code).toBe(0);

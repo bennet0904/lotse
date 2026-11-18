@@ -160,7 +160,8 @@ export function registerProjectCommands(program: Command, getContext: () => Cont
                 `${outcome.error?.message ?? "The deployment failed."}${outcome.rolledBack ? "\nThe previous version was restored." : ""}`,
               );
             }
-            if (!flags.target) await ctx.saveConfig({ target: adapterId });
+            // The first provider an app is deployed to becomes the project's default target.
+            if (!flags.preview && !(await ctx.config()).target) await ctx.saveConfig({ target: adapterId });
             io.out(`\n${paint(io, "green", flags.preview ? "Preview ready:" : "Live at")} ${outcome.deployment?.url ?? "(no address reported)"}`);
             for (const d of outcome.domains.filter((x) => x.state === "pending")) {
               io.out(`${paint(io, "yellow", "DNS needed")} for ${d.domain}: ${d.dnsRecords.map((r) => `${r.type} ${r.name} → ${r.value}`).join(", ")}`);

@@ -1,6 +1,6 @@
 # Configuration reference
 
-All settings are environment variables. The builder (web app and desktop app) reads them at start; the CLI reads them on every call.
+All settings of an installation are environment variables (in the web app: the `.env` file next to `compose.yaml`). Language models can also be set up in the user interface under **Settings → Language models**; those settings take precedence. The builder (web app and desktop app) reads them at start; the CLI reads them on every call.
 
 ## Builder server
 
@@ -70,14 +70,14 @@ Users can choose another model per project. Token usage and estimated cost are s
 
 ## Git platforms and OAuth
 
-| Variable                                                                   | Meaning                                                                                                  |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `LOTSE_OAUTH_<PROVIDER>_CLIENT_ID`, `LOTSE_OAUTH_<PROVIDER>_CLIENT_SECRET` | OAuth app of the instance for a provider, e.g. `LOTSE_OAUTH_VERCEL_CLIENT_ID`. See [oauth.md](oauth.md). |
-| `LOTSE_OAUTH_PORT`                                                         | Fixed port for the CLI's loopback redirect.                                                              |
-| `LOTSE_GITHUB_URL`                                                         | GitHub Enterprise Server instead of github.com.                                                          |
-| `LOTSE_GITLAB_URL`                                                         | Self-managed GitLab instead of gitlab.com.                                                               |
-| `LOTSE_FORGEJO_URL`                                                        | Forgejo or Gitea instance instead of Codeberg.                                                           |
-| `LOTSE_NEON_REGION`, `LOTSE_SUPABASE_REGION`                               | Default region of databases created at Neon or Supabase.                                                 |
+| Variable                                                                   | Meaning                                                                                                                                 |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `LOTSE_OAUTH_<PROVIDER>_CLIENT_ID`, `LOTSE_OAUTH_<PROVIDER>_CLIENT_SECRET` | OAuth app of the instance for a provider, e.g. `LOTSE_OAUTH_VERCEL_CLIENT_ID`. See [OAuth apps and the GitHub App](./provider-sign-in). |
+| `LOTSE_OAUTH_PORT`                                                         | Fixed port for the CLI's loopback redirect.                                                                                             |
+| `LOTSE_GITHUB_URL`                                                         | GitHub Enterprise Server instead of github.com.                                                                                         |
+| `LOTSE_GITLAB_URL`                                                         | Self-managed GitLab instead of gitlab.com.                                                                                              |
+| `LOTSE_FORGEJO_URL`                                                        | Forgejo or Gitea instance instead of Codeberg.                                                                                          |
+| `LOTSE_NEON_REGION`, `LOTSE_SUPABASE_REGION`                               | Default region of databases created at Neon or Supabase.                                                                                |
 
 ## CLI
 

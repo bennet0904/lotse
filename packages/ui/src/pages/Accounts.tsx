@@ -155,6 +155,8 @@ function ConnectDialog({ adapter, desktop, onClose, onConnected }: { adapter: Ad
   const [sshUser, setSshUser] = useState("root");
   const [port, setPort] = useState("22");
   const [password, setPassword] = useState("");
+  const [baseDomain, setBaseDomain] = useState("");
+  const [s3, setS3] = useState({ bucket: "", endpoint: "", region: "", accessKey: "", secretKey: "" });
   const [key, setKey] = useState<{ keyId: string; publicKey: string }>();
   const [error, setError] = useState<ApiError>();
   const [busy, setBusy] = useState(false);
@@ -178,11 +180,36 @@ function ConnectDialog({ adapter, desktop, onClose, onConnected }: { adapter: Ad
   const submit = (e: FormEvent) => {
     e.preventDefault();
     void run(async () => {
+      // Backups can additionally go to S3-compatible storage; its keys are stored with the account's credentials.
+      const sshOptions = {
+        ...options,
+        ...(baseDomain.trim() ? { baseDomain: baseDomain.trim().toLowerCase() } : {}),
+        ...(s3.bucket.trim()
+          ? {
+              s3Bucket: s3.bucket.trim(),
+              ...(s3.endpoint.trim() ? { s3Endpoint: s3.endpoint.trim() } : {}),
+              ...(s3.region.trim() ? { s3Region: s3.region.trim() } : {}),
+            }
+          : {}),
+      };
+      const sshSecrets = s3.bucket.trim() ? { s3AccessKey: s3.accessKey.trim(), s3SecretKey: s3.secretKey } : undefined;
       const body = isSsh
-        ? { adapter: adapter.id, host, user: sshUser, port: Number(port), password: password || undefined, keyId: key?.keyId, options, scope, label }
+        ? {
+            adapter: adapter.id,
+            host,
+            user: sshUser,
+            port: Number(port),
+            password: password || undefined,
+            keyId: key?.keyId,
+            options: sshOptions,
+            secrets: sshSecrets,
+            scope,
+            label,
+          }
         : { adapter: adapter.id, token, options, scope, label };
       const connected = await post<{ verify: VerifyResult | null }>("/accounts", body);
       setPassword("");
+      setS3((current) => ({ ...current, secretKey: "" }));
       setToken("");
       setResult(connected.verify ?? "done");
       onConnected();
@@ -325,6 +352,51 @@ function ConnectDialog({ adapter, desktop, onClose, onConnected }: { adapter: Ad
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="off" />
                     <span className="hint">{t("ssh.passwordHint")}</span>
                   </label>
+                  <label>
+                    {t("ssh.baseDomain")} <span className="hint">({t("common.optional")})</span>
+                    <input value={baseDomain} onChange={(e) => setBaseDomain(e.target.value)} placeholder="apps.example.com" autoComplete="off" />
+                    <span className="hint">{t("ssh.baseDomainHint")}</span>
+                  </label>
+                  <details>
+                    <summary>{t("ssh.s3")}</summary>
+                    <p className="hint">{t("ssh.s3Hint")}</p>
+                    <label>
+                      {t("ssh.s3Bucket")}
+                      <input value={s3.bucket} onChange={(e) => setS3({ ...s3, bucket: e.target.value })} autoComplete="off" />
+                    </label>
+                    <label>
+                      {t("ssh.s3Endpoint")} <span className="hint">({t("common.optional")})</span>
+                      <input
+                        value={s3.endpoint}
+                        onChange={(e) => setS3({ ...s3, endpoint: e.target.value })}
+                        placeholder="https://s3.amazonaws.com"
+                        autoComplete="off"
+                      />
+                    </label>
+                    <label>
+                      {t("ssh.s3Region")} <span className="hint">({t("common.optional")})</span>
+                      <input value={s3.region} onChange={(e) => setS3({ ...s3, region: e.target.value })} placeholder="us-east-1" autoComplete="off" />
+                    </label>
+                    <label>
+                      {t("ssh.s3AccessKey")}
+                      <input
+                        value={s3.accessKey}
+                        onChange={(e) => setS3({ ...s3, accessKey: e.target.value })}
+                        required={Boolean(s3.bucket.trim())}
+                        autoComplete="off"
+                      />
+                    </label>
+                    <label>
+                      {t("ssh.s3SecretKey")}
+                      <input
+                        type="password"
+                        value={s3.secretKey}
+                        onChange={(e) => setS3({ ...s3, secretKey: e.target.value })}
+                        required={Boolean(s3.bucket.trim())}
+                        autoComplete="off"
+                      />
+                    </label>
+                  </details>
                 </>
               )}
             </>
