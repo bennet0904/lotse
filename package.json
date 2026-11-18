@@ -32,6 +32,7 @@
     "format": "biome check --write .",
     "schema": "node scripts/generate-schema.mjs",
     "clean": "node scripts/clean.mjs",
+    "release": "node scripts/release.mjs",
     "lotse": "node packages/cli/dist/bin.js"
   },
   "devDependencies": {

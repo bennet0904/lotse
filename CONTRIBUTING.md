@@ -53,6 +53,21 @@ Releases follow [Semantic Versioning](https://semver.org/).
 - Adapters are versioned independently. Each declares the adapter interface version it implements (`apiVersion`).
 - The adapter interface itself follows Semantic Versioning: breaking changes only in a new major version, and anything removed is marked as deprecated at least one minor version in advance.
 
+A release takes one command, one pull request and one tag:
+
+1. On an up-to-date `main` with the full history and tags (`git fetch --tags`), run
+
+   ```sh
+   pnpm release minor            # or patch, major, or an exact version such as 1.0.0-rc.1
+   ```
+
+   This raises the shared version of core, CLI and builder (every package in `packages/` except the provider adapters, including `CLI_VERSION` and `SERVER_VERSION`). Each adapter whose published files changed since the last release tag gets a patch release; changes to tests alone do not count. `--adapter fly=minor` chooses another type or an exact version for an adapter, `--adapter fly=skip` leaves it out. The script then adds a section to `CHANGELOG.md` with the merged pull requests, grouped by core, CLI and builder, each released adapter, and other changes. `--dry-run` only prints the versions and the section.
+2. Edit the new `CHANGELOG.md` section where needed, commit everything as `Release vX.Y.Z` on a branch and open a pull request.
+3. Merge the pull request after the checks pass.
+4. Tag the merge commit on `main` with the version the script printed and push the tag: `git tag vX.Y.Z && git push origin vX.Y.Z`.
+
+The tag starts the release workflow. It runs the full test suite and publishes every public package whose version is not on npm yet, so adapters that were not raised are left alone. The first release, 0.1.0, needs no script: tag the current `main` as `v0.1.0`. Versions before 1.0 and versions with a suffix (`-rc.1`) become pre-releases on GitHub.
+
 ## Reporting security issues
 
 Please do not open public issues for vulnerabilities. See [SECURITY.md](SECURITY.md).
