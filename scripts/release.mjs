@@ -187,7 +187,8 @@ export async function readPackages(root) {
     const manifest = await readFile(join(root, "packages", dir, "package.json"), "utf8").catch(() => undefined);
     if (!manifest) continue;
     const { name, version, peerDependencies } = JSON.parse(manifest);
-    packages.push({ dir, name, version, corePeer: peerDependencies?.["@lotseai/core"] });
+    // "workspace:>=0.1.0 <1.0.0" links the workspace's core, also in production installs; pnpm publishes the range without the prefix.
+    packages.push({ dir, name, version, corePeer: peerDependencies?.["@lotseai/core"]?.replace(/^workspace:/, "") });
   }
   return packages;
 }

@@ -35,14 +35,13 @@
     "libsodium-wrappers": "^0.8.4"
   },
   "peerDependencies": {
-    "@lotseai/core": ">=0.1.0 <1.0.0"
+    "@lotseai/core": "workspace:>=0.1.0 <1.0.0"
   },
   "keywords": [
     "lotse",
     "lotse-adapter"
   ],
   "devDependencies": {
-    "@lotseai/core": "workspace:*",
     "@lotseai/adapter-testkit": "workspace:*"
   }
 }

@@ -92,7 +92,9 @@ describe("release", () => {
       const manifest = JSON.parse(await readFile(join(root, "packages", adapter.dir, "package.json"), "utf8"));
       // A regular dependency would install a second core next to the CLI's when their versions differ.
       expect(manifest.dependencies?.["@lotseai/core"], adapter.name).toBeUndefined();
-      expect(manifest.devDependencies?.["@lotseai/core"], adapter.name).toBe("workspace:*");
+      // The workspace protocol keeps core linked when the web app image installs production dependencies only.
+      expect(manifest.peerDependencies["@lotseai/core"], adapter.name).toMatch(/^workspace:/);
+      expect(manifest.devDependencies?.["@lotseai/core"], adapter.name).toBeUndefined();
       expect(satisfiesRange(JSON.parse(await readFile(join(root, "packages/core/package.json"), "utf8")).version, adapter.corePeer)).toBe(true);
     }
   });

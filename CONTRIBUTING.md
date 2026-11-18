@@ -68,7 +68,7 @@ A release takes one command, one pull request and one tag:
 
 The tag starts the release workflow. It runs the full test suite and publishes every public package whose version is not on npm yet, so adapters that were not raised are left alone. 0.1.0 is published; every release from now on starts with `pnpm release`, which finds the changes since the last tag (`v0.1.0` for the next one). Versions before 1.0 and versions with a suffix (`-rc.1`) become pre-releases on GitHub.
 
-Adapters declare `@lotseai/core` as a peer dependency (`>=0.1.0 <1.0.0`), so an adapter that was not raised keeps using the new core of the CLI or server that loads it instead of installing a copy of its own. The script stops if the new core version is outside the range of an adapter; widen the range in its `package.json` and release that adapter with `--adapter`.
+Adapters declare `@lotseai/core` as a peer dependency (`workspace:>=0.1.0 <1.0.0`; the workspace protocol links the repository's core, also in the production install of the web app image, and pnpm publishes it as `>=0.1.0 <1.0.0`), so an adapter that was not raised keeps using the new core of the CLI or server that loads it instead of installing a copy of its own. The script stops if the new core version is outside the range of an adapter; widen the range in its `package.json` and release that adapter with `--adapter`.
 
 ## Reporting security issues
 

@@ -15,7 +15,7 @@ const pkg: AdapterPackage = { apiVersion: ADAPTER_API_VERSION, hosting: createAc
 export default pkg;
 ```
 
-Declare `@lotseai/core` as a peer dependency with a range up to the next major version (`">=0.1.0 <1.0.0"`), not as a regular dependency, and add it to the development dependencies for building and testing. The adapter then uses the core of the instance that loads it; a regular dependency installs a second copy whenever the versions differ, with its own error classes and helpers. The built-in adapters do the same.
+Declare `@lotseai/core` as a peer dependency with a range up to the next major version (`">=0.1.0 <1.0.0"`), not as a regular dependency, and add it to the development dependencies for building and testing. The adapter then uses the core of the instance that loads it; a regular dependency installs a second copy whenever the versions differ, with its own error classes and helpers. The built-in adapters do the same, with `workspace:>=0.1.0 <1.0.0` so that the repository's core is linked without a development dependency.
 
 An instance loads it by name through its configuration (`LOTSE_ADAPTERS=lotse-adapter-acme`, or `adapters` in the CLI's `config.json` or the project's `.lotse/config.json`); restarting is enough.
 
