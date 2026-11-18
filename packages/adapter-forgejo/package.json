@@ -31,14 +31,15 @@
   "scripts": {
     "build": "tsc -b"
   },
-  "dependencies": {
-    "@lotseai/core": "workspace:*"
+  "peerDependencies": {
+    "@lotseai/core": ">=0.1.0 <1.0.0"
   },
   "keywords": [
     "lotse",
     "lotse-adapter"
   ],
   "devDependencies": {
+    "@lotseai/core": "workspace:*",
     "@lotseai/adapter-testkit": "workspace:*"
   }
 }

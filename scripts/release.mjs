@@ -10,7 +10,9 @@
  * Every package in packages/ shares one version, except the provider adapters
  * (packages/adapter-*, without the test kit), which are versioned on their own.
  * A changed adapter gets a patch release unless --adapter says otherwise;
- * --adapter also releases an adapter that did not change.
+ * --adapter also releases an adapter that did not change. Adapters declare
+ * @lotseai/core as a peer dependency, so an adapter that is not released again
+ * keeps working with the new core as long as its range includes the new version.
  */
 import { execFileSync } from "node:child_process";
 import { readdir, readFile, writeFile } from "node:fs/promises";
@@ -56,6 +58,24 @@ export function compareVersions(a, b) {
   return pa[4].localeCompare(pb[4], "en", { numeric: true });
 }
 
+/**
+ * Whether a version lies in a range of comparators such as ">=0.1.0 <1.0.0", with
+ * alternatives separated by "||". Enough for the peer ranges of the adapters.
+ */
+export function satisfiesRange(version, range) {
+  return range.split("||").some((set) =>
+    set
+      .trim()
+      .split(/\s+/)
+      .every((comparator) => {
+        const match = /^(>=|<=|>|<|=)?v?(\S+)$/.exec(comparator);
+        if (!match || !SEMVER.test(match[2])) throw new Error(`Cannot read the range "${range}"`);
+        const order = compareVersions(version, match[2]);
+        return { ">=": order >= 0, "<=": order <= 0, ">": order > 0, "<": order < 0 }[match[1]] ?? order === 0;
+      }),
+  );
+}
+
 /** The package directory a changed file belongs to, if the change can affect what is published (tests cannot). */
 export function packageOfFile(file) {
   const match = /^packages\/([^/]+)\/(.+)$/.exec(file);
@@ -64,7 +84,7 @@ export function packageOfFile(file) {
 }
 
 /**
- * The versions of the release. `packages` are { dir, name, version }; `changedFiles`
+ * The versions of the release. `packages` are { dir, name, version, corePeer }; `changedFiles`
  * are paths relative to the repository; `adapterSpecs` maps adapter directories to a
  * release type, a version or "skip".
  */
@@ -85,6 +105,12 @@ export function planRelease({ packages, changedFiles, spec, adapterSpecs = {} })
     const adapterSpec = adapterSpecs[pkg.dir] ?? (changed.has(pkg.dir) ? "patch" : "skip");
     if (adapterSpec === "skip") continue;
     bumps.push({ ...pkg, from: pkg.version, to: bumpVersion(pkg.version, adapterSpec), shared: false });
+  }
+  // An adapter whose peer range excludes the new core could not be installed next to it.
+  const outside = packages.filter((p) => isAdapter(p.dir) && p.corePeer && !satisfiesRange(version, p.corePeer));
+  if (outside.length > 0) {
+    const list = outside.map((p) => `${p.name} (${p.corePeer})`).join(", ");
+    throw new Error(`@lotseai/core ${version} is outside the peer range of ${list}. Widen the range and release the adapter with --adapter.`);
   }
   return { version, tag: `v${version}`, bumps };
 }
@@ -160,8 +186,8 @@ export async function readPackages(root) {
   for (const dir of (await readdir(join(root, "packages"))).sort()) {
     const manifest = await readFile(join(root, "packages", dir, "package.json"), "utf8").catch(() => undefined);
     if (!manifest) continue;
-    const { name, version } = JSON.parse(manifest);
-    packages.push({ dir, name, version });
+    const { name, version, peerDependencies } = JSON.parse(manifest);
+    packages.push({ dir, name, version, corePeer: peerDependencies?.["@lotseai/core"] });
   }
   return packages;
 }
@@ -179,7 +205,7 @@ export async function applyRelease(root, plan, section) {
   await writeFile(changelog, insertSection(await readFile(changelog, "utf8").catch(() => ""), section));
 }
 
-/** The last release tag reachable from HEAD, or undefined before the first release. */
+/** The last release tag reachable from HEAD, or undefined if there is none (the tags were not fetched). */
 export function lastReleaseTag(git) {
   try {
     return git(["describe", "--tags", "--abbrev=0", "--match", "v[0-9]*.[0-9]*.[0-9]*"]).trim() || undefined;
@@ -234,11 +260,12 @@ async function main(argv) {
   // Without the full history and the tags, the last release cannot be found.
   if (git(["rev-parse", "--is-shallow-repository"]).trim() === "true") throw new Error("This clone is shallow; run git fetch --unshallow --tags first.");
   const since = options.since ?? lastReleaseTag(git);
+  if (!since) throw new Error("No release tag (vX.Y.Z) is reachable from HEAD; run git fetch --tags first, or pass --since <ref>.");
   const { changedFiles, entries } = history(git, since);
   const plan = planRelease({ packages: await readPackages(root), changedFiles, spec: options.spec, adapterSpecs: options.adapterSpecs });
   const section = changelogSection({ plan, entries, date: new Date().toISOString().slice(0, 10) });
 
-  console.log(since ? `Changes since ${since}.` : "No earlier release tag; every package counts as changed.");
+  console.log(`Changes since ${since}.`);
   for (const bump of plan.bumps) console.log(`  ${bump.name.padEnd(32)} ${bump.from} -> ${bump.to}`);
   if (options.dryRun) {
     console.log(`\n${section}`);

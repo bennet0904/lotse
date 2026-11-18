@@ -32,14 +32,17 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@lotseai/core": "workspace:*",
     "ssh2": "^1.17.0"
+  },
+  "peerDependencies": {
+    "@lotseai/core": ">=0.1.0 <1.0.0"
   },
   "keywords": [
     "lotse",
     "lotse-adapter"
   ],
   "devDependencies": {
+    "@lotseai/core": "workspace:*",
     "@lotseai/adapter-testkit": "workspace:*",
     "@lotseai/build": "workspace:*",
     "@types/ssh2": "^1.15.5"

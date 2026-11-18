@@ -21,10 +21,11 @@
     "build": "tsc -p tsconfig.json",
     "test": "vitest run"
   },
-  "dependencies": {
-    "@lotseai/core": "^__CORE_VERSION__"
+  "peerDependencies": {
+    "@lotseai/core": "__CORE_RANGE__"
   },
   "devDependencies": {
+    "@lotseai/core": "^__CORE_VERSION__",
     "@lotseai/adapter-testkit": "^__CORE_VERSION__",
     "@types/node": "^22.19.0",
     "typescript": "^7.0.2",

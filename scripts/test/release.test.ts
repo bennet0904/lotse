@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   applyRelease,
   bumpVersion,
@@ -13,14 +14,15 @@ import {
   parseArgs,
   planRelease,
   readPackages,
+  satisfiesRange,
   setManifestVersion,
   // @ts-expect-error -- plain JavaScript module without type declarations
 } from "../release.mjs";
 
 const packages = [
-  { dir: "adapter-fly", name: "@lotseai/adapter-fly", version: "0.1.0" },
+  { dir: "adapter-fly", name: "@lotseai/adapter-fly", version: "0.1.0", corePeer: ">=0.1.0 <1.0.0" },
   { dir: "adapter-testkit", name: "@lotseai/adapter-testkit", version: "0.1.0" },
-  { dir: "adapter-vercel", name: "@lotseai/adapter-vercel", version: "0.3.2" },
+  { dir: "adapter-vercel", name: "@lotseai/adapter-vercel", version: "0.3.2", corePeer: ">=0.1.0 <1.0.0" },
   { dir: "cli", name: "@lotseai/cli", version: "0.1.0" },
   { dir: "core", name: "@lotseai/core", version: "0.1.0" },
   { dir: "server", name: "@lotseai/server", version: "0.1.0" },
@@ -68,6 +70,31 @@ describe("release", () => {
     expect(() => planRelease({ packages, changedFiles: [], spec: "patch", adapterSpecs: { "adapter-testkit": "minor" } })).toThrow(/no adapter/);
     expect(() => parseArgs([])).toThrow(/usage/);
     expect(() => parseArgs(["patch", "--adapter", "fly"])).toThrow(/expects/);
+  });
+
+  it("refuses a core version outside the peer range of an adapter", () => {
+    expect(satisfiesRange("0.2.0", ">=0.1.0 <1.0.0")).toBe(true);
+    expect(satisfiesRange("1.0.0", ">=0.1.0 <1.0.0")).toBe(false);
+    expect(satisfiesRange("1.0.0-rc.1", ">=0.1.0 <1.0.0")).toBe(true);
+    expect(satisfiesRange("2.1.0", ">=0.1.0 <1.0.0 || >=2.0.0 <3.0.0")).toBe(true);
+    expect(satisfiesRange("0.1.0", "0.1.0")).toBe(true);
+    expect(() => satisfiesRange("0.1.0", "^0.1.0")).toThrow(/Cannot read/);
+    expect(() => planRelease({ packages, changedFiles: [], spec: "major" })).toThrow(
+      /outside the peer range of @lotseai\/adapter-fly \(>=0.1.0 <1.0.0\), @lotseai\/adapter-vercel/,
+    );
+  });
+
+  it("finds @lotseai/core as a peer dependency of every adapter in the repository", async () => {
+    const root = fileURLToPath(new URL("../..", import.meta.url));
+    const adapters = (await readPackages(root)).filter((p: { dir: string }) => p.dir.startsWith("adapter-") && p.dir !== "adapter-testkit");
+    expect(adapters.length).toBeGreaterThan(0);
+    for (const adapter of adapters) {
+      const manifest = JSON.parse(await readFile(join(root, "packages", adapter.dir, "package.json"), "utf8"));
+      // A regular dependency would install a second core next to the CLI's when their versions differ.
+      expect(manifest.dependencies?.["@lotseai/core"], adapter.name).toBeUndefined();
+      expect(manifest.devDependencies?.["@lotseai/core"], adapter.name).toBe("workspace:*");
+      expect(satisfiesRange(JSON.parse(await readFile(join(root, "packages/core/package.json"), "utf8")).version, adapter.corePeer)).toBe(true);
+    }
   });
 
   it("lists the changes per package in the changelog", () => {
@@ -126,7 +153,10 @@ describe("release", () => {
       root = await mkdtemp(join(tmpdir(), "lotse-release-"));
       git(["init", "-q", "-b", "main"]);
       await write("package.json", '{\n  "name": "lotse",\n  "version": "0.1.0"\n}\n');
-      for (const pkg of packages) await write(`packages/${pkg.dir}/package.json`, `{\n  "name": "${pkg.name}",\n  "version": "${pkg.version}"\n}\n`);
+      for (const pkg of packages) {
+        const peer = pkg.corePeer ? `,\n  "peerDependencies": {\n    "@lotseai/core": "${pkg.corePeer}"\n  }` : "";
+        await write(`packages/${pkg.dir}/package.json`, `{\n  "name": "${pkg.name}",\n  "version": "${pkg.version}"${peer}\n}\n`);
+      }
       await write("packages/cli/src/cli.ts", 'export const CLI_VERSION = "0.1.0";\n');
       await write("packages/server/src/http.ts", 'export const SERVER_VERSION = "0.1.0";\n');
       commit("Initial");

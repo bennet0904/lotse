@@ -66,7 +66,9 @@ A release takes one command, one pull request and one tag:
 3. Merge the pull request after the checks pass.
 4. Tag the merge commit on `main` with the version the script printed and push the tag: `git tag vX.Y.Z && git push origin vX.Y.Z`.
 
-The tag starts the release workflow. It runs the full test suite and publishes every public package whose version is not on npm yet, so adapters that were not raised are left alone. The first release, 0.1.0, needs no script: tag the current `main` as `v0.1.0`. Versions before 1.0 and versions with a suffix (`-rc.1`) become pre-releases on GitHub.
+The tag starts the release workflow. It runs the full test suite and publishes every public package whose version is not on npm yet, so adapters that were not raised are left alone. 0.1.0 is published; every release from now on starts with `pnpm release`, which finds the changes since the last tag (`v0.1.0` for the next one). Versions before 1.0 and versions with a suffix (`-rc.1`) become pre-releases on GitHub.
+
+Adapters declare `@lotseai/core` as a peer dependency (`>=0.1.0 <1.0.0`), so an adapter that was not raised keeps using the new core of the CLI or server that loads it instead of installing a copy of its own. The script stops if the new core version is outside the range of an adapter; widen the range in its `package.json` and release that adapter with `--adapter`.
 
 ## Reporting security issues
 

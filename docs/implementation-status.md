@@ -48,9 +48,8 @@ Read this before relying on an adapter.
 - A central OAuth broker (planned for a later version; the client-source chain is ready for it, see ADR 0017).
 - Mirroring the repository to Codeberg (planned in the specification).
 
-## Placeholders to replace before the first release
+## Placeholders still to replace
 
 - Further maintainers in `.github/CODEOWNERS`; every adapter is maintained by @bennet0904 for now.
-- The npm organization `lotseai` must exist and own the `@lotseai` scope; publishing needs an `NPM_TOKEN` secret.
 - Signing secrets for the desktop app (`DESKTOP_CSC_LINK`, `DESKTOP_CSC_KEY_PASSWORD`, `APPLE_*`) and test-account secrets for the nightly live tests.
 - An application icon for the desktop app (electron-builder currently uses Electron's default).
