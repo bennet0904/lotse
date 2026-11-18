@@ -5,7 +5,7 @@
 #   docker compose up -d
 #
 # The builder listens on 127.0.0.1:4780. Put a reverse proxy with TLS in front of it for
-# the builder's address and for the wildcard preview domain (docs/self-hosting.md).
+# the builder's address and for the wildcard preview domain (https://bennet0904.github.io/lotse/admin/install).
 
 services:
   lotse:
@@ -30,7 +30,7 @@ services:
     volumes:
       - ${LOTSE_DATA_DIR:-/srv/lotse}:${LOTSE_DATA_DIR:-/srv/lotse}
       # The container engine that runs the sandboxes. Whoever controls this socket controls the host;
-      # prefer a rootless Docker or Podman socket (docs/self-hosting.md).
+      # prefer a rootless Docker or Podman socket (https://bennet0904.github.io/lotse/admin/install).
       - ${LOTSE_ENGINE_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock
 
   db:

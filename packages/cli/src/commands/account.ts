@@ -174,6 +174,7 @@ export function registerAccountCommands(program: Command, getContext: () => Cont
     .option("--key <file>", "existing private key instead of a generated one (SSH)")
     .option("--password <password>", "password, used once to install the key (SSH; or set LOTSE_SSH_PASSWORD)")
     .option("-o, --option <name=value...>", "adapter setting such as baseUrl=https://… or teamId=…")
+    .option("-s, --secret <name=value...>", "secret adapter setting such as s3SecretKey=…, stored encrypted with the account")
     .action(async (id: string, flags) => {
       const ctx = getContext();
       const adapter = await findAdapter(ctx, id);
@@ -188,6 +189,7 @@ export function registerAccountCommands(program: Command, getContext: () => Cont
       }
       const input =
         method === "ssh" ? await sshInput(ctx, flags) : method === "oauth" ? await oauthInput(ctx, adapter, flags) : await tokenInput(ctx, adapter, flags);
+      if (flags.secret) input.secrets = { ...input.secrets, ...parseOptions(flags.secret) };
       const conn = await adapter.connect(input);
       await ctx.connections().save(id, conn);
       ctx.io.out(`${paint(ctx.io, "green", "Connected")} ${adapter.displayName} as ${conn.account.name}.`);

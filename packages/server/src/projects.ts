@@ -241,7 +241,7 @@ export class ProjectService {
     const usage = new UsageTracker();
     try {
       const models = parse<{ planModel?: string }>(project.models, {});
-      const model = await services.resolveModel(models.planModel ?? services.config.planModel);
+      const model = await services.resolveModel(models.planModel ?? (await services.models.planModel()));
       ctx.emit({ kind: "status", message: input.feedback ? "Revising the plan" : "Planning the app" });
       const plan = await createPlan({
         prompt: project.prompt,
@@ -421,7 +421,9 @@ export class ProjectService {
       }
 
       const history = input.first ? [] : (await this.#history(projectId)).slice(0, -1);
-      const model = await services.resolveModel(parse<{ implementModel?: string }>(project.models, {}).implementModel ?? services.config.implementModel);
+      const model = await services.resolveModel(
+        parse<{ implementModel?: string }>(project.models, {}).implementModel ?? (await services.models.defaultModel()),
+      );
       const result = await runGeneration({
         prompt: input.first ? project.prompt : (input.prompt as string),
         plan: input.first ? (plan ?? undefined) : undefined,

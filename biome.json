@@ -6,7 +6,16 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/dist", "!**/node_modules", "!**/*.tsbuildinfo", "!packages/core/schema/lotse.schema.json"]
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/node_modules",
+      "!**/*.tsbuildinfo",
+      "!packages/core/schema/lotse.schema.json",
+      "!guide/**/*.md",
+      "!guide/.vitepress/cache",
+      "!guide/.vitepress/dist"
+    ]
   },
   "formatter": {
     "enabled": true,

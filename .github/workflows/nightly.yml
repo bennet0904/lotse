@@ -132,10 +132,6 @@ jobs:
     permissions:
       contents: read
       issues: write
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -149,7 +145,7 @@ jobs:
       - name: Previous status
         run: |
           pages="$(gh api "repos/${{ github.repository }}/pages" --jq .html_url 2>/dev/null || true)"
-          if [ -n "$pages" ]; then curl -sf "${pages%/}/status.json" -o previous.json || echo null > previous.json; else echo null > previous.json; fi
+          if [ -n "$pages" ]; then curl -sf "${pages%/}/status/status.json" -o previous.json || echo null > previous.json; else echo null > previous.json; fi
         env:
           GH_TOKEN: ${{ github.token }}
       - run: node scripts/nightly-status.mjs results previous.json site
@@ -171,8 +167,18 @@ jobs:
               gh issue create --title "$title" --body "$body" --label "nightly-failure"
             fi
           done
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
-          path: site
-      - uses: actions/deploy-pages@v5
+          name: status-page
+          path: site/
+          retention-days: 7
+
+  pages:
+    name: Handbook and status page
+    needs: report
+    if: always() && needs.report.result == 'success'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml

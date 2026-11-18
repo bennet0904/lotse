@@ -1,4 +1,6 @@
-# Signing in to providers
+# OAuth apps and the GitHub App
+
+This page is for the administrators of an installation. It explains how to offer "Continue at …" buttons for signing in to providers. How people connect accounts is described in [Connecting accounts](../providers/connecting).
 
 Lotse signs in to a provider in one of three ways:
 
@@ -70,7 +72,7 @@ These providers have no OAuth for third-party apps. Lotse uses the token setup:
 
 GitHub sign-ins use the installation's **GitHub App**, not an OAuth app: users choose which repositories Lotse may access, and tokens are short-lived.
 
-**Register the GitHub App with the manifest flow** (web app, as an administrator):
+**Register the GitHub App with the manifest flow** (web app, as an Owner or Admin):
 
 1. Open **Settings** in Lotse, section **GitHub App**. Optionally enter an organization to own the app.
 2. Choose **Register at GitHub**. GitHub shows a form with the app's permissions and addresses already filled in; pick a name and confirm.

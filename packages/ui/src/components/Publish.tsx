@@ -5,6 +5,7 @@ import { Link } from "../router";
 import { Backups } from "./Backups";
 import { Dialog, ErrorNote, StatusBadge } from "./common";
 import { JobActivity } from "./JobActivity";
+import { Secrets } from "./Secrets";
 
 interface Deployment {
   id: string;
@@ -298,6 +299,8 @@ export function Publish({ project, onChanged }: { project: Project; onChanged: (
               {(logs ?? []).map((l) => `${new Date(l.at).toISOString()} ${l.line}`).join("\n") || t("publish.noLogs")}
             </pre>
           </details>
+
+          <Secrets projectId={project.id} />
 
           <Backups projectId={project.id} />
 

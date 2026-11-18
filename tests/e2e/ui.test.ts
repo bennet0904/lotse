@@ -111,6 +111,9 @@ describe.skipIf(!playwright || !docker)("builder UI", () => {
     await ui.getByRole("tab", { name: "Versions" }).click();
     await ui.getByText("Scaffold Static site project").waitFor();
     expect(await ui.locator(".versions li").count()).toBe(3);
+    // Without a Git account, the repository section points to the providers page.
+    await ui.getByRole("heading", { name: "Repository" }).waitFor();
+    await ui.getByText("Connect a Git platform first.").waitFor();
     await ui.getByRole("tab", { name: "Files" }).click();
     await ui.getByRole("button", { name: "index.html" }).click();
     await expectText("<h1>Things to do</h1>");
@@ -154,6 +157,20 @@ describe.skipIf(!playwright || !docker)("builder UI", () => {
     await shot("07-published");
   });
 
+  it("keeps language-model keys in the settings without showing them again", async () => {
+    await ui.getByRole("link", { name: "Settings" }).click();
+    await ui.getByRole("heading", { name: "Language models" }).waitFor();
+    await ui.getByLabel(/^Default model/).fill("ollama:qwen3-coder");
+    await ui.getByLabel(/^Anthropic API key/).fill("sk-ant-ui-test-key-000000");
+    await ui.getByRole("button", { name: "Save" }).click();
+    await ui.getByText("Saved.").waitFor();
+    await ui.getByLabel("Anthropic API key (set here)").waitFor();
+    expect(await ui.getByLabel(/^Anthropic API key/).inputValue()).toBe("");
+    expect(await ui.content()).not.toContain("sk-ant-ui-test-key");
+    expect(await t.server.services.models.defaultModel()).toBe("ollama:qwen3-coder");
+    await shot("08-models");
+  });
+
   it("has labels on all form controls and switches to German", async () => {
     const unlabeled = await ui.evaluate(() =>
       [...document.querySelectorAll("input, select, textarea")]
@@ -171,7 +188,7 @@ describe.skipIf(!playwright || !docker)("builder UI", () => {
     expect(await ui.evaluate(() => document.documentElement.lang)).toBe("de");
     await ui.getByRole("link", { name: "Einstellungen" }).click();
     await ui.getByText("Keine. Es wird nichts an das Projekt oder andere gesendet.").waitFor();
-    await shot("08-settings-de");
+    await shot("09-settings-de");
   });
 
   async function expectText(text: string) {

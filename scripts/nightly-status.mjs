@@ -53,8 +53,9 @@ export function statusPage(status) {
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lotse adapter status</title>
 <style>body{font:16px/1.5 system-ui,sans-serif;max-width:48rem;margin:2rem auto;padding:0 1rem;color:#1d2433}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:.4rem .6rem;border-bottom:1px solid #d5d9e0}.ok{color:#126b2e}.fail{color:#a4161a;font-weight:600}.skip{color:#5b6475}</style></head>
-<body><main><h1>Adapter status</h1>
+<body><main><p><a href="../">← Lotse handbook</a></p><h1>Adapter status</h1>
 <p>Results of the nightly live and SSH tests. Updated ${escapeHtml(status.updated)}.</p>
+${rows ? "" : "<p>No nightly run has finished yet.</p>"}
 <table><thead><tr><th scope="col">Suite</th><th scope="col">State</th><th scope="col">Last successful run</th><th scope="col"></th></tr></thead>
 <tbody>
 ${rows}

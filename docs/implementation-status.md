@@ -23,6 +23,7 @@ State of version 0.1.0 against the specification, and how each part has been ver
 | User interface in English and German                                                                                 | Done  | Playwright end-to-end tests in Chromium                                                                 |
 | Desktop app (Electron, SQLite, keychain, Podman as an equal alternative)                                             | Done  | Linux: from the workspace, bundled and packaged, under Xvfb                                             |
 | Web app container image and compose file                                                                             | Done  | Image built and run with SQLite and PostgreSQL; compose file validated                                  |
+| Handbook for users and operators (guide/, GitHub Pages)                                                              | Done  | Built, links and anchors checked                                                                        |
 | Project organization: README, SECURITY.md, CONTRIBUTING.md (DCO), CODEOWNERS, ADRs                                   | Done  |                                                                                                         |
 | CI, nightly live and SSH tests with automatic issues and status page, signed releases with SBOMs, dependency updates | Done  | Workflows checked with actionlint; never run on GitHub                                                  |
 

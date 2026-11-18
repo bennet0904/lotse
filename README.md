@@ -51,18 +51,20 @@ cp deploy/.env.example deploy/.env           # set LOTSE_MASTER_KEY, OpenID Conn
 docker compose -f deploy/compose.yaml up -d
 ```
 
-See [docs/self-hosting.md](docs/self-hosting.md) for the preview domain, sign-in and sandbox isolation.
+The handbook explains the [installation step by step](https://bennet0904.github.io/lotse/admin/install): identity provider, preview domain, reverse proxy and sandbox isolation.
 
 ### Use the desktop app
 
-Download the installer for your platform from the releases page. The desktop app needs a container runtime for previews: Podman, Docker Desktop, Docker Engine or OrbStack. See [docs/desktop.md](docs/desktop.md).
+Download the installer for your platform from the [releases page](https://github.com/bennet0904/lotse/releases/latest). The desktop app needs a container runtime for previews: Podman, Docker Desktop, Docker Engine or OrbStack. See the [handbook](https://bennet0904.github.io/lotse/start/desktop).
 
 ## Documentation
 
-- [lotse.yaml reference](docs/manifest.md) and its [JSON schema](packages/core/schema/lotse.schema.json)
-- [Signing in to providers, and registering OAuth apps](docs/oauth.md)
-- [Running the web app](docs/self-hosting.md) · [Desktop app](docs/desktop.md) · [Configuration reference](docs/configuration.md)
-- [Writing an adapter](docs/adapters.md) · [Testing](docs/testing.md)
+**[The Lotse handbook](https://bennet0904.github.io/lotse/)** explains how to install, build, publish and operate: the desktop app, the builder, providers, publishing, Git platforms, the command line and running the web app for a team. Its sources are in [`guide/`](guide/).
+
+For developers:
+
+- [lotse.yaml JSON schema](packages/core/schema/lotse.schema.json)
+- [Writing an adapter](docs/adapters.md) · [Testing](docs/testing.md) · [Implementation status](docs/implementation-status.md)
 - [Architecture decisions](docs/adr/)
 - [Security model and reporting vulnerabilities](SECURITY.md)
 - [Contributing](CONTRIBUTING.md)

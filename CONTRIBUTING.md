@@ -31,7 +31,7 @@ See [docs/testing.md](docs/testing.md) for the other test levels and what they n
 
 - Keep a pull request to one topic. Describe what changes for users and why.
 - Add or update tests. Every adapter must pass the shared contract suite; changes to an adapter come with updated recorded responses (cassettes).
-- Update the documentation and, for user-visible text, both the English and the German messages in `packages/ui/src/locales`.
+- Update the [handbook](guide/) when you change what users see or do, and, for user-visible text, both the English and the German messages in `packages/ui/src/locales`. `pnpm --filter @lotseai/guide dev` shows the handbook while you edit it.
 - The user interface must stay usable with the keyboard and a screen reader (WCAG 2.2 AA).
 - Never commit credentials, recorded responses with real tokens, or `.lotse/` state.
 

@@ -68,7 +68,7 @@ export function createApi(services: Services, projects: ProjectService, hosting:
 
   // --- public ----------------------------------------------------------------
   app.get("/health", (c) => c.json({ status: "ok", version: SERVER_VERSION }));
-  app.get("/config", (c) =>
+  app.get("/config", async (c) =>
     c.json({
       version: SERVER_VERSION,
       adapterApi: ADAPTER_API_VERSION,
@@ -76,7 +76,7 @@ export function createApi(services: Services, projects: ProjectService, hosting:
       desktop: config.desktop === true,
       // No telemetry is collected. This flag exists so that the UI can say so.
       telemetry: false,
-      models: { plan: config.planModel ?? null, implement: config.implementModel ?? null },
+      models: { plan: config.planModel ?? null, implement: (await services.models.defaultModel()) ?? null },
       sandbox: { cpus: config.sandbox.cpus, memoryMb: config.sandbox.memoryMb, isolation: config.sandbox.runtime ?? "default" },
     }),
   );
@@ -153,6 +153,8 @@ export function createApi(services: Services, projects: ProjectService, hosting:
     await auth.setRole(me(c), c.req.param("id"), (await body<{ role: Role }>(c)).role);
     return c.json({ ok: true });
   });
+  app.get("/settings/models", async (c) => c.json(await services.models.view(me(c))));
+  app.put("/settings/models", async (c) => c.json(await services.models.update(me(c), await body(c), ip(c))));
   app.get("/audit", async (c) => c.json({ entries: await auth.auditLog(me(c), Number(c.req.query("limit") ?? 200)) }));
   app.get("/runtime", async (c) => c.json(await detectRuntimes(config.env)));
 
