@@ -52,4 +52,3 @@ Read this before relying on an adapter.
 
 - Further maintainers in `.github/CODEOWNERS`; every adapter is maintained by @bennet0904 for now.
 - Signing secrets for the desktop app (`DESKTOP_CSC_LINK`, `DESKTOP_CSC_KEY_PASSWORD`, `APPLE_*`) and test-account secrets for the nightly live tests.
-- An application icon for the desktop app (electron-builder currently uses Electron's default).

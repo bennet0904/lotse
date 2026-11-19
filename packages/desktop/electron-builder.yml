@@ -9,6 +9,8 @@ copyright: Copyright © The Lotse contributors
 directories:
   app: bundle
   output: release
+  # The app icons; scripts/icons.py generates them from build/logo.svg.
+  buildResources: build
 files:
   - "**/*"
   - "!**/*.map"
@@ -30,15 +32,18 @@ mac:
   # electron-builder leaves the architecture out of x64 file names by default; always name it.
   artifactName: ${productName}-${version}-${arch}.${ext}
   hardenedRuntime: true
+  icon: build/icon.icns
   notarize: false
 win:
   target: [nsis]
+  icon: build/icon.ico
 nsis:
   oneClick: false
   perMachine: false
   allowToChangeInstallationDirectory: true
 linux:
   target: [AppImage, deb]
+  icon: build/icon.png
   category: Development
   maintainer: The Lotse contributors
   synopsis: Build apps from a prompt and publish them anywhere
