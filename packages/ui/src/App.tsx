@@ -1,6 +1,7 @@
 import { type ApiError, get, post, type User, useLoad } from "./api";
 import { ErrorNote, Spinner } from "./components/common";
 import { LOCALES, type Locale, useI18n } from "./i18n";
+import logo from "./logo.svg";
 import { Accounts } from "./pages/Accounts";
 import { ProjectPage } from "./pages/Project";
 import { Projects } from "./pages/Projects";
@@ -54,6 +55,7 @@ export function App() {
       </a>
       <header className="top">
         <Link to="/" className="brand">
+          <img src={logo} alt="" width={24} height={24} />
           Lotse
         </Link>
         <nav aria-label={t("nav.main")}>
