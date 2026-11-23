@@ -962,6 +962,8 @@ details.prompt-options > summary {
   flex: 1;
   align-content: start;
 }
+/* Lotse's messages sit on the surface at the left, the user's are tinted and
+   at the right, system notes are small centred lines without a bubble. */
 .msg {
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-lg);
@@ -973,48 +975,261 @@ details.prompt-options > summary {
 .msg p:last-child {
   margin-bottom: 0;
 }
+.msg-assistant {
+  margin-right: var(--space-6);
+  border-top-left-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
 .msg-user {
   background: var(--color-primary-soft);
   border-color: transparent;
   margin-left: var(--space-6);
+  border-top-right-radius: var(--radius-sm);
 }
-.msg-system {
+.msg-system,
+.msg-stopped {
+  justify-self: center;
+  max-width: 100%;
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-full);
   background: transparent;
-  border-style: dashed;
+  box-shadow: none;
   color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  text-align: center;
 }
 .msg-error {
   border-color: var(--color-danger);
   border-left-width: 4px;
 }
 .msg-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   font-size: var(--text-xs);
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--color-text-muted);
   margin-bottom: var(--space-1);
 }
-.plan {
+.msg-assistant > .msg-author {
+  color: var(--color-primary);
+}
+.msg-error > .msg-author {
+  color: var(--color-danger);
+}
+.msg-next {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  font-weight: 600;
+}
+.msg-plan {
+  padding: var(--space-2) var(--space-4);
+}
+.msg-plan > details > summary {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+.msg-plan .pre {
+  margin-top: var(--space-2);
+}
+.msg-files {
+  margin-top: var(--space-2);
+}
+.msg-files-summary {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+.msg-files ul {
+  margin: var(--space-1) 0 0;
+  padding-left: var(--space-5);
+  font-size: var(--text-xs);
+}
+.msg-proposal {
   display: grid;
   gap: var(--space-2);
-  border-color: var(--color-primary);
-}
-.plan h3 {
-  margin: 0;
+  justify-items: start;
+  margin-top: var(--space-2);
+  border-left-color: var(--color-primary);
 }
 
+/* The plan: what will be built, in sections that can be scanned. */
+.plan {
+  display: grid;
+  gap: var(--space-3);
+  border-color: var(--color-primary);
+  border-top-width: 4px;
+  box-shadow: var(--shadow-md);
+}
+.plan-head h3 {
+  margin: 0 0 var(--space-1);
+}
+.plan-head .hint {
+  margin: 0;
+}
+.plan-summary {
+  margin: 0;
+  font-size: var(--text-base);
+}
+.plan-section {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+.plan-section h4 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+.plan-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.plan-list li {
+  display: grid;
+  gap: 0.1rem;
+}
+.plan-fields,
+.plan-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.plan-fields code {
+  font-size: var(--text-xs);
+}
+.plan-tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.plan-tags li {
+  padding: 0.1rem 0.6rem;
+  border: 1px solid var(--color-control);
+  border-radius: var(--radius-full);
+  background: var(--color-sunken);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+.plan-notes {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+.plan-actions {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+.plan-change {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-sunken);
+}
+
+/* Progress: one line per step, the full log behind "Show all details". */
+.chat-activity {
+  padding: 0 var(--space-4) var(--space-3);
+}
 .activity {
-  padding: 0 var(--space-4) var(--space-2);
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+}
+.activity-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.activity-head h3 {
+  margin: 0;
+  font-size: var(--text-base);
+}
+.activity-head button {
+  min-height: var(--control-height-sm);
+}
+.activity .hint {
+  margin: 0;
+}
+.activity-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+.activity-step {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  min-width: 0;
+}
+.activity-step-mark {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.05rem;
+  font-weight: 700;
+}
+.activity-step-text {
+  display: grid;
+  min-width: 0;
+}
+.activity-step-running {
+  font-weight: 650;
+}
+.activity-step-done {
+  color: var(--color-text-muted);
+}
+.activity-step-done .activity-step-mark {
+  color: var(--color-ok);
+}
+.activity-step-failed {
+  color: var(--color-danger);
+}
+.activity-step-stopped {
+  color: var(--color-text-muted);
+}
+.activity-now {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.activity-log-summary {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
 }
 .activity-list {
   list-style: none;
-  margin: 0;
+  margin: var(--space-2) 0 0;
   padding: var(--space-2) var(--space-3);
   max-height: 16rem;
   overflow: auto;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: var(--color-surface);
+  background: var(--color-sunken);
   font-size: var(--text-sm);
 }
 .act {
@@ -1044,21 +1259,40 @@ details.prompt-options > summary {
 .act-proposal {
   font-style: italic;
 }
-.activity-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  padding-top: var(--space-2);
-}
 
+/* The message box: always at the bottom of the conversation, with a line that
+   says how to send or why it is not available right now. */
 .composer {
-  display: flex;
+  display: grid;
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
   border-top: 1px solid var(--color-border);
   background: var(--color-surface);
+}
+.composer-label {
+  font-weight: 650;
+  font-size: var(--text-sm);
+}
+.composer-row {
+  display: flex;
+  gap: var(--space-2);
   align-items: flex-end;
+}
+.composer-input {
+  flex: 1;
+  min-width: 0;
+  resize: vertical;
+}
+.composer-input:disabled {
+  background: var(--color-sunken);
+  cursor: not-allowed;
+}
+.composer-hint {
+  margin: 0;
+  font-size: var(--text-xs);
+}
+.composer-blocked {
+  color: var(--color-text);
 }
 
 .side {
@@ -1232,6 +1466,13 @@ details.prompt-options > summary {
   .side {
     min-height: 70vh;
   }
+  /* The message box stays in reach while scrolling through the conversation. */
+  .composer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    box-shadow: var(--shadow-md);
+  }
 }
 
 @media (max-width: 40rem) {
@@ -1285,8 +1526,17 @@ details.prompt-options > summary {
   .msg-user {
     margin-left: var(--space-4);
   }
+  .msg-assistant {
+    margin-right: 0;
+  }
+  .chat-activity {
+    padding: 0 var(--space-3) var(--space-3);
+  }
   .composer {
     padding: var(--space-3);
+  }
+  .plan-actions > button {
+    flex: 1 1 100%;
   }
   .files {
     grid-template-columns: 1fr;

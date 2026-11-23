@@ -29,20 +29,20 @@ After a few seconds the conversation shows the **Plan**:
 | Data       | What the app stores                                                                             |
 | Needs      | Services the app needs to run, e.g. a Postgres database                                         |
 
-Nothing has been built yet. If something is wrong, choose **Change the plan**, write what should be different (_"Use a database instead of storing in the browser"_, _"Also show a list of past classes"_) and choose **Revise plan**. When it fits, choose **Build it**.
+Nothing has been built yet. You can adjust the title and the technology directly in the plan. If something else is wrong, choose **Change the plan**, write what should be different (_"Use a database instead of storing in the browser"_, _"Also show a list of past classes"_) and choose **Revise plan**. When it fits, choose **Build it**.
 
 ## 3. Watch it being built
 
-**Progress** shows what happens:
+**Progress** shows what happens, one step per line: a check mark for finished steps, a spinner and the current activity for the running one, and a cross for a step that failed. **Show all details** opens the full log. The steps are:
 
 1. **Writing the app** — the model creates and edits files. It works inside your project's sandbox and can run commands there, e.g. to install packages.
 2. **Building and starting the app** — Lotse installs dependencies, runs the stack's checks (such as the TypeScript compiler) and starts the app.
 3. **Fixing errors** — if the checks fail or the app does not start, the errors go back to the model, which corrects them. This repeats up to three times.
 4. **Saving the version** — the result is saved as a version you can return to.
 
-You can choose **Stop** at any time; nothing is lost.
+You can choose **Stop** at any time; nothing is lost. While it works, the message box below the conversation waits; it says why.
 
-When it is done, the model summarizes what it built. If errors remain after the corrections, the conversation says so: describe what is wrong, or simply ask it to fix the errors.
+When it is done, the model summarizes what it built. If errors remain after the corrections, the conversation says so: describe what is wrong, or simply ask it to fix the errors. If the build fails, the conversation explains what went wrong and what you can do next.
 
 ## 4. Try the preview
 
