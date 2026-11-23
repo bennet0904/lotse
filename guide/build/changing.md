@@ -9,9 +9,11 @@ Under **Describe a change**, write what should be different and choose **Send** 
 - _The date is shown in US format; use day.month.year._
 - _There is an error when I submit the form without an e-mail address._
 
-Each change goes through the same steps as the first build: writing, building and starting, fixing errors, saving. The conversation then lists the changed files, and the preview updates. One change at a time works best; describe the next one when you have seen the result.
+Each change goes through the same steps as the first build: writing, building and starting, fixing errors, saving. The answer in the conversation lists the changed files under **Changed files**, and the preview updates. One change at a time works best; describe the next one when you have seen the result.
 
 If the project is [linked to a repository](../git/repository), commits made elsewhere are brought in before the change starts.
+
+While a change is being made, the message box is unavailable and says why; you can follow the steps under **Progress** or choose **Stop**.
 
 ## Files
 

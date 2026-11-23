@@ -1,7 +1,7 @@
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { type ApiError, get, type Plan, post, useLoad } from "../api";
 import { useT } from "../i18n";
-import { ErrorNote } from "./common";
+import { ErrorNote, Spinner } from "./common";
 
 interface Stack {
   id: string;
@@ -19,6 +19,12 @@ export function PlanCard({ projectId, plan, onStarted }: { projectId: string; pl
   const [feedback, setFeedback] = useState("");
   const [error, setError] = useState<ApiError>();
   const [busy, setBusy] = useState(false);
+  const [changing, setChanging] = useState(false);
+  const feedbackBox = useRef<HTMLTextAreaElement>(null);
+  // Opening "Change the plan" moves the focus to where the change is written.
+  useEffect(() => {
+    if (changing) feedbackBox.current?.focus();
+  }, [changing]);
   const chosen = stacks.data?.stacks.find((s) => s.id === draft.stack);
 
   const run = async (path: string, body: unknown) => {
@@ -39,8 +45,11 @@ export function PlanCard({ projectId, plan, onStarted }: { projectId: string; pl
 
   return (
     <form className="card plan" onSubmit={approve} aria-labelledby="plan-title">
-      <h3 id="plan-title">{t("plan.title")}</h3>
-      <p>{draft.summary}</p>
+      <header className="plan-head">
+        <h3 id="plan-title">{t("plan.title")}</h3>
+        <p className="hint">{t("plan.intro")}</p>
+      </header>
+      <p className="plan-summary">{draft.summary}</p>
       <div className="field-row">
         <label>
           {t("plan.appTitle")}
@@ -65,57 +74,83 @@ export function PlanCard({ projectId, plan, onStarted }: { projectId: string; pl
         </p>
       )}
       {draft.pages.length > 0 && (
-        <>
-          <h4>{t("plan.pages")}</h4>
-          <ul>
+        <section className="plan-section" aria-labelledby="plan-pages">
+          <h4 id="plan-pages">{t("plan.pages")}</h4>
+          <ul className="plan-list">
             {draft.pages.map((p) => (
               <li key={p.name}>
-                <strong>{p.name}</strong>: {p.purpose}
+                <strong>{p.name}</strong>
+                <span>{p.purpose}</span>
               </li>
             ))}
           </ul>
-        </>
+        </section>
       )}
       {draft.dataModel.length > 0 && (
-        <>
-          <h4>{t("plan.data")}</h4>
-          <ul>
+        <section className="plan-section" aria-labelledby="plan-data">
+          <h4 id="plan-data">{t("plan.data")}</h4>
+          <ul className="plan-list">
             {draft.dataModel.map((e) => (
               <li key={e.entity}>
-                <strong>{e.entity}</strong>: {e.fields.join(", ")}
+                <strong>{e.entity}</strong>
+                <span className="plan-fields">
+                  {e.fields.map((f) => (
+                    <code key={f}>{f}</code>
+                  ))}
+                </span>
               </li>
             ))}
           </ul>
-        </>
+        </section>
       )}
       {draft.resources.length > 0 && (
-        <p>
-          {t("plan.resources")}: {draft.resources.join(", ")}
-        </p>
+        <section className="plan-section" aria-labelledby="plan-needs">
+          <h4 id="plan-needs">{t("plan.resources")}</h4>
+          <ul className="plan-tags">
+            {draft.resources.map((r) => (
+              <li key={r}>{r}</li>
+            ))}
+          </ul>
+        </section>
       )}
       {draft.notes.length > 0 && (
-        <ul className="hint">
+        <ul className="plan-notes hint">
           {draft.notes.map((n) => (
             <li key={n}>{n}</li>
           ))}
         </ul>
       )}
       <ErrorNote error={error} />
-      <div className="actions">
+      <div className="actions plan-actions">
         <button type="submit" className="button-primary" disabled={busy}>
           {t("plan.approve")}
         </button>
-      </div>
-      <details>
-        <summary>{t("plan.change")}</summary>
-        <label>
-          {t("plan.feedback")}
-          <textarea value={feedback} onChange={(e) => setFeedback(e.target.value)} rows={3} />
-        </label>
-        <button type="button" disabled={busy || !feedback.trim()} onClick={() => void run(`/projects/${projectId}/plan`, { feedback })}>
-          {t("plan.revise")}
+        <button type="button" aria-expanded={changing} aria-controls="plan-change" onClick={() => setChanging(!changing)} disabled={busy}>
+          {t("plan.change")}
         </button>
-      </details>
+        {busy && <Spinner label={t("activity.working")} />}
+      </div>
+      {changing && (
+        <div id="plan-change" className="plan-change">
+          <label>
+            {t("plan.feedback")}
+            <textarea ref={feedbackBox} value={feedback} onChange={(e) => setFeedback(e.target.value)} rows={3} placeholder={t("plan.feedbackPlaceholder")} />
+          </label>
+          <div className="actions">
+            <button
+              type="button"
+              className="button-primary"
+              disabled={busy || !feedback.trim()}
+              onClick={() => void run(`/projects/${projectId}/plan`, { feedback })}
+            >
+              {t("plan.revise")}
+            </button>
+            <button type="button" className="button-quiet" onClick={() => setChanging(false)}>
+              {t("common.cancel")}
+            </button>
+          </div>
+        </div>
+      )}
     </form>
   );
 }

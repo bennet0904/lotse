@@ -25,6 +25,7 @@ export function ProjectPage({ id }: { id: string }) {
   const [tab, setTab] = useState<Tab>("preview");
   const [text, setText] = useState("");
   const [error, setError] = useState<ApiError>();
+  const [sending, setSending] = useState(false);
   const [previewKey, setPreviewKey] = useState(0);
 
   // Pick up a job that is already running, e.g. after reloading the page.
@@ -50,6 +51,7 @@ export function ProjectPage({ id }: { id: string }) {
   const send = async (e: FormEvent) => {
     e.preventDefault();
     setError(undefined);
+    setSending(true);
     try {
       const started = await post<{ jobId: string }>(`/projects/${id}/messages`, { text });
       setText("");
@@ -58,6 +60,8 @@ export function ProjectPage({ id }: { id: string }) {
       project.reload();
     } catch (err) {
       setError(err as ApiError);
+    } finally {
+      setSending(false);
     }
   };
 
@@ -73,7 +77,17 @@ export function ProjectPage({ id }: { id: string }) {
         <Spinner label={t("common.loading")} />
       </div>
     );
-  const canChat = Boolean(p.stack) && p.status !== "planned" && p.status !== "planning";
+  // Why the message box cannot be used right now, in words the user can act on.
+  const blocked =
+    p.status === "planning"
+      ? t("chat.blockedPlanning")
+      : p.status === "planned"
+        ? t("chat.blockedPlan")
+        : !p.stack
+          ? t("chat.blockedNoPlan")
+          : stream.running || p.status === "generating"
+            ? t("chat.blockedWorking")
+            : undefined;
 
   return (
     <div className="workspace">
@@ -83,9 +97,9 @@ export function ProjectPage({ id }: { id: string }) {
           <StatusBadge status={p.status} label={t(PROJECT_STATUS[p.status])} />
         </header>
         <ol className="messages">
-          {list.map((m) =>
-            m.meta?.kind === "plan" ? (
-              m.id === lastPlan?.id && p.status === "planned" && m.meta.plan ? (
+          {list.map((m) => {
+            if (m.meta?.kind === "plan" && m.id === lastPlan?.id && p.status === "planned" && m.meta.plan)
+              return (
                 <li key={m.id}>
                   <PlanCard
                     projectId={id}
@@ -93,66 +107,63 @@ export function ProjectPage({ id }: { id: string }) {
                     onStarted={(job) => {
                       setJobId(job);
                       project.reload();
+                      messages.reload();
                     }}
                   />
                 </li>
-              ) : (
-                <li key={m.id} className="msg msg-assistant">
-                  <p className="msg-author">{t("chat.plan")}</p>
-                  <p className="pre">{m.content}</p>
-                </li>
-              )
-            ) : (
-              <li key={m.id} className={`msg msg-${m.role}${m.meta?.kind === "error" ? " msg-error" : ""}`}>
-                <p className="msg-author">{m.role === "user" ? t("chat.you") : m.role === "assistant" ? "Lotse" : t("chat.system")}</p>
-                <p className="pre">{m.content}</p>
-                {m.meta?.verified === false && <p className="note note-warn">{t("chat.unverified")}</p>}
-                {m.meta?.changedFiles && m.meta.changedFiles.length > 0 && (
-                  <p className="hint">{t("chat.changed", { files: m.meta.changedFiles.join(", ") })}</p>
-                )}
-                {m.meta?.proposals?.map((proposal) => (
-                  <div key={proposal.summary} className="note">
-                    <p>{proposal.summary}</p>
-                    {/* The model can only propose critical actions; carrying them out is the user's decision. */}
-                    {proposal.action === "deploy" && (
-                      <button type="button" onClick={() => setTab("publish")}>
-                        {t("chat.openPublish")}
-                      </button>
-                    )}
-                  </div>
-                ))}
-                {m.meta?.url && (
-                  <p>
-                    <a href={m.meta.url} target="_blank" rel="noreferrer">
-                      {m.meta.url}
-                    </a>
-                  </p>
-                )}
-              </li>
-            ),
-          )}
+              );
+            return (
+              <ChatMessage
+                key={m.id}
+                message={m}
+                planLabel={m.id === lastPlan?.id && p.status !== "planning" ? t("chat.planApproved") : t("chat.planEarlier")}
+                next={
+                  m.id === list[list.length - 1]?.id && m.meta?.kind === "error"
+                    ? p.stack
+                      ? t("chat.errorNext")
+                      : p.status === "planned"
+                        ? t("chat.errorNextPlan")
+                        : undefined
+                    : undefined
+                }
+                onPublish={() => setTab("publish")}
+              />
+            );
+          })}
         </ol>
-        {jobId && (stream.running || stream.job?.status === "failed") && <JobActivity jobId={jobId} stream={stream} />}
+        {jobId && (stream.running || stream.job?.status === "failed") && (
+          <div className="chat-activity">
+            {/* The conversation shows the error itself; the progress shows where it happened. */}
+            <JobActivity jobId={jobId} stream={stream} runningHint={t("chat.stopHint")} showError={false} />
+          </div>
+        )}
         <div ref={end} />
-        <ErrorNote error={error ?? messages.error} />
         <form className="composer" onSubmit={send}>
-          <label htmlFor="message" className="sr-only">
+          <ErrorNote error={error ?? messages.error} />
+          <label htmlFor="message" className="composer-label">
             {t("chat.inputLabel")}
           </label>
-          <textarea
-            id="message"
-            rows={2}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder={canChat ? t("chat.placeholder") : t("chat.placeholderPlan")}
-            disabled={!canChat || stream.running}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) e.currentTarget.form?.requestSubmit();
-            }}
-          />
-          <button type="submit" className="button-primary" disabled={!canChat || stream.running || !text.trim()}>
-            {t("chat.send")}
-          </button>
+          <div className="composer-row">
+            <textarea
+              id="message"
+              className="composer-input"
+              rows={2}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder={blocked ? undefined : t("chat.placeholder")}
+              aria-describedby="message-hint"
+              disabled={Boolean(blocked) || sending}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) e.currentTarget.form?.requestSubmit();
+              }}
+            />
+            <button type="submit" className="button-primary" disabled={Boolean(blocked) || sending || !text.trim()}>
+              {t("chat.send")}
+            </button>
+          </div>
+          <p id="message-hint" className={`hint composer-hint${blocked ? " composer-blocked" : ""}`}>
+            {blocked ?? t("chat.shortcut")}
+          </p>
         </form>
       </section>
 
@@ -213,6 +224,69 @@ export function ProjectPage({ id }: { id: string }) {
         </div>
       </section>
     </div>
+  );
+}
+
+/** One entry of the conversation: the user, Lotse or a system note, each with its own look. */
+function ChatMessage({ message: m, planLabel, next, onPublish }: { message: Message; planLabel: string; next?: string; onPublish: () => void }) {
+  const { t } = useI18n();
+  if (m.role === "system")
+    return (
+      <li className="msg msg-system">
+        <span className="sr-only">{t("chat.system")}: </span>
+        <span className="pre">{m.content}</span>
+      </li>
+    );
+  if (m.meta?.kind === "plan")
+    return (
+      <li className="msg msg-assistant msg-plan">
+        <details>
+          <summary>{planLabel}</summary>
+          <p className="pre">{m.content}</p>
+        </details>
+      </li>
+    );
+  const user = m.role === "user";
+  const kind = m.meta?.kind;
+  return (
+    <li className={`msg ${user ? "msg-user" : "msg-assistant"}${kind === "error" ? " msg-error" : ""}${kind === "stopped" ? " msg-stopped" : ""}`}>
+      {kind !== "stopped" && <p className="msg-author">{user ? (kind === "plan-feedback" ? t("chat.youPlan") : t("chat.you")) : "Lotse"}</p>}
+      <p className="pre">{m.content}</p>
+      {m.meta?.verified === false && <p className="note note-warn">{t("chat.unverified")}</p>}
+      {next && <p className="msg-next">{next}</p>}
+      {m.meta?.changedFiles && m.meta.changedFiles.length > 0 && (
+        <details className="msg-files">
+          <summary className="msg-files-summary">{t("chat.changed", { count: m.meta.changedFiles.length })}</summary>
+          <ul>
+            {m.meta.changedFiles.map((f) => (
+              <li key={f}>
+                <code>{f}</code>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+      {m.meta?.proposals?.map((proposal) => (
+        <div key={proposal.summary} className="note msg-proposal">
+          <p>
+            <strong>{t("activity.proposal")}:</strong> {proposal.summary}
+          </p>
+          {/* The model can only propose critical actions; carrying them out is the user's decision. */}
+          {proposal.action === "deploy" && (
+            <button type="button" onClick={onPublish}>
+              {t("chat.openPublish")}
+            </button>
+          )}
+        </div>
+      ))}
+      {m.meta?.url && (
+        <p>
+          <a href={m.meta.url} target="_blank" rel="noreferrer">
+            {m.meta.url}
+          </a>
+        </p>
+      )}
+    </li>
   );
 }
 
