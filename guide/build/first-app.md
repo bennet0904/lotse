@@ -15,6 +15,8 @@ On **Apps**, write what the app should do under **Describe your app**. Describe 
 
 You do not need to name a technology. Under **Options** you can choose a different [language model](./models) for this app. Choose **Plan the app**.
 
+Below the description, **Your apps** lists every app with its status and when it last changed. Apps that failed or that are being planned or built are marked at the left edge, so you can spot them quickly.
+
 ## 2. Review the plan
 
 After a few seconds the conversation shows the **Plan**:

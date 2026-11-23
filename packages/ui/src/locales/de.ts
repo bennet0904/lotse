@@ -34,7 +34,10 @@ export const de: Record<keyof typeof en, string> = {
     "Als anbieter:modell. Leer lassen für den Standard dieser Installation. Lokale Modelle funktionieren auch, zum Beispiel ollama:qwen3-coder.",
   "projects.create": "App planen",
   "projects.yours": "Deine Apps",
-  "projects.empty": "Noch keine Apps. Beschreibe oben eine, um loszulegen.",
+  "projects.empty.title": "Noch keine Apps",
+  "projects.empty.text":
+    "Beschreibe oben deine erste App und wähle „App planen“. Lotse zeigt dir zuerst einen Plan; gebaut wird erst, wenn du „Jetzt bauen“ wählst.",
+  "projects.changed": "Geändert {when}",
 
   "chat.title": "Unterhaltung",
   "chat.you": "Du",
@@ -204,6 +207,7 @@ export const de: Record<keyof typeof en, string> = {
   "runtime.link.orbstack": "OrbStack",
   "runtime.link.dockerEngine": "Docker Engine",
   "runtime.link.dockerDesktop": "Docker Desktop (für größere Unternehmen lizenzpflichtig)",
+  "runtime.howTo": "So richtest du sie ein",
   "accounts.orToken": "oder ein API-Token verwenden",
   "accounts.openTokenPage": "Token-Seite öffnen",
   "accounts.tokenPageAfterUrl": "Gib oben die Adresse deiner Instanz ein und öffne dann deren Token-Seite.",

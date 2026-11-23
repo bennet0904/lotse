@@ -31,7 +31,9 @@ export const en = {
   "projects.modelHint": "As provider:model. Leave empty for the instance default. Local models work too, for example ollama:qwen3-coder.",
   "projects.create": "Plan the app",
   "projects.yours": "Your apps",
-  "projects.empty": "No apps yet. Describe one above to get started.",
+  "projects.empty.title": "No apps yet",
+  "projects.empty.text": "Describe your first app above and choose “Plan the app”. Lotse shows you a plan first; nothing is built until you choose “Build it”.",
+  "projects.changed": "Changed {when}",
 
   "chat.title": "Conversation",
   "chat.you": "You",
@@ -200,6 +202,7 @@ export const en = {
   "runtime.link.orbstack": "OrbStack",
   "runtime.link.dockerEngine": "Docker Engine",
   "runtime.link.dockerDesktop": "Docker Desktop (paid license for larger companies)",
+  "runtime.howTo": "How to set it up",
   "accounts.orToken": "or use an API token",
   "accounts.openTokenPage": "Open the token page",
   "accounts.tokenPageAfterUrl": "Enter the address of your instance above, then open its token page.",

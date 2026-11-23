@@ -27,7 +27,7 @@ Your system warns about an app from an unknown developer the first time.
 
 ## A container runtime
 
-The builder runs every project in a container, so it needs a container runtime. When you start the app without one, the start page explains what to do. Any of these works:
+The builder runs every project in a container, so it needs a container runtime. When you start the app without one, the start page shows a notice; **How to set it up** in it lists the steps. Any of these works:
 
 - **Podman Desktop** — free for every use, also in companies. Install it from [podman-desktop.io](https://podman-desktop.io/downloads), start it once, and enable _Settings → Docker Compatibility_. On Linux, `systemctl --user enable --now podman.socket` is enough.
 - **Docker Desktop** — needs a paid license in larger companies.
