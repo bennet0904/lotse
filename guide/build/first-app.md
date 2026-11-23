@@ -46,7 +46,7 @@ When it is done, the model summarizes what it built. If errors remain after the 
 
 ## 4. Try the preview
 
-The **Preview** tab shows the running app. It is a real server in the sandbox, not a picture: you can click through it, fill in forms and see the results. **Open in new tab** shows it in its own browser tab; **Reload** reloads it.
+The **Preview** tab shows the running app. It is a real server in the sandbox, not a picture: you can click through it, fill in forms and see the results. **Open in new tab** shows it in its own browser tab; **Reload** reloads it. While the first version is still being built, the tab says so and the preview appears by itself once the app runs.
 
 Previews stay running while you work. After 30 minutes without use, the sandbox pauses to save resources and resumes the next time you open the project.
 

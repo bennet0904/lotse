@@ -1,6 +1,6 @@
-import { type FormEvent, useEffect, useRef, useState } from "react";
+import { type FormEvent, type ReactNode, useEffect, useRef, useState } from "react";
 import { type ApiError, get, type Job, type Message, type Project as ProjectData, post, useJob, useLoad } from "../api";
-import { Dialog, ErrorNote, Spinner, StatusBadge } from "../components/common";
+import { Dialog, ErrorNote, Spinner, StatusBadge, timeAgo } from "../components/common";
 import { JobActivity } from "../components/JobActivity";
 import { PlanCard } from "../components/PlanCard";
 import { Publish } from "../components/Publish";
@@ -179,12 +179,23 @@ export function ProjectPage({ id }: { id: string }) {
               aria-controls={`panel-${item.id}`}
               tabIndex={tab === item.id ? 0 : -1}
               className="tab"
+              // The bold label of the selected tab is reserved in every tab, so switching does not shift the row.
+              data-label={t(item.label)}
               onClick={() => setTab(item.id)}
               onKeyDown={(e) => {
                 const i = TABS.findIndex((x) => x.id === tab);
                 const next =
-                  e.key === "ArrowRight" ? TABS[(i + 1) % TABS.length] : e.key === "ArrowLeft" ? TABS[(i + TABS.length - 1) % TABS.length] : undefined;
+                  e.key === "ArrowRight"
+                    ? TABS[(i + 1) % TABS.length]
+                    : e.key === "ArrowLeft"
+                      ? TABS[(i + TABS.length - 1) % TABS.length]
+                      : e.key === "Home"
+                        ? TABS[0]
+                        : e.key === "End"
+                          ? TABS[TABS.length - 1]
+                          : undefined;
                 if (next) {
+                  e.preventDefault();
                   setTab(next.id);
                   document.getElementById(`tab-${next.id}`)?.focus();
                 }
@@ -218,7 +229,9 @@ export function ProjectPage({ id }: { id: string }) {
                 }}
               />
             ) : (
-              <p className="pane hint">{t("publish.notYet")}</p>
+              <PanelState>
+                <p className="hint">{t("publish.notYet")}</p>
+              </PanelState>
             ))}
           {tab === "usage" && <Usage projectId={id} reloadKey={previewKey} />}
         </div>
@@ -290,6 +303,11 @@ function ChatMessage({ message: m, planLabel, next, onPublish }: { message: Mess
   );
 }
 
+/** A calm, centred message that fills a tab while there is nothing else to show. */
+function PanelState({ children }: { children: ReactNode }) {
+  return <div className="panel-state">{children}</div>;
+}
+
 function Preview({ project, built, reloadKey }: { project: ProjectData; built: boolean; reloadKey: number }) {
   const { t } = useI18n();
   const [frame, setFrame] = useState(0);
@@ -299,29 +317,54 @@ function Preview({ project, built, reloadKey }: { project: ProjectData; built: b
     () => (ready ? post<{ url: string; ready: boolean }>(`/projects/${project.id}/preview`) : Promise.resolve(undefined)),
     [project.id, ready, reloadKey],
   );
-  if (!ready) return <p className="pane hint">{t("preview.notYet")}</p>;
+  if (!ready)
+    return (
+      <PanelState>
+        {project.status === "generating" ? (
+          <>
+            <Spinner label={t("preview.building")} />
+            <p className="hint">{t("preview.buildingHint")}</p>
+          </>
+        ) : (
+          <>
+            <h3>{t("preview.notYetTitle")}</h3>
+            <p className="hint">{t("preview.notYet")}</p>
+          </>
+        )}
+      </PanelState>
+    );
   if (preview.error)
     return (
-      <div className="pane">
+      <PanelState>
         <ErrorNote error={preview.error} />
-      </div>
+        <button type="button" onClick={preview.reload} disabled={preview.loading}>
+          {t("preview.retry")}
+        </button>
+      </PanelState>
     );
   if (!preview.data)
     return (
-      <div className="pane">
+      <PanelState>
         <Spinner label={t("preview.starting")} />
-      </div>
+        <p className="hint">{t("preview.startingHint")}</p>
+      </PanelState>
     );
   return (
     <div className="preview">
       <div className="preview-bar">
-        <span className="preview-url">{preview.data.url}</span>
-        <button type="button" onClick={() => setFrame((n) => n + 1)}>
-          {t("preview.reload")}
-        </button>
-        <a className="button" href={preview.data.url} target="_blank" rel="noreferrer">
-          {t("preview.open")}
-        </a>
+        <span className="preview-url" title={preview.data.url}>
+          {preview.data.url}
+        </span>
+        <div className="preview-actions">
+          <button type="button" className="button-sm" onClick={() => setFrame((n) => n + 1)}>
+            <span aria-hidden="true">↻</span>
+            {t("preview.reload")}
+          </button>
+          <a className="button button-sm" href={preview.data.url} target="_blank" rel="noreferrer">
+            <span aria-hidden="true">↗</span>
+            {t("preview.open")}
+          </a>
+        </div>
       </div>
       {/* The app runs at its own address, isolated from the builder's origin. */}
       <iframe
@@ -335,38 +378,69 @@ function Preview({ project, built, reloadKey }: { project: ProjectData; built: b
 }
 
 function Files({ projectId, reloadKey }: { projectId: string; reloadKey: number }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const files = useLoad(() => get<{ files: string[] }>(`/projects/${projectId}/files`), [projectId, reloadKey]);
   const [path, setPath] = useState<string>();
   const file = useLoad(
     () => (path ? get<{ content: string; truncated: boolean }>(`/projects/${projectId}/file?path=${encodeURIComponent(path)}`) : Promise.resolve(undefined)),
     [projectId, path, reloadKey],
   );
+  const list = files.data?.files ?? [];
+  const lines = file.data ? file.data.content.replace(/\n$/, "").split("\n") : [];
   return (
     <div className="files">
-      <nav aria-label={t("files.list")}>
+      <nav aria-label={t("files.list")} className="file-list">
+        <ErrorNote error={files.error} />
+        {!files.data && !files.error && <Spinner label={t("common.loading")} />}
+        {files.data && <p className="file-list-head">{t("files.count", { count: list.length })}</p>}
         <ul>
-          {files.data?.files.map((f) => (
-            <li key={f}>
-              <button type="button" className="file" aria-current={f === path ? "true" : undefined} onClick={() => setPath(f)}>
-                {f}
-              </button>
-            </li>
-          ))}
+          {list.map((f) => {
+            const cut = f.lastIndexOf("/") + 1;
+            return (
+              <li key={f}>
+                <button type="button" className="file" aria-current={f === path ? "true" : undefined} onClick={() => setPath(f)} title={f}>
+                  {cut > 0 && <span className="file-dir">{f.slice(0, cut)}</span>}
+                  <span className="file-name">{f.slice(cut)}</span>
+                </button>
+              </li>
+            );
+          })}
         </ul>
-        {files.data?.files.length === 0 && <p className="hint">{t("files.empty")}</p>}
+        {files.data && list.length === 0 && <p className="hint">{t("files.empty")}</p>}
       </nav>
       <div className="file-view">
         {path ? (
           <>
-            <h3>{path}</h3>
+            <header className="file-head">
+              <h3 className="file-path">{path}</h3>
+              {file.data && !file.loading && <span className="hint">{t("files.lines", { count: lines.length.toLocaleString(locale) })}</span>}
+            </header>
             <ErrorNote error={file.error} />
-            {/* biome-ignore lint/a11y/noNoninteractiveTabindex: scrollable regions must be reachable with the keyboard (WCAG 2.1.1) */}
-            <pre tabIndex={0}>{file.data?.content}</pre>
-            {file.data?.truncated && <p className="hint">{t("files.truncated")}</p>}
+            {file.loading ? (
+              <Spinner label={t("common.loading")} />
+            ) : (
+              file.data && (
+                <>
+                  {file.data.truncated && <p className="note note-warn">{t("files.truncated")}</p>}
+                  {/* biome-ignore lint/a11y/noNoninteractiveTabindex: scrollable regions must be reachable with the keyboard (WCAG 2.1.1) */}
+                  <pre className="code" tabIndex={0}>
+                    <code>
+                      {lines.map((line, i) => (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: lines have no identity besides their position
+                        <span key={i} className="code-line">
+                          {line}
+                        </span>
+                      ))}
+                    </code>
+                  </pre>
+                </>
+              )
+            )}
           </>
         ) : (
-          <p className="hint">{t("files.choose")}</p>
+          <PanelState>
+            <p className="hint">{list.length > 0 ? t("files.choose") : t("files.empty")}</p>
+          </PanelState>
         )}
       </div>
     </div>
@@ -378,8 +452,11 @@ function Versions({ project, projectId, onRestored, onChanged }: { project: Proj
   const commits = useLoad(() => get<{ commits: { sha: string; message: string; date: string }[] }>(`/projects/${projectId}/commits`), [projectId]);
   const [target, setTarget] = useState<{ sha: string; message: string }>();
   const [error, setError] = useState<ApiError>();
+  const [restoring, setRestoring] = useState(false);
   const restore = async () => {
     if (!target) return;
+    setRestoring(true);
+    setError(undefined);
     try {
       await post(`/projects/${projectId}/restore`, { sha: target.sha });
       setTarget(undefined);
@@ -387,10 +464,42 @@ function Versions({ project, projectId, onRestored, onChanged }: { project: Proj
       onRestored();
     } catch (err) {
       setError(err as ApiError);
+    } finally {
+      setRestoring(false);
     }
   };
   return (
     <div className="pane">
+      <section className="stack" aria-labelledby="versions-heading">
+        <div>
+          <h3 id="versions-heading">{t("versions.title")}</h3>
+          <p className="hint">{t("versions.hint")}</p>
+        </div>
+        <ErrorNote error={commits.error} />
+        {!commits.data && !commits.error && <Spinner label={t("common.loading")} />}
+        <ol className="versions">
+          {commits.data?.commits.map((c, i) => (
+            <li key={c.sha} className="version">
+              <div className="version-text">
+                <p className="version-message">{c.message}</p>
+                <p className="version-meta">
+                  <time dateTime={c.date} title={new Date(c.date).toLocaleString(locale)}>
+                    {timeAgo(Date.parse(c.date), locale)}
+                  </time>{" "}
+                  · <code>{c.sha.slice(0, 8)}</code>
+                </p>
+              </div>
+              {i === 0 ? (
+                <span className="badge">{t("versions.current")}</span>
+              ) : (
+                <button type="button" className="button-sm" onClick={() => setTarget(c)}>
+                  {t("versions.restore")}
+                </button>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
       <Repository
         project={project}
         onChanged={() => {
@@ -398,37 +507,19 @@ function Versions({ project, projectId, onRestored, onChanged }: { project: Proj
           onChanged();
         }}
       />
-      <h3>{t("versions.title")}</h3>
-      <p className="hint">{t("versions.hint")}</p>
-      <ErrorNote error={commits.error} />
-      <ol className="versions">
-        {commits.data?.commits.map((c, i) => (
-          <li key={c.sha}>
-            <div>
-              <strong>{c.message}</strong>
-              <span className="hint">
-                {" "}
-                · {new Date(c.date).toLocaleString(locale)} · <code>{c.sha.slice(0, 8)}</code>
-              </span>
-            </div>
-            {i > 0 && (
-              <button type="button" onClick={() => setTarget(c)}>
-                {t("versions.restore")}
-              </button>
-            )}
-          </li>
-        ))}
-      </ol>
       <Dialog
         open={Boolean(target)}
-        onClose={() => setTarget(undefined)}
+        onClose={() => {
+          setTarget(undefined);
+          setError(undefined);
+        }}
         title={t("versions.confirmTitle")}
         actions={
           <>
             <button type="button" onClick={() => setTarget(undefined)}>
               {t("common.cancel")}
             </button>
-            <button type="button" className="button-primary" onClick={() => void restore()}>
+            <button type="button" className="button-primary" disabled={restoring} onClick={() => void restore()}>
               {t("versions.restore")}
             </button>
           </>
@@ -441,67 +532,80 @@ function Versions({ project, projectId, onRestored, onChanged }: { project: Proj
   );
 }
 
+type ModelUsage = { model: string; calls: number; inputTokens: number; outputTokens: number; cost: number | null };
+
 function Usage({ projectId, reloadKey }: { projectId: string; reloadKey: number }) {
   const { t, locale } = useI18n();
-  const usage = useLoad(
-    () =>
-      get<{ models: { model: string; calls: number; inputTokens: number; outputTokens: number; cost: number | null }[]; totalCost: number | null }>(
-        `/projects/${projectId}/usage`,
-      ),
-    [projectId, reloadKey],
-  );
+  const usage = useLoad(() => get<{ models: ModelUsage[]; totalCost: number | null }>(`/projects/${projectId}/usage`), [projectId, reloadKey]);
   const n = (value: number) => value.toLocaleString(locale);
   const money = (value: number | null) =>
     value === null
       ? t("usage.unknown")
       : value.toLocaleString(locale, { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 4 });
+  const models = usage.data?.models ?? [];
+  const sum = (key: "calls" | "inputTokens" | "outputTokens") => models.reduce((total, m) => total + m[key], 0);
   return (
     <div className="pane">
-      <h3>{t("usage.title")}</h3>
+      <div>
+        <h3>{t("usage.title")}</h3>
+        <p className="hint">{t("usage.hint")}</p>
+      </div>
       <ErrorNote error={usage.error} />
-      <table>
-        <caption>{t("usage.caption")}</caption>
-        <thead>
-          <tr>
-            <th scope="col">{t("usage.model")}</th>
-            <th scope="col" className="num">
-              {t("usage.calls")}
-            </th>
-            <th scope="col" className="num">
-              {t("usage.input")}
-            </th>
-            <th scope="col" className="num">
-              {t("usage.output")}
-            </th>
-            <th scope="col" className="num">
-              {t("usage.cost")}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {usage.data?.models.map((m) => (
-            <tr key={m.model}>
-              <th scope="row">{m.model}</th>
-              <td className="num">{n(m.calls)}</td>
-              <td className="num">{n(m.inputTokens)}</td>
-              <td className="num">{n(m.outputTokens)}</td>
-              <td className="num">{money(m.cost)}</td>
-            </tr>
-          ))}
-        </tbody>
-        {usage.data && usage.data.models.length > 0 && (
-          <tfoot>
-            <tr>
-              <th scope="row" colSpan={4}>
-                {t("usage.total")}
-              </th>
-              <td className="num">{money(usage.data.totalCost)}</td>
-            </tr>
-          </tfoot>
-        )}
-      </table>
-      {usage.data?.models.length === 0 && <p className="hint">{t("usage.empty")}</p>}
-      <p className="hint">{t("usage.hint")}</p>
+      {!usage.data && !usage.error && <Spinner label={t("common.loading")} />}
+      {usage.data && models.length === 0 && (
+        <div className="empty">
+          <p className="hint">{t("usage.empty")}</p>
+        </div>
+      )}
+      {models.length > 0 && (
+        // biome-ignore lint/a11y/noNoninteractiveTabindex: the table scrolls sideways on narrow screens and must be reachable with the keyboard
+        <section className="table-wrap" tabIndex={0} aria-labelledby="usage-caption">
+          <table>
+            <caption id="usage-caption" className="sr-only">
+              {t("usage.caption")}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">{t("usage.model")}</th>
+                <th scope="col" className="num">
+                  {t("usage.calls")}
+                </th>
+                <th scope="col" className="num">
+                  {t("usage.input")}
+                </th>
+                <th scope="col" className="num">
+                  {t("usage.output")}
+                </th>
+                <th scope="col" className="num">
+                  {t("usage.cost")}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {models.map((m) => (
+                <tr key={m.model}>
+                  <th scope="row" className="usage-model">
+                    {m.model}
+                  </th>
+                  <td className="num">{n(m.calls)}</td>
+                  <td className="num">{n(m.inputTokens)}</td>
+                  <td className="num">{n(m.outputTokens)}</td>
+                  <td className="num">{money(m.cost)}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="row">{t("usage.total")}</th>
+                <td className="num">{n(sum("calls"))}</td>
+                <td className="num">{n(sum("inputTokens"))}</td>
+                <td className="num">{n(sum("outputTokens"))}</td>
+                <td className="num">{money(usage.data?.totalCost ?? null)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </section>
+      )}
     </div>
   );
 }

@@ -49,24 +49,20 @@ export function Repository({ project, onChanged }: { project: Project; onChanged
   if (project.git) {
     const repo = `${project.git.repo.owner}/${project.git.repo.name}`;
     return (
-      <section className="stack" aria-labelledby="repo-heading">
-        <h3 id="repo-heading">{t("repo.title")}</h3>
-        <p>
-          {t("repo.linked", { provider: providerName(project.git.provider) })}{" "}
-          <a href={project.git.repo.url} target="_blank" rel="noreferrer">
-            {repo}
-          </a>
-        </p>
-        <p className="hint">{t("repo.linkedHint")}</p>
-        <ErrorNote error={error} />
-        {note && (
-          <p className="note note-ok" role="status">
-            {note}
-          </p>
-        )}
-        <div className="actions">
+      <section className="card stack repo" aria-labelledby="repo-heading">
+        <div className="repo-head">
+          <div>
+            <h3 id="repo-heading">{t("repo.title")}</h3>
+            <p className="repo-link">
+              {t("repo.linked", { provider: providerName(project.git.provider) })}{" "}
+              <a href={project.git.repo.url} target="_blank" rel="noreferrer">
+                {repo}
+              </a>
+            </p>
+          </div>
           <button
             type="button"
+            className="button-sm"
             disabled={busy}
             onClick={() =>
               void run(async () => {
@@ -79,7 +75,14 @@ export function Repository({ project, onChanged }: { project: Project; onChanged
             {t("repo.sync")}
           </button>
         </div>
-        <h4>{t("repo.ciTitle")}</h4>
+        <p className="hint">{t("repo.linkedHint")}</p>
+        <ErrorNote error={error} />
+        {note && (
+          <p className="note note-ok" role="status">
+            {note}
+          </p>
+        )}
+        <h4 className="repo-subhead">{t("repo.ciTitle")}</h4>
         {project.target ? (
           <>
             <p className="hint">{t("repo.ciHint")}</p>
@@ -110,9 +113,11 @@ export function Repository({ project, onChanged }: { project: Project; onChanged
   }
 
   return (
-    <section className="stack" aria-labelledby="repo-heading">
-      <h3 id="repo-heading">{t("repo.title")}</h3>
-      <p className="hint">{t("repo.intro")}</p>
+    <section className="card stack repo" aria-labelledby="repo-heading">
+      <div>
+        <h3 id="repo-heading">{t("repo.title")}</h3>
+        <p className="hint">{t("repo.intro")}</p>
+      </div>
       <ErrorNote error={error ?? accounts.error} />
       {accounts.data && git.length === 0 ? (
         <p>
