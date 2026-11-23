@@ -1,0 +1,19 @@
+/* The app's pilot blue and harbour greys, so the handbook looks like Lotse. */
+:root {
+  --vp-c-brand-1: #1d4ed8;
+  --vp-c-brand-2: #1a3fae;
+  --vp-c-brand-3: #1d4ed8;
+  --vp-c-brand-soft: rgb(29 78 216 / 12%);
+  --vp-c-bg-alt: #f5f7fa;
+}
+
+.dark {
+  --vp-c-brand-1: #8eb0ff;
+  --vp-c-brand-2: #b2c9ff;
+  --vp-c-brand-3: #2f5fd6;
+  --vp-c-brand-soft: rgb(142 176 255 / 16%);
+  --vp-c-bg: #0c111a;
+  --vp-c-bg-alt: #141a25;
+  --vp-c-bg-elv: #1b2230;
+  --vp-c-bg-soft: #141a25;
+}
