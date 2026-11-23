@@ -2,6 +2,19 @@
 
 All notable changes, newest first. Core, CLI and builder share one version; adapters are versioned on their own and listed with the release that published them.
 
+## v0.2.0 (2026-11-23)
+
+### Core, CLI and builder 0.2.0
+
+- Add icon (#21)
+- Add design tokens and rework the shared UI components (#22)
+- Overhaul the start page (#29)
+- Overhaul the project page: conversation, plan and progress (#30)
+- Overhaul the project page: preview, files, versions and usage (#31)
+- Overhaul the providers page (#33)
+- Overhaul the project page: publishing (#32)
+- Overhaul the settings page and the sign-in page (#34)
+
 ## v0.1.1 (2026-11-18)
 
 ### Core, CLI and builder 0.1.1

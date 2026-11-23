@@ -6,7 +6,7 @@ import { Context } from "./context.js";
 import { type Io, paint } from "./io.js";
 import { scaffoldAdapter } from "./scaffold.js";
 
-export const CLI_VERSION = "0.1.1";
+export const CLI_VERSION = "0.2.0";
 
 export function buildProgram(io: Io): Command {
   const program = new Command();

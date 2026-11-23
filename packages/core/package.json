@@ -1,6 +1,6 @@
 {
   "name": "@lotseai/core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Lotse hosting core: adapter interface, deployment engine, manifest schema and events",
   "license": "Apache-2.0",
   "repository": {

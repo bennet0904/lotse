@@ -1,6 +1,6 @@
 {
   "name": "@lotseai/adapter-testkit",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Shared contract test suite and HTTP replay tools for Lotse adapters",
   "license": "Apache-2.0",
   "repository": {
