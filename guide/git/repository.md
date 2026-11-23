@@ -16,7 +16,7 @@ On **Providers**, under **Git platforms**, choose **Connect** next to GitHub, Gi
 
 ## Link a project
 
-In the project, open **Versions**. Under **Repository**:
+In the project, open **Versions**. Below the list of versions, under **Repository**:
 
 1. Choose the **Account**.
 2. Choose **Create a new repository** (and its name and visibility), or **Use an existing repository** and enter it as `owner/name`.

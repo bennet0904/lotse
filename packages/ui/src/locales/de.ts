@@ -107,14 +107,21 @@ export const de: Record<keyof typeof en, string> = {
   "tab.publish": "Veröffentlichen",
   "tab.usage": "Verbrauch",
 
+  "preview.notYetTitle": "Noch nichts zu sehen",
   "preview.notYet": "Die Vorschau erscheint, sobald der Plan freigegeben und die App gebaut ist.",
+  "preview.building": "Die erste Version wird gebaut …",
+  "preview.buildingHint": "Die Vorschau erscheint hier, sobald die App läuft. Die Schritte kannst du im Gespräch verfolgen.",
   "preview.starting": "Vorschau wird gestartet …",
+  "preview.startingHint": "Die App wird gestartet. Das dauert meist nur ein paar Sekunden.",
+  "preview.retry": "Erneut versuchen",
   "preview.reload": "Neu laden",
   "preview.open": "In neuem Tab öffnen",
   "preview.frameTitle": "Vorschau von {app}",
 
   "files.list": "Dateien des Projekts",
   "files.empty": "Noch keine Dateien.",
+  "files.count": "Dateien ({count})",
+  "files.lines": "Zeilen: {count}",
   "files.choose": "Wähle eine Datei, um sie anzusehen.",
   "files.truncated": "Die Datei ist lang; es wird nur der Anfang gezeigt.",
 
@@ -149,6 +156,7 @@ export const de: Record<keyof typeof en, string> = {
   "versions.hint":
     "Jede abgeschlossene Änderung wird gespeichert. Das Wiederherstellen einer früheren Version legt eine neue Version an; nichts geht verloren.",
   "versions.restore": "Wiederherstellen",
+  "versions.current": "Aktuell",
   "versions.confirmTitle": "Diese Version wiederherstellen?",
   "versions.confirmText": "Das Projekt kehrt zum Stand „{version}“ zurück. Spätere Versionen bleiben im Verlauf.",
 

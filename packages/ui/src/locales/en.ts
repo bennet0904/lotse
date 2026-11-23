@@ -102,14 +102,21 @@ export const en = {
   "tab.publish": "Publish",
   "tab.usage": "Usage",
 
+  "preview.notYetTitle": "Nothing to preview yet",
   "preview.notYet": "The preview appears once the plan is approved and the app is built.",
+  "preview.building": "Building the first version…",
+  "preview.buildingHint": "The preview appears here as soon as the app runs. You can follow the steps in the conversation.",
   "preview.starting": "Starting the preview…",
+  "preview.startingHint": "The app is being started. This usually takes a few seconds.",
+  "preview.retry": "Try again",
   "preview.reload": "Reload",
   "preview.open": "Open in new tab",
   "preview.frameTitle": "Preview of {app}",
 
   "files.list": "Files of the project",
   "files.empty": "No files yet.",
+  "files.count": "Files ({count})",
+  "files.lines": "Lines: {count}",
   "files.choose": "Choose a file to view it.",
   "files.truncated": "The file is long; only the beginning is shown.",
 
@@ -143,6 +150,7 @@ export const en = {
   "versions.title": "Versions",
   "versions.hint": "Every completed change is saved. Restoring an earlier version adds a new version; nothing is lost.",
   "versions.restore": "Restore",
+  "versions.current": "Current",
   "versions.confirmTitle": "Restore this version?",
   "versions.confirmText": "The project returns to the state “{version}”. Later versions stay in the history.",
 

@@ -17,17 +17,17 @@ While a change is being made, the message box is unavailable and says why; you c
 
 ## Files
 
-The **Files** tab lists the project's files; choose one to read it. Editing happens through the conversation (or in the linked repository), so that every change is saved as a version.
+The **Files** tab lists the project's files; choose one to read it, with line numbers. Very long files show only their beginning. Editing happens through the conversation (or in the linked repository), so that every change is saved as a version.
 
 ## Versions
 
-Every completed change is saved as a version in **Versions**, with its description and time. To go back, choose **Restore** next to an earlier version and confirm. Restoring adds a new version with the old state; later versions stay in the list, so you can go forward again.
+Every completed change is saved as a version in **Versions**, with its description and time; the newest one is marked **Current**. To go back, choose **Restore** next to an earlier version and confirm. Restoring adds a new version with the old state; later versions stay in the list, so you can go forward again.
 
 The project's history is a normal Git history. If the project is linked to a repository, it is the repository's history.
 
 ## Usage
 
-The **Usage** tab lists, per language model, how many requests and tokens this project has used and their estimated cost. See [Language models and cost](./models).
+The **Usage** tab lists, per language model, how many requests and tokens this project has used and their estimated cost, with a total in the last row. See [Language models and cost](./models).
 
 ## When something goes wrong
 
