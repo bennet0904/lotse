@@ -1,6 +1,6 @@
 {
   "name": "@lotseai/adapters",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "The adapters that ship with Lotse: nine hosting providers, three Git platforms and two database providers",
   "license": "Apache-2.0",
   "repository": {

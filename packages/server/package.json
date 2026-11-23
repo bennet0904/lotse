@@ -1,6 +1,6 @@
 {
   "name": "@lotseai/server",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Lotse builder server: HTTP and WebSocket API, job queue, persistence, users",
   "license": "Apache-2.0",
   "repository": {
