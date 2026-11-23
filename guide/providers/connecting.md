@@ -1,6 +1,6 @@
 # Connecting accounts
 
-Before you can publish, connect the places your apps should go. Open **Providers**. It lists everything Lotse supports in three groups — **Hosting**, **Git platforms** and **Databases and storage** — and, at the top, what you have connected.
+Before you can publish, connect the places your apps should go. Open **Providers**. It lists everything Lotse supports in three groups — **Hosting**, **Git platforms** and **Databases and storage** — and, at the top, what you have connected. Each connected account shows who may use it (**Only me** or **Whole team**), and providers you have already connected are marked as connected in the list below.
 
 ## Sign in
 

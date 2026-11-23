@@ -18,7 +18,7 @@ On **Providers**, choose **Connect** next to **Own server (SSH)**:
 
 1. Enter the **Server address**, the **User** (usually `root`) and, if different from 22, the **Port**.
 2. Choose **Generate SSH key**. Lotse creates a key pair for this server; the private key never leaves Lotse.
-3. Either add the shown **Public key** as a line to `~/.ssh/authorized_keys` of that user on the server, or enter the user's **Password (used once)**: Lotse then installs the key itself and forgets the password.
+3. Either add the shown **Public key** (**Copy key** copies it) as a line to `~/.ssh/authorized_keys` of that user on the server, or enter the user's **Password (used once)**: Lotse then installs the key itself and forgets the password.
 4. Optionally enter a **Domain for apps** (see [addresses](#addresses-of-your-apps)) and [backup storage](#backups).
 5. Choose **Connect**.
 
