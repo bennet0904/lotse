@@ -15,7 +15,7 @@ Owners and admins open **Settings → Language models**:
 | LM Studio address     | Where [LM Studio](https://lmstudio.ai)'s server runs, if not on this computer (`http://127.0.0.1:1234`).                    |
 | OpenAI-compatible API | Address and key of any other service that speaks the OpenAI API, e.g. an internal gateway.                                  |
 
-Keys are stored encrypted and never shown again; the page only says whether one is set. To replace a key, enter the new one. To remove a value, enter a single space and save. Settings made here take precedence over [environment variables](../admin/configuration#language-models) of the installation.
+Next to every setting, a badge says whether it is **Set here**, comes **From the environment**, or is **Not set**. Keys are stored encrypted and never shown again; the page only says whether one is set. To replace a key, enter the new one. To remove a value, enter a single space and save. Settings made here take precedence over [environment variables](../admin/configuration#language-models) of the installation.
 
 ## Choosing a model per app
 
