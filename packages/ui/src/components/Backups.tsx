@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { type ApiError, get, post, useLoad } from "../api";
 import { useI18n } from "../i18n";
-import { Dialog, ErrorNote } from "./common";
+import { Dialog, ErrorNote, timeAgo } from "./common";
 
 interface BackupInfo {
   id: string;
@@ -48,37 +48,47 @@ function ResourceBackups({ projectId, resource }: { projectId: string; resource:
       )}
       {list.data && list.data.backups.length === 0 && <p className="hint">{t("backups.none")}</p>}
       {list.data && list.data.backups.length > 0 && (
-        <table>
-          <caption>{t("backups.of", { resource })}</caption>
-          <thead>
-            <tr>
-              <th scope="col">{t("backups.when")}</th>
-              <th scope="col">{t("backups.size")}</th>
-              <th scope="col">{t("backups.where")}</th>
-              <th scope="col">
-                <span className="sr-only">{t("publish.actions")}</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {list.data.backups.map((b) => (
-              <tr key={b.id}>
-                <td>{new Date(b.createdAt).toLocaleString(locale)}</td>
-                <td>{size(b.bytes, locale)}</td>
-                <td>{b.location === "s3" ? t("backups.s3") : t("backups.local")}</td>
-                <td>
-                  <button type="button" disabled={busy} onClick={() => setRestoring(b)}>
-                    {t("backups.restore")}
-                  </button>
-                </td>
+        // biome-ignore lint/a11y/noNoninteractiveTabindex: the table scrolls sideways on narrow screens and must be reachable with the keyboard
+        <div className="table-wrap" tabIndex={0}>
+          <table>
+            <caption className="sr-only">{t("backups.of", { resource })}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{t("backups.when")}</th>
+                <th scope="col" className="num">
+                  {t("backups.size")}
+                </th>
+                <th scope="col">{t("backups.where")}</th>
+                <th scope="col">
+                  <span className="sr-only">{t("publish.actions")}</span>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {list.data.backups.map((b) => (
+                <tr key={b.id}>
+                  <td>
+                    <time dateTime={new Date(b.createdAt).toISOString()} title={new Date(b.createdAt).toLocaleString(locale)}>
+                      {timeAgo(b.createdAt, locale)}
+                    </time>
+                  </td>
+                  <td className="num">{size(b.bytes, locale)}</td>
+                  <td>{b.location === "s3" ? t("backups.s3") : t("backups.local")}</td>
+                  <td className="num">
+                    <button type="button" className="button-danger button-sm" disabled={busy} onClick={() => setRestoring(b)}>
+                      {t("backups.restore")}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       <div className="actions">
         <button
           type="button"
+          className="button-sm"
           disabled={busy}
           onClick={() =>
             void run(async () => {
@@ -130,17 +140,19 @@ export function Backups({ projectId }: { projectId: string }) {
   const info = useLoad(() => get<{ supported: boolean; resources: { name: string; type: string }[] }>(`/projects/${projectId}/backups`), [projectId]);
   if (!info.data?.supported || info.data.resources.length === 0) return null;
   return (
-    <details>
-      <summary>{t("backups.title")}</summary>
-      <p className="hint">{t("backups.hint")}</p>
+    <section className="card stack" aria-labelledby="backups-heading">
+      <div>
+        <h3 id="backups-heading">{t("backups.title")}</h3>
+        <p className="hint">{t("backups.hint")}</p>
+      </div>
       {info.data.resources.map((r) => (
-        <section key={r.name} aria-label={r.name}>
-          <h5>
-            {r.name} <span className="hint">({r.type})</span>
-          </h5>
+        <section key={r.name} className="stack backups-resource" aria-label={r.name}>
+          <h4>
+            <code>{r.name}</code> <span className="hint">{r.type}</span>
+          </h4>
           <ResourceBackups projectId={projectId} resource={r.name} />
         </section>
       ))}
-    </details>
+    </section>
   );
 }

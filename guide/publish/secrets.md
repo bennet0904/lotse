@@ -7,7 +7,7 @@ Apps often need values that must not be part of their code: an API key of a paym
 The language model declares the secrets an app needs (by name, e.g. `MAIL_PASSWORD`) in the app's `lotse.yaml`, and writes the code to read them from environment variables. The values come from you:
 
 - **When publishing:** Lotse asks for every secret that has no value yet, below the plan.
-- **Later:** in the **Publish** tab, open **Secrets**, enter a new value and choose **Save new values**. Publish again for the app to use it.
+- **Later:** in the **Publish** tab, under **Secrets**, each secret shows whether it is _set_ or _not set_. Enter a new value and choose **Save new values**. Publish again for the app to use it.
 
 Secret values are encrypted, never shown again, never written to logs and never given to the language model. Lotse passes them to the provider as encrypted environment variables where the provider has them.
 

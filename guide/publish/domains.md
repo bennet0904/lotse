@@ -4,7 +4,7 @@ Every published app has an address from its provider, e.g. `guest-book.vercel.ap
 
 1. In the project's **Publish** tab, enter it under **Custom domain** and choose **Add domain**.
 2. Confirm **Add this domain?**.
-3. Lotse shows the DNS records to create, e.g. `CNAME booking.example.com → cname.vercel-dns.com`. Create them at the company where your domain is registered (its DNS settings).
+3. Lotse shows the domain's state (e.g. _Waiting for DNS_) and a table of the DNS records to create, e.g. type `CNAME`, name `booking.example.com`, value `cname.vercel-dns.com`. Create them at the company where your domain is registered (its DNS settings).
 4. Once the records are visible, which usually takes minutes and at most a day, the provider issues an HTTPS certificate and the app is reachable at the domain.
 
 ## On your own server
