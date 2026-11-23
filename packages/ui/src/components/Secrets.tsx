@@ -1,7 +1,7 @@
 import { type FormEvent, useState } from "react";
 import { type ApiError, api, get, useLoad } from "../api";
 import { useI18n } from "../i18n";
-import { ErrorNote } from "./common";
+import { ErrorNote, StatusBadge } from "./common";
 
 /** The app's secrets declared in lotse.yaml: which are set, and new values. Values are never shown. */
 export function Secrets({ projectId }: { projectId: string }) {
@@ -31,9 +31,11 @@ export function Secrets({ projectId }: { projectId: string }) {
   };
 
   return (
-    <details>
-      <summary>{t("secrets.title")}</summary>
-      <p className="hint">{t("secrets.hint")}</p>
+    <section className="card stack" aria-labelledby="secrets-heading">
+      <div>
+        <h3 id="secrets-heading">{t("secrets.title")}</h3>
+        <p className="hint">{t("secrets.hint")}</p>
+      </div>
       <ErrorNote error={error ?? list.error} />
       {saved && (
         <p className="note note-ok" role="status">
@@ -41,24 +43,31 @@ export function Secrets({ projectId }: { projectId: string }) {
         </p>
       )}
       <form className="stack" onSubmit={save}>
-        {list.data.secrets.map((s) => (
-          <label key={s.name}>
-            <code>{s.name}</code> <span className="hint">({s.set ? t("secrets.set") : t("secrets.notSet")})</span>
-            <input
-              type="password"
-              autoComplete="off"
-              value={values[s.name] ?? ""}
-              placeholder={s.set ? "••••••••" : ""}
-              onChange={(e) => setValues({ ...values, [s.name]: e.target.value })}
-            />
-          </label>
-        ))}
+        <ul className="secrets">
+          {list.data.secrets.map((s) => (
+            <li key={s.name}>
+              <label>
+                <span className="secret-name">
+                  <code>{s.name}</code>
+                  <StatusBadge status={s.set ? "ready" : "todo"} label={s.set ? t("secrets.set") : t("secrets.notSet")} />
+                </span>
+                <input
+                  type="password"
+                  autoComplete="off"
+                  value={values[s.name] ?? ""}
+                  placeholder={s.set ? t("secrets.newValue") : ""}
+                  onChange={(e) => setValues({ ...values, [s.name]: e.target.value })}
+                />
+              </label>
+            </li>
+          ))}
+        </ul>
         <div className="actions">
           <button type="submit" disabled={busy || !Object.values(values).some(Boolean)}>
             {t("secrets.save")}
           </button>
         </div>
       </form>
-    </details>
+    </section>
   );
 }

@@ -19,11 +19,11 @@ Apps whose stack has migrations (Django, Laravel, apps with a migration tool) de
 
 On your own server, every database is backed up every night; the last 14 backups are kept, and optionally also uploaded to [S3-compatible storage](../providers/own-server#backups).
 
-In the project's **Publish** tab, open **Database backups**:
+In the project's **Publish** tab, under **Database backups**:
 
 - The list shows every backup per database with time, size and where it is stored.
 - **Back up … now** creates one immediately, e.g. before a risky change.
-- **Restore** replaces the current content of the database with a backup. Lotse asks for confirmation — **Replace the data** — because changes made since then are lost.
+- **Restore**, shown in red, replaces the current content of the database with a backup. Lotse asks for confirmation — **Replace the data** — because changes made since then are lost.
 
 With the command line:
 

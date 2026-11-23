@@ -1639,6 +1639,133 @@ details.prompt-options > summary {
   font-weight: 500;
 }
 
+/* Publish: the published app first, then the way to publish, then everything that manages the app. */
+.publish :where(h3, h4) {
+  margin: 0;
+}
+.publish :where(h3, h4) + .hint {
+  margin: var(--space-1) 0 0;
+}
+.publish-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+.publish-head > div {
+  min-width: 0;
+}
+.publish-domains {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.publish-plan {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+.publish-plan fieldset {
+  margin: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+}
+.publish-plan legend {
+  padding: 0 var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 650;
+}
+.publish-plan fieldset > .hint {
+  margin: 0;
+}
+/* The plan's steps, numbered in the order Lotse takes them. */
+.plan-steps {
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: var(--text-sm);
+  display: grid;
+  gap: var(--space-2);
+}
+.plan-steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  column-gap: var(--space-3);
+  align-items: baseline;
+}
+.plan-steps li::before {
+  content: counter(step);
+  grid-row: span 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.plan-step-title {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.plan-steps li > .hint {
+  grid-column: 2;
+  overflow-wrap: anywhere;
+}
+.version > .actions {
+  flex: none;
+  justify-content: flex-end;
+}
+.publish-caption {
+  padding: var(--space-2) var(--space-3);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  white-space: normal;
+}
+.secrets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.secret-name {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.secret-name code {
+  overflow-wrap: anywhere;
+}
+.backups-resource {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+.backups-resource > .stack {
+  gap: var(--space-3);
+}
+.backups-resource .table-wrap td:last-child {
+  text-align: right;
+}
+/* Actions that cannot be undone sit apart, framed in the danger colour. */
+.danger-zone {
+  border-color: var(--color-danger);
+  box-shadow: none;
+}
+.danger-zone h3 {
+  color: var(--color-danger);
+}
+
 /* --- small screens -------------------------------------------------------- */
 @media (max-width: 56rem) {
   .workspace {
@@ -1780,6 +1907,10 @@ details.prompt-options > summary {
   .table-wrap .usage-model {
     white-space: normal;
     overflow-wrap: anywhere;
+  }
+  .version > .actions {
+    flex-direction: column;
+    align-items: flex-end;
   }
   .dialog-body {
     padding: var(--space-4);
