@@ -9,7 +9,7 @@ import { type Config, Settings } from "./pages/Settings";
 import { Link, usePath } from "./router";
 
 export function App() {
-  const { t, locale, setLocale } = useI18n();
+  const { t } = useI18n();
   const path = usePath().split("?")[0] ?? "/";
   const config = useLoad(() => get<Config>("/config"), []);
   const me = useLoad(() => get<{ user: User }>("/me"), []);
@@ -31,11 +31,16 @@ export function App() {
   if ((me.error as ApiError | undefined)?.status === 401) {
     return (
       <main className="login">
-        <h1>Lotse</h1>
-        <p>{t("login.text")}</p>
-        <a className="button button-primary" href={`/api/v1/auth/login?returnTo=${encodeURIComponent(location.pathname)}`}>
-          {t("login.button")}
-        </a>
+        <div className="login-card">
+          <img className="login-logo" src={logo} alt="" width={48} height={48} />
+          <h1>{t("login.heading")}</h1>
+          <p className="hint">{t("login.text")}</p>
+          <a className="button button-primary" href={`/api/v1/auth/login?returnTo=${encodeURIComponent(location.pathname + location.search)}`}>
+            {t("login.button")}
+          </a>
+          <p className="login-note hint">{t("login.note")}</p>
+        </div>
+        <LocaleSelect />
       </main>
     );
   }
@@ -70,16 +75,7 @@ export function App() {
           </Link>
         </nav>
         <div className="top-end">
-          <label className="sr-only" htmlFor="locale">
-            {t("nav.language")}
-          </label>
-          <select id="locale" value={locale} onChange={(e) => setLocale(e.target.value as Locale)}>
-            {LOCALES.map((l) => (
-              <option key={l.id} value={l.id}>
-                {l.name}
-              </option>
-            ))}
-          </select>
+          <LocaleSelect />
           {config.data.auth === "oidc" && (
             <>
               <span className="who">{user.name}</span>
@@ -102,5 +98,23 @@ export function App() {
         )}
       </main>
     </>
+  );
+}
+
+function LocaleSelect() {
+  const { t, locale, setLocale } = useI18n();
+  return (
+    <span className="locale">
+      <label className="sr-only" htmlFor="locale">
+        {t("nav.language")}
+      </label>
+      <select id="locale" value={locale} onChange={(e) => setLocale(e.target.value as Locale)}>
+        {LOCALES.map((l) => (
+          <option key={l.id} value={l.id}>
+            {l.name}
+          </option>
+        ))}
+      </select>
+    </span>
   );
 }

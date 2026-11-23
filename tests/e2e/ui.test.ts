@@ -164,7 +164,7 @@ describe.skipIf(!playwright || !docker)("builder UI", () => {
     await ui.getByLabel(/^Anthropic API key/).fill("sk-ant-ui-test-key-000000");
     await ui.getByRole("button", { name: "Save" }).click();
     await ui.getByText("Saved.").waitFor();
-    await ui.getByLabel("Anthropic API key (set here)").waitFor();
+    await ui.getByLabel(/^Anthropic API key\s*Set here$/).waitFor();
     expect(await ui.getByLabel(/^Anthropic API key/).inputValue()).toBe("");
     expect(await ui.content()).not.toContain("sk-ant-ui-test-key");
     expect(await t.server.services.models.defaultModel()).toBe("ollama:qwen3-coder");
